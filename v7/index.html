@@ -33,7 +33,7 @@ img{display:block;max-width:100%;height:auto}
 .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55;mix-blend-mode:screen}
 
 /* 위 띠 + 달린 거리 */
-.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:14px max(18px,env(safe-area-inset-right)) 14px max(18px,env(safe-area-inset-left));background:linear-gradient(rgba(12,12,13,.92),rgba(12,12,13,0))}
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:14px max(18px,env(safe-area-inset-right)) 14px max(18px,env(safe-area-inset-left));background:rgba(12,12,13,.82);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .logo{font-family:"Black Han Sans",sans-serif;font-size:22px;text-decoration:none;color:var(--chalk);display:inline-flex;align-items:center;min-height:44px;background:transparent;letter-spacing:-.02em}
 .logo span{color:var(--orange)}
 .hud{display:flex;align-items:baseline;gap:6px;font-weight:800;font-size:15px;color:var(--chalk)}
@@ -243,8 +243,8 @@ footer{position:relative;z-index:2;text-align:center;font-size:13px;color:#9a958
   function build(){
     var W=course.clientWidth, H=course.scrollHeight; svg.setAttribute('width',W); svg.setAttribute('height',H); svg.setAttribute('viewBox','0 0 '+W+' '+H);
     var pts=[[W*0.5,0]];
-    kms.forEach(function(k,i){ var m=k.querySelector('.mark'); var y=k.offsetTop+m.offsetTop+m.offsetHeight*0.55; var lx=Math.max(10,k.offsetLeft+m.offsetLeft-26); pts.push([i%2? W-Math.max(10,(W-k.offsetLeft-k.offsetWidth)+12) : lx, y]); });
-    var b=document.querySelector('.bibs'); pts.push([W*0.9,b.offsetTop+40]);
+    kms.forEach(function(k,i){ var m=k.querySelector('.mark'); var y=k.offsetTop+m.offsetTop+m.offsetHeight*0.55; var lx=Math.max(7,k.offsetLeft+m.offsetLeft-26); pts.push([i%2? W-Math.max(10,(W-k.offsetLeft-k.offsetWidth)+12) : lx, y]); });
+    var b=document.querySelector('.bibs'); pts.push([W-10,b.offsetTop+40]); pts.push([W-10,b.offsetTop+b.offsetHeight-10]);
     pts.push([W*0.5,finish.offsetTop+56]);
     var d='M'+pts[0][0]+' '+pts[0][1];
     for(var i=1;i<pts.length;i++){ var p=pts[i-1], q=pts[i], my=(p[1]+q[1])/2; d+=' C'+p[0]+' '+my+' '+q[0]+' '+my+' '+q[0]+' '+q[1]; }
