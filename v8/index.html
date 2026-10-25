@@ -25,9 +25,13 @@
 .sub{margin-top:14px;font-size:16px;color:var(--dim);max-width:24em}
 .road{position:relative;height:40svh;min-height:240px;margin:30px -22px 0}
 .road canvas{position:absolute;inset:0;width:100%;height:100%;-webkit-mask:linear-gradient(#000 70%,transparent);mask:linear-gradient(#000 70%,transparent)}
-.go{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-size:14px;font-weight:700;color:var(--chalk);letter-spacing:.06em;white-space:nowrap}
-.go::after{content:"";display:block;width:2px;height:28px;margin:8px auto 0;background:linear-gradient(var(--orange),transparent);animation:drop 1.4s ease-in-out infinite}
-@keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.go{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--chalk)}
+.go b{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;background:rgba(12,12,13,.78);border:1.5px solid var(--orange);box-shadow:0 0 24px rgba(255,107,28,.35);font-size:18px;font-weight:800;letter-spacing:-.01em;white-space:nowrap;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.go b em{font-style:normal;color:var(--orange)}
+.go .chev{display:grid;justify-items:center;margin-top:2px}
+.go .chev i{display:block;width:26px;height:26px;border-right:4px solid var(--orange);border-bottom:4px solid var(--orange);transform:rotate(45deg);margin-top:-12px;filter:drop-shadow(0 0 6px rgba(255,107,28,.8));opacity:.2;animation:chev 1.4s infinite}
+.go .chev i:nth-child(2){animation-delay:.18s}.go .chev i:nth-child(3){animation-delay:.36s}
+@keyframes chev{0%,100%{opacity:.15}40%{opacity:1}}
 
 /* 코스 */
 .course{position:relative;z-index:2}
@@ -136,7 +140,7 @@
   <div class="clock num" id="clock" aria-hidden="true">00:00<span class="cs">.00</span></div>
   <h1 class="promise" id="t">고객이 생각지 못한 부분까지,<br><em>성공 스토리를 함께 씁니다.</em></h1>
   <p class="sub">같이 달리는 세 사람이 만드는 개발팀이에요. 내려가면 출발합니다.</p>
-  <div class="road" aria-hidden="true"><canvas id="roadc"></canvas><span class="go">출발 ↓</span></div>
+  <div class="road"><canvas id="roadc" aria-hidden="true"></canvas><a class="go" href="#course" aria-label="아래로 내려서 출발"><b>아래로 내려 <em>출발</em></b><span class="chev" aria-hidden="true"><i></i><i></i><i></i></span></a></div>
 </section>
 
 <main class="course" id="course">
