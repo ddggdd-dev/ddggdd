@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<meta name="check" content="no-tel">
+<title>만든 것 · 뚱꼬떡 개발팀</title>
+<meta name="description" content="뚱꼬떡 개발팀이 만든 것들: 현장 사진 앱 사진통, 손목시계 러닝 앱 MPD Run, 가게·연구소 홈페이지.">
+<meta property="og:title" content="만든 것 · 뚱꼬떡 개발팀">
+<meta property="og:description" content="뚱꼬떡 개발팀이 만든 것들: 현장 사진 앱 사진통, 손목시계 러닝 앱 MPD Run, 가게·연구소 홈페이지.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+.log{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 22px}
+.run{display:grid;gap:22px;padding:56px 0;border-top:1px solid var(--line)}
+.run .no{display:flex;align-items:baseline;gap:12px}
+.run .no b{font-size:clamp(48px,13vw,96px);font-weight:900;line-height:.9;letter-spacing:-.05em;color:var(--orange);transform:skewX(-7deg)}
+.run .no span{font-size:14px;font-weight:700;color:var(--dim);letter-spacing:.06em}
+.run h2{font-size:clamp(26px,7vw,44px);font-weight:800;letter-spacing:-.035em;line-height:1.2}
+.run p{margin-top:10px;font-size:17px;color:var(--dim);max-width:28em}
+.run .pill{display:inline-block;margin-top:14px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--chalk)}
+.run figure{border-radius:14px;overflow:hidden;position:relative;background:#000}
+.run figure img{width:100%;aspect-ratio:16/10;object-fit:cover}
+.run figure.app img{aspect-ratio:auto}
+.run figure.phone{max-width:300px;border-radius:26px;box-shadow:0 0 0 8px #222,0 30px 70px rgba(0,0,0,.6)}
+.run figure.phone img{aspect-ratio:3/4;object-position:top}
+.run figcaption{position:absolute;left:12px;bottom:10px;right:12px;font-size:13px;font-weight:600;color:#fff;text-shadow:0 1px 6px #000}
+.run a.go2{display:inline-flex;align-items:center;min-height:44px;margin-top:10px;font-weight:700;text-decoration:none;border-bottom:2px solid var(--orange)}
+@media (min-width:860px){
+  .page-head,.log{padding-left:7vw;padding-right:7vw}
+  .run{grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .run figure.phone{justify-self:center}
+}
+</style>
+<link rel="canonical" href="https://ddggdd.tech/works.html"></head>
+<body>
+<canvas class="grain" id="grain" aria-hidden="true"></canvas>
+<header class="bar">
+  <a class="logo" href="index.html">뚱꼬떡<span>.</span></a>
+  <nav class="nav" aria-label="메뉴"><a href="works.html" aria-current="page">만든 것</a><a href="hire.html">맡기기</a><a href="index.html#team">팀</a><a href="index.html#news">소식</a><a href="index.html#finish" class="nav-cta">문의</a></nav>
+  
+  <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu"><i aria-hidden="true"></i>메뉴</button>
+</header>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="메뉴">
+  <div class="menu-top"><a class="logo" href="index.html">뚱꼬떡<span>.</span></a><button class="menu-close" id="menuClose" type="button">닫기 ✕</button></div>
+  <ol><li><a href="works.html" aria-current="page"><b class="num">01</b><span>만든 것</span><small>지나온 코스</small></a></li><li><a href="hire.html"><b class="num">02</b><span>맡기기</span><small>같이 달려요</small></a></li><li><a href="index.html#team"><b class="num">03</b><span>팀</span><small>꼬·뚱·떡</small></a></li><li><a href="index.html#news"><b class="num">04</b><span>소식</span><small>달리기 기록</small></a></li><li><a href="index.html#finish"><b class="num">05</b><span>문의</span><small>결승선</small></a></li></ol>
+  <p class="menu-foot">카카오톡에서 <b>@ddggdd</b> 검색</p>
+</div>
+<main>
+<section class="page-head" aria-labelledby="h"><p class="tag">만든 것 · 지나온 코스</p><h1 id="h">달리면서<br><em>만든 것들.</em></h1><p>필요한 걸 직접 만들어 써 보고, 고치고, 다시 달립니다.</p></section>
+<div class="log">
+  <article class="run">
+    <div><div class="no num"><b>01</b><span>우리 팀 앱</span></div>
+      <h2>현장 사진 앱, 사진통</h2><p>찍고, 정리하고, 보고서까지. 현장에서 찍은 사진을 사진대지로 정리해 PDF·엑셀로 바로 보냅니다. 공사·작업, 시설·점검, 일상·생활 모드가 있어요.</p><span class="pill">안드로이드 앱</span><br></div>
+    <figure class="app"><img src="img/sajintong.jpg" alt="사진통 앱 첫 화면과 보수 공사 사진대지 화면" width="1030" height="920" loading="lazy"><figcaption>실제 사진통 앱 화면</figcaption></figure>
+  </article>
+  <article class="run">
+    <div><div class="no num"><b>02</b><span>우리 팀 앱</span></div>
+      <h2>손목 위의 러닝 앱, MPD Run</h2><p>같이 달리면서, 달리는 데 필요한 걸 직접 만들었어요. 달린 거리와 주간 목표를 손목에서 바로 봅니다.</p><span class="pill">손목시계 앱</span><br></div>
+    <figure><img src="img/mpdrun-hero-wide.jpg" alt="책상 위 손목시계에서 실제로 켜진 MPD Run 앱" width="1600" height="900" loading="lazy"><figcaption>실제 MPD Run · 사진 뚱꼬떡 개발팀</figcaption></figure>
+  </article>
+  <article class="run">
+    <div><div class="no num"><b>03</b><span>2026.10.24 시작</span></div>
+      <h2>이진숙 프로파일링 연구소 홈페이지</h2><p>프로파일러 이진숙 소장님의 연구소 홈페이지예요. 사건분석·진술분석 같은 서비스와 교육을 여러 페이지로 나눠 만들고 있어요.</p><span class="pill">실제 의뢰 · 제작 중</span><br></div>
+    <figure class="phone"><img src="img/screen-leejinsook.jpg" alt="이진숙 프로파일링 연구소 홈페이지 시안 첫 화면" width="480" height="640" loading="lazy"><figcaption>시안 화면 · 인물 사진은 AI 연출 이미지</figcaption></figure>
+  </article>
+  <article class="run">
+    <div><div class="no num"><b>04</b><span>2026.10.26</span></div>
+      <h2>달리는 홈페이지, ddggdd.tech</h2><p>지금 보고 계신 이 홈페이지예요. 내려가면 코스가 그려지고, 결승선에서 카카오톡 상담으로 이어집니다.</p><span class="pill">우리 팀 홈페이지</span><br><a class="go2" href="index.html">첫 화면부터 달려 보기 →</a></div>
+    <figure class="phone"><img src="img/screen-ddggdd.jpg" alt="뚱꼬떡 개발팀 홈페이지 첫 화면: 경기 시계와 밤의 도로" width="480" height="640" loading="lazy"></figure>
+  </article>
+  <article class="run">
+    <div><div class="no num"><b>05</b><span>2026.10.24</span></div>
+      <h2>툇마루집수리 홈페이지</h2><p>시골집을 고치는 가게를 가정해 만든 시연용 홈페이지예요. 휴대폰으로 보고 30초 안에 연락할 수 있게 짰습니다.</p><span class="pill">시범 운영 · 가상 업체</span><br><a class="go2" href="https://ddggdd-dev.github.io/demo-toetmaru/v1/">열어 보기 →</a></div>
+    <figure class="phone"><img src="img/screen-toetmaru.jpg" alt="가상 업체 툇마루집수리 홈페이지 첫 화면" width="480" height="640" loading="lazy"></figure>
+  </article>
+  <article class="run">
+    <div><div class="no num"><b>06</b><span>2026.10.23</span></div>
+      <h2>섬돌집고침 홈페이지</h2><p>고치기 전·후 사진, 진행 순서, 연락까지 한 화면 흐름으로 정리한 시연용 홈페이지예요.</p><span class="pill">시범 운영 · 가상 업체</span><br><a class="go2" href="https://ddggdd-dev.github.io/seomdol/v9/">열어 보기 →</a></div>
+    <figure class="phone"><img src="img/screen-seomdol.jpg" alt="가상 업체 섬돌집고침 홈페이지 첫 화면" width="480" height="640" loading="lazy"></figure>
+  </article>
+  <p style="padding:0 0 8px;font-size:13.5px;color:var(--dim)">툇마루집수리·섬돌집고침은 시범 운영으로 만든 가상 업체예요. 화면 속 이름·번호는 시연용, 사진은 참고 이미지입니다.</p>
+</div>
+<section class="finish" id="finish" aria-labelledby="f">
+    <div class="tape" aria-hidden="true"><i></i><i></i></div>
+    <h2 id="f">다음 코스는<br>사장님 가게.</h2>
+    <p>필요한 것 한 줄이면 충분해요. <a href="hire.html">어떻게 진행되는지</a> 먼저 보셔도 좋아요.</p>
+    <a class="kakao" href="https://pf.kakao.com/_yFIWX/chat">카카오톡으로 말 걸기 →</a>
+    <p class="id">카카오톡에서 <b>@ddggdd</b> 검색</p>
+  </section>
+</main>
+<footer><nav aria-label="아래 메뉴"><a href="works.html">만든 것</a><a href="hire.html">맡기기</a><a href="index.html#team">팀</a><a href="index.html#news">소식</a><a href="index.html#finish">문의</a></nav>뚱꼬떡 개발팀 · 카카오톡 채널 @ddggdd · 2026년 10월 26일 업데이트</footer>
+<script src="site.js"></script>
+
+
+</body></html>

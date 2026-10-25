@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<meta name="check" content="no-tel">
+<title>맡기기 · 뚱꼬떡 개발팀</title>
+<meta name="description" content="동네 가게 홈페이지를 맡기면: 이야기 듣기, 첫 시안, 마음에 드실 때까지 고치기, 오픈한 뒤에도 함께 챙기기.">
+<meta property="og:title" content="맡기기 · 뚱꼬떡 개발팀">
+<meta property="og:description" content="동네 가게 홈페이지를 맡기면: 이야기 듣기, 첫 시안, 마음에 드실 때까지 고치기, 오픈한 뒤에도 함께 챙기기.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+.lead-shots{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 22px;display:flex;gap:14px}
+.lead-shots img{width:calc(50% - 7px);max-width:260px;aspect-ratio:3/4;object-fit:cover;object-position:top;border-radius:22px;box-shadow:0 0 0 7px #222,0 30px 70px rgba(0,0,0,.6)}
+.lead-shots img:nth-child(2){transform:translateY(34px)}
+.lead-cap{position:relative;z-index:2;max-width:1100px;margin:52px auto 0;padding:0 22px;font-size:13.5px;color:var(--dim)}
+.sec{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:12vh 22px 0}
+.sec h2{font-size:clamp(26px,7vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.2}
+.steps{list-style:none;margin-top:28px;position:relative}
+.steps::before{content:"";position:absolute;left:27px;top:10px;bottom:10px;width:3px;background:repeating-linear-gradient(var(--orange) 0 14px,transparent 14px 26px);opacity:.7}
+.steps li{position:relative;display:grid;grid-template-columns:56px 1fr;gap:18px;padding:18px 0}
+.steps .k{width:56px;height:56px;border-radius:50%;background:var(--asphalt);border:3px solid var(--orange);display:grid;place-items:center;font-weight:900;font-size:20px;color:var(--orange);position:relative;z-index:1}
+.steps h3{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-top:12px}
+.steps p{margin-top:6px;font-size:17px;color:var(--dim);max-width:30em}
+.steps p strong{color:var(--chalk);font-weight:700}
+.gets{list-style:none;margin-top:28px;display:grid;gap:0;border-top:1px solid var(--line)}
+.gets li{padding:20px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:2.4em 1fr;gap:12px}
+.gets li b.n{font-weight:800;color:var(--orange)}
+.gets h3{font-size:19px;font-weight:800}
+.gets p{margin-top:4px;font-size:16px;color:var(--dim)}
+.first{margin-top:12vh;position:relative;z-index:2;max-width:1100px;margin-left:auto;margin-right:auto;padding:0 22px}
+.first blockquote{border-left:4px solid var(--orange);padding:6px 0 6px 20px;font-size:clamp(20px,5.4vw,30px);font-weight:700;line-height:1.5;letter-spacing:-.02em;max-width:24em}
+.first blockquote em{font-style:normal;color:var(--orange)}
+@media (min-width:860px){
+  .page-head,.lead-shots,.lead-cap,.sec,.first{padding-left:7vw;padding-right:7vw}
+  .hire-top{display:grid;grid-template-columns:1.1fr .9fr;align-items:end;max-width:1100px;margin:0 auto}
+  .hire-top .page-head,.hire-top .lead-shots{padding-left:0;padding-right:0;margin:0}
+  .hire-top{padding:0 7vw}
+  .gets{grid-template-columns:1fr 1fr;column-gap:48px}
+}
+</style>
+<link rel="canonical" href="https://ddggdd.tech/hire.html"></head>
+<body>
+<canvas class="grain" id="grain" aria-hidden="true"></canvas>
+<header class="bar">
+  <a class="logo" href="index.html">뚱꼬떡<span>.</span></a>
+  <nav class="nav" aria-label="메뉴"><a href="works.html">만든 것</a><a href="hire.html" aria-current="page">맡기기</a><a href="index.html#team">팀</a><a href="index.html#news">소식</a><a href="index.html#finish" class="nav-cta">문의</a></nav>
+  
+  <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu"><i aria-hidden="true"></i>메뉴</button>
+</header>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="메뉴">
+  <div class="menu-top"><a class="logo" href="index.html">뚱꼬떡<span>.</span></a><button class="menu-close" id="menuClose" type="button">닫기 ✕</button></div>
+  <ol><li><a href="works.html"><b class="num">01</b><span>만든 것</span><small>지나온 코스</small></a></li><li><a href="hire.html" aria-current="page"><b class="num">02</b><span>맡기기</span><small>같이 달려요</small></a></li><li><a href="index.html#team"><b class="num">03</b><span>팀</span><small>꼬·뚱·떡</small></a></li><li><a href="index.html#news"><b class="num">04</b><span>소식</span><small>달리기 기록</small></a></li><li><a href="index.html#finish"><b class="num">05</b><span>문의</span><small>결승선</small></a></li></ol>
+  <p class="menu-foot">카카오톡에서 <b>@ddggdd</b> 검색</p>
+</div>
+<main>
+<div class="hire-top">
+<section class="page-head" aria-labelledby="h"><p class="tag">맡기기 · 사장님께</p><h1 id="h">사장님 가게,<br><em>같이 달려요.</em></h1><p>손님이 3초 안에 알아보고, 30초 안에 연락하는 홈페이지를 만듭니다.</p></section>
+<div class="lead-shots" aria-hidden="true"><img src="img/screen-toetmaru.jpg" alt="" width="480" height="640"><img src="img/screen-seomdol.jpg" alt="" width="480" height="640"></div>
+</div>
+<p class="lead-cap">시범 운영으로 만든 가상 업체 화면이에요. 이름·번호는 시연용, 사진은 참고 이미지입니다.</p>
+
+<section class="sec" aria-labelledby="s1">
+  <h2 id="s1">이렇게 달려요</h2>
+  <ol class="steps">
+    <li><span class="k num">1</span><div><h3>이야기 듣기</h3><p>가게로 찾아가거나 카카오톡으로 이야기를 들어요. 필요한 정보는 <strong>휴대폰 입력 양식 하나</strong>로 받습니다.</p></div></li>
+    <li><span class="k num">2</span><div><h3>첫 시안</h3><p>첫 시안은 <strong>하루 안에</strong> 보여 드리는 걸 목표로 해요. 가게 사진이 아직 없으면 어울리는 참고 사진으로 먼저 채우고, “이런 느낌으로 찍어 주세요” 하고 함께 보여 드립니다.</p></div></li>
+    <li><span class="k num">3</span><div><h3>고치기</h3><p>보시고 “좋다”, “여기 고쳐 달라”만 말씀해 주세요. <strong>마음에 드실 때까지</strong> 고칩니다.</p></div></li>
+    <li><span class="k num">4</span><div><h3>오픈하고도 같이</h3><p>오픈한 뒤에도 사이트가 잘 열리는지, 정보가 맞는지 <strong>매주</strong> 함께 챙겨요. 네이버 플레이스·카카오톡 채널 연결도 같이 합니다.</p></div></li>
+  </ol>
+</section>
+
+<section class="sec" aria-labelledby="s2">
+  <h2 id="s2">받으시는 것</h2>
+  <ul class="gets">
+    <li><b class="n num">01</b><div><h3>휴대폰에서 바로 열리는 홈페이지</h3><p>전화·카카오톡 버튼까지, 손님이 막힘없이 연락하게.</p></div></li>
+    <li><b class="n num">02</b><div><h3>우리 가게 손님만을 위한 기능 하나</h3><p>예를 들어 손님이 궁금한 걸 고르면 상담 내용이 정리돼 바로 보내지는 것처럼.</p></div></li>
+    <li><b class="n num">03</b><div><h3>사실로만 채운 홈페이지</h3><p>후기·숫자·거래처를 지어내지 않고, 확인된 것으로 믿음을 드립니다.</p></div></li>
+    <li><b class="n num">04</b><div><h3>사장님의 말, 우리 가게의 모습</h3><p>사장님 말투와 간판·가게 색을 그대로 살려요. 사진이 필요하면 직접 찍으러 갈 수 있어요.</p></div></li>
+    <li><b class="n num">05</b><div><h3>사장님 안내 문서</h3><p>무엇을 만들었고 앞으로 어떻게 챙기는지, 한 장으로 정리해 드립니다.</p></div></li>
+  </ul>
+</section>
+
+<section class="first" aria-label="약속">
+  <blockquote>홈페이지보다 더 쉽고 맞는 방법이 있으면, 그것부터 말씀드려요.<br><em>사장님께 도움이 되는 게 먼저입니다.</em></blockquote>
+</section>
+
+<section class="finish" id="finish" aria-labelledby="f">
+    <div class="tape" aria-hidden="true"><i></i><i></i></div>
+    <h2 id="f">출발은<br>한 줄이면 돼요.</h2>
+    <p>가게 이름과 하고 싶은 것 한 줄. 카카오톡으로 보내 주시면 이어서 이야기해요.</p>
+    <a class="kakao" href="https://pf.kakao.com/_yFIWX/chat">카카오톡으로 말 걸기 →</a>
+    <p class="id">카카오톡에서 <b>@ddggdd</b> 검색</p>
+  </section>
+</main>
+<footer><nav aria-label="아래 메뉴"><a href="works.html">만든 것</a><a href="hire.html">맡기기</a><a href="index.html#team">팀</a><a href="index.html#news">소식</a><a href="index.html#finish">문의</a></nav>뚱꼬떡 개발팀 · 카카오톡 채널 @ddggdd · 2026년 10월 26일 업데이트</footer>
+<script src="site.js"></script>
+
+
+</body></html>
