@@ -1,0 +1,89 @@
+/* 뚱꼬떡 개발팀 — 공용(모든 페이지): 밤 아스팔트 + 주황 하나 */
+:root{
+  --asphalt:#0c0c0d;
+  --asphalt-2:#141416;
+  --chalk:#f1eee8;
+  --dim:#9a958d;
+  --orange:#ff6b1c;
+  --paper:#f4f1ea;
+  --ink:#121212;
+  --line:rgba(241,238,232,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--asphalt);color:var(--chalk);font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif;word-break:keep-all;line-height:1.55;overflow-x:hidden}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+[id]{scroll-margin-top:76px}
+
+/* 아스팔트 질감 */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55;mix-blend-mode:screen}
+
+/* 위 띠: 로고 · 메뉴 · 달린 거리 */
+.bar{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:14px;padding:8px max(14px,env(safe-area-inset-right)) 8px max(18px,env(safe-area-inset-left));background:rgba(12,12,13,.82);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.logo{font-family:"Black Han Sans",sans-serif;font-size:22px;text-decoration:none;color:var(--chalk);display:inline-flex;align-items:center;min-height:44px;letter-spacing:-.02em}
+.logo span{color:var(--orange)}
+.nav{display:none}
+.hud{margin-left:auto;display:flex;align-items:baseline;gap:6px;font-weight:800;font-size:15px;color:var(--chalk)}
+.hud b{font-size:20px;color:var(--orange)}
+.hud small{font-size:13px;color:var(--dim);font-weight:600}
+.menu-btn{margin-left:auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--chalk);font:inherit;font-size:15px;font-weight:700;cursor:pointer}
+.hud + .menu-btn{margin-left:4px}
+.menu-btn i{display:block;width:16px;height:2px;background:var(--orange);box-shadow:0 -5px 0 var(--chalk),0 5px 0 var(--chalk)}
+
+/* 펼친 메뉴(휴대폰): 코스 표지판처럼 번호 + 큰 글자 */
+.menu{position:fixed;inset:0;z-index:40;background:var(--asphalt);display:flex;flex-direction:column;padding:8px 18px 28px;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.menu.open{opacity:1;visibility:visible}
+.menu-top{display:flex;align-items:center;justify-content:space-between}
+.menu-close{min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--chalk);font:inherit;font-size:15px;font-weight:700;cursor:pointer}
+.menu ol{list-style:none;margin:auto 0;display:grid;gap:4px}
+.menu li a{display:flex;align-items:baseline;gap:16px;padding:12px 4px;text-decoration:none;border-bottom:1px solid var(--line)}
+.menu li a b{font-size:15px;font-weight:800;color:var(--orange);min-width:2em}
+.menu li a span{font-size:clamp(32px,10vw,56px);font-weight:900;letter-spacing:-.04em;line-height:1.1}
+.menu li a small{margin-left:auto;font-size:14px;color:var(--dim)}
+.menu li a[aria-current] span{color:var(--orange)}
+.menu .menu-foot{font-size:14px;color:var(--dim)}
+.menu .menu-foot b{color:var(--chalk)}
+
+@media (min-width:860px){
+  .bar{padding-left:4vw;padding-right:4vw}
+  .nav{display:flex;gap:4px;margin-left:28px}
+  .nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:999px;font-size:15px;font-weight:700;text-decoration:none;color:var(--dim);transition:color .2s}
+  .nav a:hover,.nav a[aria-current]{color:var(--chalk)}
+  .nav a[aria-current]{box-shadow:inset 0 -2px 0 var(--orange);border-radius:0}
+  .nav a.nav-cta{color:#140700;background:var(--orange);border-radius:999px;box-shadow:none;margin-left:6px}
+  .menu-btn,.menu{display:none}
+}
+
+/* 하위 페이지 머리 */
+.page-head{position:relative;z-index:2;padding:132px 22px 40px;max-width:1100px;margin:0 auto}
+.page-head .tag{font-size:13px;font-weight:700;letter-spacing:.18em;color:var(--orange)}
+.page-head h1{margin-top:14px;font-size:clamp(38px,11vw,72px);font-weight:900;letter-spacing:-.05em;line-height:1.02;transform:skewX(-7deg);transform-origin:left}
+.page-head h1 em{font-style:normal;color:var(--orange)}
+.page-head p{margin-top:18px;font-size:18px;color:var(--dim);max-width:26em}
+
+/* 결승선(모든 페이지 끝) */
+.finish{position:relative;z-index:2;padding:16vh 22px 12vh;text-align:center;overflow:hidden}
+.tape{position:relative;height:60px;margin:0 -22px 30px}
+.tape i{position:absolute;top:26px;height:8px;width:52%;background:repeating-linear-gradient(90deg,#fff 0 18px,var(--orange) 18px 36px);box-shadow:0 0 18px rgba(255,107,28,.6);transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.tape i:first-child{left:0;transform-origin:left center}
+.tape i:last-child{right:0;transform-origin:right center}
+.finish.on .tape i:first-child{transform:rotate(-14deg) translateX(-30%)}
+.finish.on .tape i:last-child{transform:rotate(14deg) translateX(30%)}
+.finish h2{font-size:clamp(34px,10vw,72px);font-weight:900;letter-spacing:-.05em;line-height:1}
+.finish p{margin:14px auto 0;font-size:17px;color:var(--dim);max-width:22em}
+.kakao{display:inline-flex;align-items:center;gap:10px;margin-top:28px;min-height:60px;padding:0 30px;border-radius:999px;background:var(--orange);color:#140700;font-size:18px;font-weight:800;text-decoration:none;box-shadow:0 0 0 0 rgba(255,107,28,.6);animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 18px rgba(255,107,28,0)}100%{box-shadow:0 0 0 0 rgba(255,107,28,0)}}
+.finish .id{margin-top:14px;font-size:14px;color:var(--dim)}
+.finish .id b{color:var(--chalk)}
+.more{display:inline-flex;align-items:center;min-height:44px;margin-top:14px;font-size:16px;font-weight:700;color:var(--chalk);text-decoration:none;border-bottom:2px solid var(--orange)}
+
+footer{position:relative;z-index:2;text-align:center;font-size:13px;color:var(--dim);padding:0 22px 34px}
+footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;margin-bottom:10px}
+footer nav a{display:inline-flex;align-items:center;min-height:40px;font-size:14px;font-weight:600;text-decoration:none;color:var(--chalk)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none !important;transition:none !important}
+}

@@ -24,7 +24,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--lime);outline-offse
 .helpbox{width:min(460px,100%);max-height:calc(100svh - 44px);overflow:auto;background:#f4f1e7;color:var(--ink);padding:30px;transform:rotate(-2deg);box-shadow:20px 30px 60px #0005;animation:drop .35s cubic-bezier(.2,.8,.3,1.2)}
 @keyframes drop{from{transform:translateY(-40px) rotate(-8deg);opacity:0}}
 .close{float:right;background:none;border:0;color:var(--ink);font-size:28px;min-width:44px;min-height:44px}
-.hhome{display:inline-flex;align-items:center;min-height:44px;margin-top:10px;font-size:15px;font-weight:700;color:var(--blue)}
+.hhome{display:flex;align-items:center;min-height:44px;margin-top:10px;font-size:15px;font-weight:700;color:var(--blue)}
 .hmenu a{display:grid;grid-template-columns:34px 1fr;column-gap:6px;padding:13px 0;border-bottom:1px solid #bbc0b1;font-size:18px;font-weight:700}
 .hmenu b{grid-row:span 2;color:var(--blue);font-size:14px;padding-top:3px}
 .hmenu small{grid-column:2;font-size:13px;font-weight:400;color:var(--dim)}
