@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Restaurant","name":"천돈가","alternateName":["천돈가 중문흑돼지 제주본점","천돈가 제주흑돼지 본점"],"servesCuisine":["Korean BBQ","제주 흑돼지 구이"],"telephone":"+82-64-739-0775","url":"https://ddggdd.tech/cheondonga/","acceptsReservations":true,"address":{"@type":"PostalAddress","streetAddress":"천제연로 280, 1층","addressLocality":"서귀포시","addressRegion":"제주특별자치도","addressCountry":"KR"}}</script>
-<!-- 시안 v12 (2026-10-27, 성식 님 "말이 너무 많아, 볼만한 정보는 없고. 말 줄이고 시각적인 정보 넣어 / 위치는 네이버 지도 보이게, 구글 선택하면 구글 지도 / 너무 어두워, 밝고 화사하고 깔끔하게 / 도는 불판 별로"): 밝은 바탕(흰·한지색)·검은 글·간판 빨강 한 점, 도는 불판·불티·금 고리 없앰. 글은 한 줄씩, 정보는 아이콘 숫자·사진 메뉴판·지도로. 사실은 v11과 같음(네이버 플레이스 2026-10-23, 캐치테이블 링크 2026-10-27, 유건 님 통화 2026-10-26). 사진: 천돈가가 캐치테이블에 직접 올린 매장 사진(2026-10-27 성식 님 "인터넷에 천돈가 사진 많구만, 찾아다 써"). 손님 블로그·리뷰 사진은 찍은 사람 저작권이라 쓰지 않음. 운영 배포 전 유건 님께 사용 확인. -->
+<!-- 시안 v13 (2026-10-27, 성식 님 "언어 선택하면 홈페이지 전체가 그 언어로 바뀌게"): 머리의 한국어/EN/中文 버튼으로 모든 글(메뉴·가격·지도 탭·주소·전화 바)이 바뀜, 외국어일 때 "직원에게 보여 주세요" 카드가 지도 아래 나타남, 따로 있던 외국어 칸은 없앰. 원어민 검수 전이라 언어 버튼은 draft-only(운영에서는 한국어만). 주소는 ?lang=en·zh로 바로 열 수 있음. 이하 v12: 시안 v12 (2026-10-27, 성식 님 "말이 너무 많아, 볼만한 정보는 없고. 말 줄이고 시각적인 정보 넣어 / 위치는 네이버 지도 보이게, 구글 선택하면 구글 지도 / 너무 어두워, 밝고 화사하고 깔끔하게 / 도는 불판 별로"): 밝은 바탕(흰·한지색)·검은 글·간판 빨강 한 점, 도는 불판·불티·금 고리 없앰. 글은 한 줄씩, 정보는 아이콘 숫자·사진 메뉴판·지도로. 사실은 v11과 같음(네이버 플레이스 2026-10-23, 캐치테이블 링크 2026-10-27, 유건 님 통화 2026-10-26). 사진: 천돈가가 캐치테이블에 직접 올린 매장 사진(2026-10-27 성식 님 "인터넷에 천돈가 사진 많구만, 찾아다 써"). 손님 블로그·리뷰 사진은 찍은 사람 저작권이라 쓰지 않음. 운영 배포 전 유건 님께 사용 확인. -->
 <style>
 :root{--bg:#FFFFFF;--paper:#F7F3EC;--ink:#1A1816;--mute:#6E675E;--line:#E7E0D4;--red:#D8261C;--sans:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -39,6 +39,8 @@ h2{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:700;letter-spacing:-.02em}
 .top nav{display:flex;align-items:center;gap:clamp(14px,2.4vw,32px);font-size:.9375rem;font-weight:500}
 .top nav a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
 .top nav a:hover{color:var(--red)}
+.langsw{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px}.langsw button{border:0;background:none;min-height:44px;padding:0 10px;border-radius:999px;font:600 .8125rem var(--sans);color:var(--mute);cursor:pointer}.langsw button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.map .staff{margin-top:16px}
 .top .book{background:var(--ink);color:#fff!important;padding:0 18px;border-radius:999px}
 .top .book:hover{background:var(--red)}
 /* 첫 화면 */
@@ -68,7 +70,7 @@ h2{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:700;letter-spacing:-.02em}
 .glance ul{display:grid;grid-template-columns:repeat(5,1fr)}
 .glance li{text-align:center;padding:30px 8px;border-right:1px solid var(--line)}.glance li:last-child{border-right:0}
 .glance svg{width:34px;height:34px;margin:0 auto 10px;display:block}
-.glance b{display:block;font-size:1.5rem;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.glance b{display:block;font-size:clamp(1.125rem,2vw,1.5rem);font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .glance span{display:block;font-size:.875rem;color:var(--mute);margin-top:2px}
 .glance .src{text-align:center;font-size:.8125rem;color:#6E675E;padding:10px 0 14px;border-top:1px solid var(--line)}
 /* 메뉴 사진 카드 */
@@ -124,7 +126,7 @@ h2{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:700;letter-spacing:-.02em}
 .todo b{color:#9A5410}.todo ol{margin:8px 0 0;padding-left:1.3em}
 .callbar{display:none}
 @media(max-width:860px){
- .top nav a.hide-m{display:none}
+ .top nav a.hide-m{display:none}.top nav{gap:8px}.langsw button{padding:0 8px}
  .mosaic{grid-template-columns:1fr 1fr;grid-template-rows:auto auto;height:auto;min-height:0}.mosaic figure:first-child{grid-column:1/3;grid-row:auto;aspect-ratio:1/1}.mosaic figure:not(:first-child){aspect-ratio:4/3}
  .space .grid{grid-template-columns:1fr;gap:20px}
  .btn{flex:1 1 100%}
@@ -143,7 +145,7 @@ h2{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:700;letter-spacing:-.02em}
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"></head><body><div class="demo draft-only" role="note">유건 관리자님께 드리는 예시 화면입니다. 정식 홈페이지가 아니며, 사진은 천돈가가 캐치테이블에 올린 매장 사진입니다. <button type="button" class="rv" onclick="document.body.classList.toggle('review')">확인할 것 보기</button></div>
 <header class="top"><div class="in">
   <a class="logo" href="#top">천<i>돈</i>가</a>
-  <nav aria-label="바로가기"><a class="hide-m" href="#menu">메뉴</a><a class="hide-m" href="#map">오시는 길</a><a class="draft-only" href="#lang" lang="en">EN · 中文</a><a class="book" href="https://naver.me/xDJuE5hg" target="_blank" rel="noopener">예약</a></nav>
+  <nav aria-label="바로가기"><a data-i="nav1" class="hide-m" href="#menu">메뉴</a><a data-i="nav2" class="hide-m" href="#map">오시는 길</a><span class="langsw draft-only" role="group" aria-label="언어 Language 语言"><button type="button" data-lang="ko" aria-pressed="true">한국어</button><button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button><button type="button" data-lang="zh" aria-pressed="false" lang="zh-Hans">中文</button></span><a data-i="nav3" class="book" href="https://naver.me/xDJuE5hg" target="_blank" rel="noopener">예약</a></nav>
 </div></header>
 
 <main id="top">
@@ -153,104 +155,98 @@ h2{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:700;letter-spacing:-.02em}
   <figure><img src="img/ct-grill.jpg" width="1170" height="1116" alt="불 위 석쇠에서 굽는 두툼한 돼지고기"></figure>
 </section>
 <section class="intro" aria-labelledby="h1">
-  <p class="where">제주 중문 · 제주흑돼지 난축맛돈</p>
-  <h1 id="h1">좋은 고기는<br>좋은 사람들과 함께</h1>
-  <div class="acts"><a class="btn btn-fill" id="hero-call" href="tel:064-739-0775">전화하기</a><a class="btn btn-line" href="https://naver.me/xDJuE5hg" target="_blank" rel="noopener">네이버 예약</a></div>
-  <p class="tel">전화 <b>064-739-0775</b></p>
+  <p data-i="where" class="where">제주 중문 · 제주흑돼지 난축맛돈</p>
+  <h1 data-i="h1" id="h1">좋은 고기는<br>좋은 사람들과 함께</h1>
+  <div class="acts"><a data-i="call" class="btn btn-fill" id="hero-call" href="tel:064-739-0775">전화하기</a><a data-i="book2" class="btn btn-line" href="https://naver.me/xDJuE5hg" target="_blank" rel="noopener">네이버 예약</a></div>
+  <p data-i="tel" class="tel">전화 <b>064-739-0775</b></p>
 </section>
 
 <section class="glance" aria-label="한눈에"><div class="wrap">
   <ul>
-    <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3l3.9 8 8.7 1.2-6.3 6.1 1.5 8.7L16 22.9 8.2 27l1.5-8.7-6.3-6.1L12.1 11z" fill="#D8261C"></path></svg><b>4.81</b><span>네이버 평점</span></li>
-    <li><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1A1816" stroke-width="2"><path d="M5 6h22v15H13l-6 5v-5H5z" stroke-linejoin="round"></path><path d="M10 12h12M10 16h8"></path></svg><b>8,428</b><span>리뷰</span></li>
-    <li><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1A1816" stroke-width="2" stroke-linecap="round"><path d="M7 26L22 9M11 28L26 11"></path><circle cx="8" cy="27" r="2"></circle></svg><b>구워 드려요</b><span>직원이 자리에서</span></li>
-    <li><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1A1816" stroke-width="2"><rect x="5" y="5" width="22" height="22" rx="4"></rect><path d="M13 23V10h5a4 4 0 010 8h-5" stroke-linejoin="round"></path></svg><b>주차</b><span>주차장 있음</span></li>
-    <li><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1A1816" stroke-width="2" stroke-linecap="round"><circle cx="10" cy="9" r="3"></circle><circle cx="22" cy="9" r="3"></circle><circle cx="16" cy="15" r="2.4"></circle><path d="M4 24c0-5 3-8 6-8s6 3 6 8M16 24c0-5 3-8 6-8s6 3 6 8"></path></svg><b>단체 · 아이</b><span>대관 · 웰컴키즈존</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3l3.9 8 8.7 1.2-6.3 6.1 1.5 8.7L16 22.9 8.2 27l1.5-8.7-6.3-6.1L12.1 11z" fill="#D8261C"></path></svg><b>4.81</b><span data-i="g1">네이버 평점</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1A1816" stroke-width="2"><path d="M5 6h22v15H13l-6 5v-5H5z" stroke-linejoin="round"></path><path d="M10 12h12M10 16h8"></path></svg><b>8,428</b><span data-i="g2">리뷰</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1A1816" stroke-width="2" stroke-linecap="round"><path d="M7 26L22 9M11 28L26 11"></path><circle cx="8" cy="27" r="2"></circle></svg><b data-i="g3b">구워 드려요</b><span data-i="g3">직원이 자리에서</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1A1816" stroke-width="2"><rect x="5" y="5" width="22" height="22" rx="4"></rect><path d="M13 23V10h5a4 4 0 010 8h-5" stroke-linejoin="round"></path></svg><b data-i="g4b">주차</b><span data-i="g4">주차장 있음</span></li>
+    <li><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#1A1816" stroke-width="2" stroke-linecap="round"><circle cx="10" cy="9" r="3"></circle><circle cx="22" cy="9" r="3"></circle><circle cx="16" cy="15" r="2.4"></circle><path d="M4 24c0-5 3-8 6-8s6 3 6 8M16 24c0-5 3-8 6-8s6 3 6 8"></path></svg><b data-i="g5b">단체 · 아이</b><span data-i="g5">대관 · 웰컴키즈존</span></li>
   </ul>
-  <p class="src">평점·리뷰: 네이버 플레이스 2026-10-23 · 편의 정보: 캐치테이블 매장 정보 2026-10-27</p>
+  <p data-i="gsrc" class="src">평점·리뷰: 네이버 플레이스 2026-10-23 · 편의 정보: 캐치테이블 매장 정보 2026-10-27</p>
 </div></section>
 
 <section class="sec menu" id="menu" aria-labelledby="menu-h"><div class="wrap">
-  <h2 id="menu-h">메뉴</h2><p class="sub">가격과 양을 함께 · 네이버 플레이스·캐치테이블 기준</p>
+  <h2 data-i="mh" id="menu-h">메뉴</h2><p data-i="msub" class="sub">가격과 양을 함께 · 네이버 플레이스·캐치테이블 기준</p>
   <ul class="grid">
-    <li class="card"><figure><img src="img/ct-nanchuk.jpg" width="928" height="513" alt="도마 위 난축맛돈 덩어리 고기" loading="lazy"></figure><div class="t"><span class="tag">대표</span><h3>난축맛돈 시그니처</h3><p class="p"><b>62,000원</b><span class="ph">· <span class="blank">g 확인 중</span></span></p></div></li>
-    <li class="card"><figure><img src="img/ct-donmahawk.jpg" width="558" height="538" alt="뼈가 붙은 돈마호크" loading="lazy"></figure><div class="t"><h3>난축맛돈 돈마호크</h3><p class="p"><b>36,000원</b><span class="ph">· <span class="blank">g 확인 중</span></span></p></div></li>
-    <li class="card"><figure><img src="img/ct-belly.jpg" width="672" height="757" alt="놋그릇에 담긴 생삼겹" loading="lazy"></figure><div class="t"><h3>제주흑돼지 YBD</h3><p class="p"><b>55,000원</b><span>500g</span></p></div></li>
+    <li class="card"><figure><img src="img/ct-nanchuk.jpg" width="928" height="513" alt="도마 위 난축맛돈 덩어리 고기" loading="lazy"></figure><div class="t"><span class="tag" data-i="tag">대표</span><h3 data-i="m1">난축맛돈 시그니처</h3><p class="p"><b data-i="p1">62,000원</b><span class="ph">· <span class="blank">g 확인 중</span></span></p></div></li>
+    <li class="card"><figure><img src="img/ct-donmahawk.jpg" width="558" height="538" alt="뼈가 붙은 돈마호크" loading="lazy"></figure><div class="t"><h3 data-i="m2">난축맛돈 돈마호크</h3><p class="p"><b data-i="p2">36,000원</b><span class="ph">· <span class="blank">g 확인 중</span></span></p></div></li>
+    <li class="card"><figure><img src="img/ct-belly.jpg" width="672" height="757" alt="놋그릇에 담긴 생삼겹" loading="lazy"></figure><div class="t"><h3 data-i="m3">제주흑돼지 YBD</h3><p class="p"><b data-i="p3">55,000원</b><span data-i="g500">500g</span></p></div></li>
   </ul>
-  <p class="more">솔지살(목덜미살) 24,000원<span class="ph"> · <span class="blank">g 확인 중</span></span> · <a href="https://app.catchtable.co.kr/ct/shop/cheondonga_jungmun" target="_blank" rel="noopener">전체 메뉴 보기 →</a></p>
+  <p data-i="more" class="more">솔지살(목덜미살) 24,000원<span class="ph"> · <span class="blank">g 확인 중</span></span> · <a href="https://app.catchtable.co.kr/ct/shop/cheondonga_jungmun" target="_blank" rel="noopener">전체 메뉴 보기 →</a></p>
   </div></section>
 
 <section class="sec course" id="course" aria-labelledby="course-h"><div class="wrap in">
   <figure><img src="img/ct-spread.jpg" width="676" height="680" alt="불판 위에서 익어 가는 흑돼지와 찌개·반찬이 차려진 천돈가 한 상" loading="lazy"></figure>
-  <div><h2 id="course-h">흑돼지 오마카세처럼<br>부위마다, 순서대로</h2><p class="sub">직원이 한 부위씩 구워 드리며 먹는 법을 안내합니다.</p>
+  <div><h2 data-i="ch" id="course-h">흑돼지 오마카세처럼<br>부위마다, 순서대로</h2><p data-i="csub" class="sub">직원이 한 부위씩 구워 드리며 먹는 법을 안내합니다.</p>
   <ol class="steps" style="list-style:none;padding:0;margin:28px 0 0"><li class="ph" data-n="1"><span class="blank">첫 번째 부위 · 먹는 법 (유건 님 코스 내용)</span></li><li class="ph" data-n="2"><span class="blank">두 번째 부위 · 먹는 법</span></li><li class="ph" data-n="3"><span class="blank">세 번째 부위 · 먹는 법</span></li></ol></div>
 </div></section>
 
 <section class="sec space" aria-labelledby="space-h"><div class="wrap">
-  <h2 id="space-h">매장 · 셀프바 · 주차장</h2>
+  <h2 data-i="sh" id="space-h">매장 · 셀프바 · 주차장</h2>
   <div class="grid">
-    <figure><div><img src="img/ct-hall.jpg" width="892" height="667" alt="천돈가 매장 안 테이블" loading="lazy"></div><figcaption>매장<span>단체석 · 대관</span></figcaption></figure>
-    <figure><div><img src="img/ct-selfbar.jpg" width="883" height="627" alt="반찬을 담는 셀프바" loading="lazy"></div><figcaption>셀프바<span>반찬·채소</span></figcaption></figure>
-    <figure><div><img src="img/ct-parking.jpg" width="681" height="886" alt="가게 앞 주차장" loading="lazy" style="object-position:50% 70%"></div><figcaption>주차장<span class="ph"><span class="blank">대수·입구 확인</span></span></figcaption></figure>
+    <figure><div><img src="img/ct-hall.jpg" width="892" height="667" alt="천돈가 매장 안 테이블" loading="lazy"></div><figcaption data-i="s1">매장<span>단체석 · 대관</span></figcaption></figure>
+    <figure><div><img src="img/ct-selfbar.jpg" width="883" height="627" alt="반찬을 담는 셀프바" loading="lazy"></div><figcaption data-i="s2">셀프바<span>반찬·채소</span></figcaption></figure>
+    <figure><div><img src="img/ct-parking.jpg" width="681" height="886" alt="가게 앞 주차장" loading="lazy" style="object-position:50% 70%"></div><figcaption><span data-i="s3">주차장</span><span class="ph"><span class="blank">대수·입구 확인</span></span></figcaption></figure>
   </div>
 </div></section>
 
 <section class="sec map" id="map" aria-labelledby="map-h"><div class="wrap">
-  <div class="head"><div><h2 id="map-h">오시는 길</h2><p class="sub">중문보건소 건너편</p></div>
-    <div class="tabs" role="tablist" aria-label="지도 선택"><button role="tab" id="t-nv" aria-selected="true" aria-controls="m-nv" type="button">네이버 지도</button><button role="tab" id="t-gg" aria-selected="false" aria-controls="m-gg" type="button">Google 지도</button></div></div>
+  <div class="head"><div><h2 data-i="maph" id="map-h">오시는 길</h2><p data-i="mapsub" class="sub">중문보건소 건너편</p></div>
+    <div class="tabs" role="tablist" aria-label="지도 선택"><button data-i="tnv" role="tab" id="t-nv" aria-selected="true" aria-controls="m-nv" type="button">네이버 지도</button><button data-i="tgg" role="tab" id="t-gg" aria-selected="false" aria-controls="m-gg" type="button">Google 지도</button></div></div>
   <div class="mapbox">
     <div id="m-nv" role="tabpanel" aria-labelledby="t-nv"><div id="nvmap" style="position:absolute;inset:0"></div>
-      <div class="nv" id="nvfallback"><div><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4C15.7 4 9 10.6 9 18.8 9 30 24 44 24 44s15-14 15-25.2C39 10.6 32.3 4 24 4z" fill="#03C75A"></path><circle cx="24" cy="19" r="6" fill="#fff"></circle></svg><b>천돈가 · 천제연로 280</b><a href="https://map.naver.com/p/search/%EC%B2%9C%EB%8F%88%EA%B0%80%20%EC%A4%91%EB%AC%B8%ED%9D%91%EB%8F%BC%EC%A7%80" target="_blank" rel="noopener">네이버 지도에서 보기</a><p style="margin-top:10px"><span class="blank">네이버 지도 키(NCP Maps) 받으면 여기 지도가 바로 보임</span></p></div></div></div>
+      <div class="nv" id="nvfallback"><div><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4C15.7 4 9 10.6 9 18.8 9 30 24 44 24 44s15-14 15-25.2C39 10.6 32.3 4 24 4z" fill="#03C75A"></path><circle cx="24" cy="19" r="6" fill="#fff"></circle></svg><b data-i="nvb">천돈가 · 천제연로 280</b><a href="https://map.naver.com/p/search/%EC%B2%9C%EB%8F%88%EA%B0%80%20%EC%A4%91%EB%AC%B8%ED%9D%91%EB%8F%BC%EC%A7%80" target="_blank" rel="noopener" data-i="nvopen">네이버 지도에서 보기</a><p style="margin-top:10px"><span class="blank">네이버 지도 키(NCP Maps) 받으면 여기 지도가 바로 보임</span></p></div></div></div>
     <div id="m-gg" role="tabpanel" aria-labelledby="t-gg" hidden=""><iframe title="Google 지도 · 천돈가" data-src="https://maps.google.com/maps?q=%EC%A0%9C%EC%A3%BC%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EB%8F%84%20%EC%84%9C%EA%B7%80%ED%8F%AC%EC%8B%9C%20%EC%B2%9C%EC%A0%9C%EC%97%B0%EB%A1%9C%20280&amp;hl=ko&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
   </div>
   <dl class="facts">
-    <div><dt>주소</dt><dd>서귀포시 천제연로 280, 1층</dd><button type="button" id="copyAddr">주소 복사</button><p class="copied" id="copied" aria-live="polite"></p></div>
-    <div><dt>영업</dt><dd>11:30부터<span class="ph"> · <span class="blank">캐치테이블은 11:00 — 확인, 마감·휴무</span></span></dd></div>
-    <div><dt>예약 · 웨이팅</dt><dd><a href="https://naver.me/xDJuE5hg" target="_blank" rel="noopener">네이버 예약</a> · <a href="https://app.catchtable.co.kr/ct/shop/cheondonga_jungmun" target="_blank" rel="noopener">캐치테이블</a></dd></div>
-    <div><dt>전화</dt><dd><a href="tel:064-739-0775">064-739-0775</a></dd></div>
+    <div><dt data-i="f1">주소</dt><dd data-i="f1d">서귀포시 천제연로 280, 1층</dd><button data-i="copy" type="button" id="copyAddr">주소 복사</button><p class="copied" id="copied" aria-live="polite"></p></div>
+    <div><dt data-i="f2">영업</dt><dd><span data-i="f2d">11:30부터</span><span class="ph"> · <span class="blank">캐치테이블은 11:00 — 확인, 마감·휴무</span></span></dd></div>
+    <div><dt data-i="f3">예약 · 웨이팅</dt><dd><a href="https://naver.me/xDJuE5hg" target="_blank" rel="noopener" data-i="f3a">네이버 예약</a> · <a href="https://app.catchtable.co.kr/ct/shop/cheondonga_jungmun" target="_blank" rel="noopener" data-i="f3b">캐치테이블</a></dd></div>
+    <div><dt data-i="f4">전화</dt><dd data-i="f4d"><a href="tel:064-739-0775">064-739-0775</a></dd></div>
   </dl>
+  <div class="staff foreign-only" hidden=""><h3 data-i="staffh">직원에게 보여 주세요</h3><ul><li><b lang="ko">메뉴판 보여 주세요.</b><span data-i="st1"></span></li><li><b lang="ko">고기 구워 주세요.</b><span data-i="st2"></span></li><li><b lang="ko">계산할게요.</b><span data-i="st3"></span></li></ul></div>
 </div></section>
 
-<section class="sec lang draft-only" id="lang" aria-labelledby="lang-h"><div class="wrap">
-  <h2 id="lang-h" lang="en">For international guests</h2>
-  <div class="tabs langtabs" role="tablist" aria-label="언어 선택"><button role="tab" id="t-en" aria-selected="true" aria-controls="p-en" type="button">English</button><button role="tab" id="t-zh" aria-selected="false" aria-controls="p-zh" type="button" lang="zh-Hans">简体中文</button></div>
-  <div class="lp" role="tabpanel" id="p-en" aria-labelledby="t-en" lang="en">
-    <dl>
-      <div><dt>Menu</dt><dd>Nanchuk-matdon Signature 62,000 KRW<br>Jeju Black Pork YBD 500 g 55,000 KRW<br>Solji-sal 24,000 KRW</dd></div>
-      <div><dt>Service</dt><dd>Staff grill the meat at your table</dd></div>
-      <div><dt>Address</dt><dd>1F, 280 Cheonjeyeon-ro, Seogwipo-si<br><span lang="ko">서귀포시 천제연로 280, 1층</span></dd></div>
-      <div><dt>Opens</dt><dd>11:30</dd></div>
-      <div><dt>Book</dt><dd><a href="https://naver.me/xDJuE5hg" target="_blank" rel="noopener">Naver</a> · Waitlist <a href="https://app.catchtable.co.kr/ct/shop/cheondonga_jungmun" target="_blank" rel="noopener">CatchTable</a></dd></div>
-      <div><dt>Phone</dt><dd><a href="tel:+82647390775">+82-64-739-0775</a></dd></div>
-    </dl>
-    <div class="staff"><h3>Show this to our staff</h3><ul><li><b lang="ko">메뉴판 보여 주세요.</b><span>May I see the menu?</span></li><li><b lang="ko">고기 구워 주세요.</b><span>Please grill the meat for us.</span></li><li><b lang="ko">계산할게요.</b><span>The bill, please.</span></li></ul></div>
-  </div>
-  <div class="lp" role="tabpanel" id="p-zh" aria-labelledby="t-zh" lang="zh-Hans" hidden="">
-    <dl>
-      <div><dt>菜单</dt><dd>Nanchuk-matdon（난축맛돈）招牌 62,000韩元<br>济州黑猪 YBD 500克 55,000韩元<br>Solji-sal（솔지살）24,000韩元</dd></div>
-      <div><dt>服务</dt><dd>店员在餐桌旁为您烤肉</dd></div>
-      <div><dt>地址</dt><dd>西归浦市 천제연로（天帝渊路）280号 1楼<br><span lang="ko">서귀포시 천제연로 280, 1층</span></dd></div>
-      <div><dt>开始营业</dt><dd>11:30</dd></div>
-      <div><dt>预约</dt><dd><a href="https://naver.me/xDJuE5hg" target="_blank" rel="noopener">Naver</a> · 排队等位 <a href="https://app.catchtable.co.kr/ct/shop/cheondonga_jungmun" target="_blank" rel="noopener">CatchTable</a></dd></div>
-      <div><dt>电话</dt><dd><a href="tel:+82647390775">+82-64-739-0775</a></dd></div>
-    </dl>
-    <div class="staff"><h3>请出示给店员看</h3><ul><li><b lang="ko">메뉴판 보여 주세요.</b><span>请给我看菜单。</span></li><li><b lang="ko">고기 구워 주세요.</b><span>请帮我们烤肉。</span></li><li><b lang="ko">계산할게요.</b><span>我要结账。</span></li></ul></div>
-  </div>
-</div></section>
+
 </main>
 <aside class="todo draft-only"><div class="wrap"><b>유건 관리자님께 확인할 것 (운영 사이트에서는 빠짐)</b><ol>
-<li>마감·마지막 주문·휴무 <span class="blank">확인 중</span></li><li>주차: 네이버는 "주차 미지원·인근 대체", 캐치테이블은 "주차" + 주차장 사진 — 어느 쪽인지 <span class="blank">확인</span></li><li>시그니처·솔지살 중량 <span class="blank">확인 중</span></li><li>대표 번호 064-739-0775 맞는지 <span class="blank">확인 중</span></li><li>부위별 코스 순서·먹는 법 <span class="blank">받기</span></li><li>중국어 간체만인지, 번체도 필요한지 <span class="blank">확인</span></li><li>영어·중국어 원어민 검수 <span class="blank">방법 정하기</span></li><li>네이버 지도 표시용 키(네이버 클라우드 Maps) <span class="blank">받기</span></li><li>캐치테이블 매장 사진을 홈페이지에 써도 되는지, 원본(큰 사진) 받기 <span class="blank">확인</span></li><li>여는 시간: 네이버 11:30 / 캐치테이블 11:00 — 어느 쪽인지 <span class="blank">확인</span></li><li>솔지살 사진 <span class="blank">받기</span></li></ol></div></aside>
-<footer class="foot">천돈가 · 서귀포시 천제연로 280, 1층 · 064-739-0775 · <a href="https://www.instagram.com/chundonga1/" target="_blank" rel="noopener">인스타그램</a><br>사진: 천돈가(캐치테이블 매장 사진) · 평점·리뷰·가격은 네이버 플레이스 2026-10-23 기준 · 최종 수정 2026-10-27</footer>
+<li>마감·마지막 주문·휴무 <span class="blank">확인 중</span></li><li>주차: 네이버는 "주차 미지원·인근 대체", 캐치테이블은 "주차" + 주차장 사진 — 어느 쪽인지 <span class="blank">확인</span></li><li>시그니처·솔지살 중량 <span class="blank">확인 중</span></li><li>대표 번호 064-739-0775 맞는지 <span class="blank">확인 중</span></li><li>부위별 코스 순서·먹는 법 <span class="blank">받기</span></li><li>중국어 간체만인지, 번체도 필요한지 <span class="blank">확인</span></li><li>영어 제목 "Good meat, with good people", 중국어 "好肉，与好友共享" 괜찮은지 <span class="blank">확인</span></li><li>영어·중국어 원어민 검수 <span class="blank">방법 정하기</span></li><li>네이버 지도 표시용 키(네이버 클라우드 Maps) <span class="blank">받기</span></li><li>캐치테이블 매장 사진을 홈페이지에 써도 되는지, 원본(큰 사진) 받기 <span class="blank">확인</span></li><li>여는 시간: 네이버 11:30 / 캐치테이블 11:00 — 어느 쪽인지 <span class="blank">확인</span></li><li>솔지살 사진 <span class="blank">받기</span></li></ol></div></aside>
+<footer class="foot">천돈가 · 서귀포시 천제연로 280, 1층 · 064-739-0775 · <a href="https://www.instagram.com/chundonga1/" target="_blank" rel="noopener">인스타그램</a><br><span data-i="credit">사진: 천돈가(캐치테이블 매장 사진) · 평점·리뷰·가격은 네이버 플레이스 2026-10-23 기준 · 최종 수정 2026-10-27</span></footer>
 <div class="demo draft-only" role="note">유건 관리자님께 드리는 예시 화면입니다. 정식 홈페이지가 아닙니다.</div>
-<div class="callbar" id="callbar"><a href="tel:064-739-0775" tabindex="-1">전화 <b>064-739-0775</b></a></div>
+<div class="callbar" id="callbar"><a href="tel:064-739-0775" tabindex="-1" data-i="cb">전화 <b>064-739-0775</b></a></div>
 <script>
 (function(){
-// 네이버 지도: 네이버 클라우드 Maps 키가 생기면 여기에 넣으면 지도가 바로 보인다
-var NAVER_KEY='';
-if(NAVER_KEY){var s=document.createElement('script');s.src='https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId='+NAVER_KEY;s.onload=function(){naver.maps.Service&&0;var pos=new naver.maps.LatLng(33.2509,126.4136);/* 좌표는 키 받을 때 주소로 다시 확인 */var m=new naver.maps.Map('nvmap',{center:pos,zoom:16});new naver.maps.Marker({position:pos,map:m});document.getElementById('nvfallback').hidden=true};document.head.appendChild(s)}
+// ===== 사이트 설정 (천돈가로 넘길 때 여기만 바꾸면 됨 · clients/cheondonga/인계-체크리스트.md) =====
+var SITE={
+  naverMapKey:'',            // 네이버 클라우드 Maps Client ID (지금: 성식 님 계정 → 넘길 때 천돈가 계정 키로)
+  naverMapKeyParam:'ncpKeyId', // 키 넣는 이름. 키 받으면 실제로 뜨는 쪽으로 확인(ncpKeyId / ncpClientId)
+  lat:null, lng:null         // 가게 좌표. 키 받은 뒤 주소로 확인해서 넣음
+};
+// ===== 설정 끝 =====
+if(SITE.naverMapKey&&SITE.lat){var s=document.createElement('script');s.src='https://oapi.map.naver.com/openapi/v3/maps.js?'+SITE.naverMapKeyParam+'='+encodeURIComponent(SITE.naverMapKey);s.onload=function(){var pos=new naver.maps.LatLng(SITE.lat,SITE.lng);var m=new naver.maps.Map('nvmap',{center:pos,zoom:16});new naver.maps.Marker({position:pos,map:m,title:'천돈가'});document.getElementById('nvfallback').hidden=true};document.head.appendChild(s)}
 function tabs(sel){var ts=[].slice.call(document.querySelectorAll(sel+' [role=tab]'));ts.forEach(function(t){t.addEventListener('click',function(){ts.forEach(function(u){var on=u===t;u.setAttribute('aria-selected',on);var p=document.getElementById(u.getAttribute('aria-controls'));p.hidden=!on;if(on){var f=p.querySelector('iframe[data-src]');if(f&&!f.src){f.src=f.dataset.src}}})})})}
 tabs('.map .tabs');tabs('.langtabs');
-var c=document.getElementById('copyAddr'),o=document.getElementById('copied');c&&c.addEventListener('click',function(){var t='제주특별자치도 서귀포시 천제연로 280';(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){o.textContent='복사했어요'},function(){o.textContent=t})});
+
+// ===== 언어 전환: 한국어 / English / 简体中文 — 홈페이지 전체가 바뀜 (번역은 원어민 검수 전) =====
+var I18N={"nav1": {"en": "Menu", "zh": "菜单"}, "nav2": {"en": "Directions", "zh": "交通指南"}, "nav3": {"en": "Book", "zh": "预约"}, "where": {"en": "Jungmun, Jeju · Nanchuk-matdon black pork", "zh": "济州中文 · 济州黑猪 Nanchuk-matdon"}, "h1": {"en": "Good meat,<br>with good people", "zh": "好肉，<br>与好友共享"}, "call": {"en": "Call us", "zh": "打电话"}, "book2": {"en": "Book on Naver", "zh": "Naver 预约"}, "tel": {"en": "Phone <b>+82-64-739-0775</b>", "zh": "电话 <b>+82-64-739-0775</b>"}, "g1": {"en": "Naver rating", "zh": "Naver 评分"}, "g2": {"en": "reviews", "zh": "条评价"}, "g3b": {"en": "We grill for you", "zh": "代烤服务"}, "g3": {"en": "Staff grill at your table", "zh": "店员在桌边为您烤肉"}, "g4b": {"en": "Parking", "zh": "停车"}, "g4": {"en": "Parking lot", "zh": "设有停车场"}, "g5b": {"en": "Groups · Kids", "zh": "团体 · 儿童"}, "g5": {"en": "Private hire · Kids welcome", "zh": "可包场 · 欢迎儿童"}, "gsrc": {"en": "Rating & reviews: Naver Place, Oct 23, 2026 · Amenities: CatchTable, Oct 27, 2026", "zh": "评分与评价：Naver Place 2026-10-23 · 设施信息：CatchTable 2026-10-27"}, "mh": {"en": "Menu", "zh": "菜单"}, "msub": {"en": "Prices and portions · as listed on Naver Place and CatchTable", "zh": "价格与分量 · 以 Naver Place、CatchTable 标示为准"}, "tag": {"en": "Signature", "zh": "招牌"}, "m1": {"en": "Nanchuk-matdon Signature", "zh": "Nanchuk-matdon（난축맛돈）招牌"}, "m2": {"en": "Nanchuk-matdon Pork Tomahawk", "zh": "Nanchuk-matdon 战斧猪排"}, "m3": {"en": "Jeju Black Pork YBD", "zh": "济州黑猪 YBD"}, "p1": {"en": "62,000 KRW", "zh": "62,000韩元"}, "p2": {"en": "36,000 KRW", "zh": "36,000韩元"}, "p3": {"en": "55,000 KRW", "zh": "55,000韩元"}, "g500": {"en": "500 g", "zh": "500克"}, "more": {"en": "Solji-sal (pork neck) 24,000 KRW · <a href=\"https://app.catchtable.co.kr/ct/shop/cheondonga_jungmun\" target=\"_blank\" rel=\"noopener\">Full menu →</a>", "zh": "Solji-sal（猪颈肉）24,000韩元 · <a href=\"https://app.catchtable.co.kr/ct/shop/cheondonga_jungmun\" target=\"_blank\" rel=\"noopener\">查看全部菜单 →</a>"}, "ch": {"en": "Like a black pork omakase,<br>cut by cut, in order", "zh": "像黑猪 Omakase 一样，<br>按部位依次品尝"}, "csub": {"en": "Our staff grill one cut at a time and show you how to enjoy each.", "zh": "店员逐一烤制每个部位，并介绍吃法。"}, "sh": {"en": "Dining room · Self bar · Parking", "zh": "用餐区 · 自助吧 · 停车场"}, "s1": {"en": "Dining room<span>Group seating · Private hire</span>", "zh": "用餐区<span>团体座位 · 可包场</span>"}, "s2": {"en": "Self bar<span>Side dishes &amp; greens</span>", "zh": "自助吧<span>小菜 · 蔬菜</span>"}, "s3": {"en": "Parking", "zh": "停车场"}, "maph": {"en": "Directions", "zh": "交通指南"}, "mapsub": {"en": "Across from Jungmun Public Health Center", "zh": "中文（Jungmun）保健所对面"}, "tnv": {"en": "Naver Map", "zh": "Naver 地图"}, "tgg": {"en": "Google Maps", "zh": "Google 地图"}, "nvb": {"en": "Cheondonga · 280 Cheonjeyeon-ro", "zh": "천돈가 · 天帝渊路 280号"}, "nvopen": {"en": "Open in Naver Map", "zh": "在 Naver 地图中查看"}, "f1": {"en": "Address", "zh": "地址"}, "f1d": {"en": "1F, 280 Cheonjeyeon-ro, Seogwipo-si, Jeju<br><span lang=\"ko\">서귀포시 천제연로 280, 1층</span>", "zh": "济州 西归浦市 천제연로（天帝渊路）280号 1楼<br><span lang=\"ko\">서귀포시 천제연로 280, 1층</span>"}, "copy": {"en": "Copy Korean address", "zh": "复制韩文地址"}, "f2": {"en": "Hours", "zh": "营业时间"}, "f2d": {"en": "Opens 11:30", "zh": "11:30 开始营业"}, "f3": {"en": "Booking · Waitlist", "zh": "预约 · 排队"}, "f3a": {"en": "Naver booking", "zh": "Naver 预约"}, "f3b": {"en": "CatchTable", "zh": "CatchTable"}, "f4": {"en": "Phone", "zh": "电话"}, "f4d": {"en": "<a href=\"tel:+82647390775\">+82-64-739-0775</a>", "zh": "<a href=\"tel:+82647390775\">+82-64-739-0775</a>"}, "staffh": {"en": "Show this to our staff", "zh": "请出示给店员看"}, "st1": {"en": "May I see the menu?", "zh": "请给我看菜单。"}, "st2": {"en": "Please grill the meat for us.", "zh": "请帮我们烤肉。"}, "st3": {"en": "The bill, please.", "zh": "我要结账。"}, "credit": {"en": "Photos: Cheondonga (CatchTable store photos) · Rating, reviews and prices from Naver Place, Oct 23, 2026 · Updated Oct 27, 2026", "zh": "照片：천돈가（CatchTable 门店照片）· 评分、评价、价格以 Naver Place 2026-10-23 为准 · 更新于 2026-10-27"}, "cb": {"en": "Call <b>+82-64-739-0775</b>", "zh": "致电 <b>+82-64-739-0775</b>"}};
+var KO={};[].forEach.call(document.querySelectorAll('[data-i]'),function(el){KO[el.dataset.i]=el.innerHTML});
+function setLang(l){document.documentElement.lang=l==='zh'?'zh-Hans':l;
+ [].forEach.call(document.querySelectorAll('[data-i]'),function(el){var k=el.dataset.i;el.innerHTML=l==='ko'?KO[k]:((I18N[k]||{})[l]||KO[k])});
+ [].forEach.call(document.querySelectorAll('.langsw button'),function(b){b.setAttribute('aria-pressed',b.dataset.lang===l)});
+ [].forEach.call(document.querySelectorAll('.foreign-only'),function(e){e.hidden=l==='ko'});
+ var f=document.querySelector('#m-gg iframe');if(f){f.dataset.src=f.dataset.src.replace(/hl=[a-zA-Z-]+/,'hl='+(l==='zh'?'zh-CN':l));if(f.src)f.src=f.dataset.src}
+ try{localStorage.setItem('cdg-lang',l)}catch(e){}}
+[].forEach.call(document.querySelectorAll('.langsw button'),function(b){b.addEventListener('click',function(){setLang(b.dataset.lang)})});
+var q=(location.search.match(/[?&]lang=(ko|en|zh)/)||[])[1],saved=null;try{saved=localStorage.getItem('cdg-lang')}catch(e){}
+if(document.querySelector('.langsw')&&(q||saved)&&(q||saved)!=='ko')setLang(q||saved);
+var c=document.getElementById('copyAddr'),o=document.getElementById('copied');c&&c.addEventListener('click',function(){var t='제주특별자치도 서귀포시 천제연로 280';(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){o.textContent=document.documentElement.lang==='en'?'Copied':document.documentElement.lang==='zh-Hans'?'已复制':'복사했어요'},function(){o.textContent=t})});
 var h=document.getElementById('hero-call'),cb=document.getElementById('callbar');if(h&&cb&&'IntersectionObserver' in window){new IntersectionObserver(function(e){cb.classList.toggle('show',!e[0].isIntersecting)}).observe(h)}else if(cb){cb.classList.add('show')}
 })();
 </script>
