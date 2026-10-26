@@ -131,6 +131,16 @@ h2{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:700;letter-spacing:-.02em}
 /* 끝 */
 .foot{border-top:1px solid var(--line);padding:32px 24px 44px;text-align:center;color:var(--mute);font-size:.8125rem;line-height:1.9}
 .foot a{display:inline-block;padding:8px 4px}
+.mgr{border:0;padding:0;border-radius:16px;max-width:min(520px,calc(100% - 32px));width:100%;max-height:calc(100svh - 48px);color:var(--ink);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.mgr::backdrop{background:rgba(26,24,22,.45)}
+.mgr-in{position:relative;padding:28px 24px 22px;font-size:.9375rem}
+.mgr h2{font-size:1.25rem;font-weight:800;margin:0 40px 8px 0}.mgr p{color:var(--mute);margin:0}
+.mgr h3{font-size:.9375rem;font-weight:700;margin:18px 0 6px}.mgr ol{margin:0;padding-left:1.3em;font-size:.875rem}.mgr li{margin:4px 0}
+.mgr .blank{display:inline-block!important}
+.mgr .x{position:absolute;top:10px;right:10px;width:44px;height:44px;border:0;background:none;font-size:1.75rem;line-height:1;color:var(--mute);cursor:pointer}
+.mgr-act{display:flex;gap:8px;margin-top:20px}.mgr-act button{flex:1;min-height:48px;border-radius:999px;font:700 .9375rem var(--sans);cursor:pointer}
+.mgr-act .b1{background:#fff;border:1.5px solid var(--ink);color:var(--ink)}.mgr-act .b2{background:var(--ink);border:0;color:#fff}
+.mgr-open{margin-top:10px;min-height:44px;padding:0 14px;border:1px dashed #E8892F;background:#FFF6EC;color:#9A5410;border-radius:999px;font:600 .8125rem var(--sans);cursor:pointer}
 .todo{background:#FFF6EC;border-top:1px dashed #E8892F;padding:24px 0;font-size:.875rem}
 .todo b{color:#9A5410}.todo ol{margin:8px 0 0;padding-left:1.3em}
 .callbar{display:none}
@@ -155,7 +165,6 @@ h2{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:700;letter-spacing:-.02em}
   <a class="logo" href="#top">천<i>돈</i>가</a>
   <nav aria-label="바로가기"><a data-i="nav1" class="hide-m" href="#menu">메뉴</a><a data-i="nav2" class="hide-m" href="#map">오시는 길</a><span class="langsw draft-only" role="group" aria-label="언어 Language 语言"><button type="button" data-lang="ko" aria-pressed="true">한국어</button><button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button><button type="button" data-lang="zh" aria-pressed="false" lang="zh-Hans">中文</button></span><a data-i="nav3" class="book" href="https://naver.me/xDJuE5hg" target="_blank" rel="noopener">예약</a></nav>
 </div></header>
-<div class="demo draft-only" role="note">유건 관리자님께 드리는 예시 화면입니다. 정식 홈페이지가 아니며, 사진은 천돈가가 캐치테이블에 올린 매장 사진입니다. <button type="button" class="rv" onclick="document.body.classList.toggle('review')">확인할 것 보기</button></div>
 
 <main id="top">
 <section class="mosaic" aria-label="천돈가 사진">
@@ -217,10 +226,15 @@ h2{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:700;letter-spacing:-.02em}
 
 
 </main>
-<aside class="todo draft-only"><div class="wrap"><b>유건 관리자님께 확인할 것 (운영 사이트에서는 빠짐)</b><ol>
-<li>마감·마지막 주문·휴무 <span class="blank">확인 중</span></li><li>주차: 네이버는 "주차 미지원·인근 대체", 캐치테이블은 "주차" + 주차장 사진 — 어느 쪽인지 <span class="blank">확인</span></li><li>시그니처·솔지살 중량 <span class="blank">확인 중</span></li><li>대표 번호 064-739-0775 맞는지 <span class="blank">확인 중</span></li><li>부위별 코스 순서·먹는 법 <span class="blank">받기</span></li><li>중국어 간체만인지, 번체도 필요한지 <span class="blank">확인</span></li><li>영어 제목 "Good meat, with good people", 중국어 "好肉，与好友共享" 괜찮은지 <span class="blank">확인</span></li><li>영어·중국어 원어민 검수 <span class="blank">방법 정하기</span></li><li>네이버 지도 표시용 키(네이버 클라우드 Maps) <span class="blank">받기</span></li><li>캐치테이블 매장 사진을 홈페이지에 써도 되는지, 원본(큰 사진) 받기 <span class="blank">확인</span></li><li>여는 시간: 네이버 11:30 / 캐치테이블 11:00 — 어느 쪽인지 <span class="blank">확인</span></li><li>솔지살 사진 <span class="blank">받기</span></li></ol></div></aside>
-<footer class="foot">천돈가 · 서귀포시 천제연로 280, 1층 · 064-739-0775 · <a href="https://www.instagram.com/chundonga1/" target="_blank" rel="noopener">인스타그램</a><br><span data-i="credit">사진: 천돈가(캐치테이블 매장 사진) · 평점·리뷰·가격은 네이버 플레이스 2026-10-23 기준 · 최종 수정 2026-10-27</span></footer>
-<div class="demo draft-only" role="note">유건 관리자님께 드리는 예시 화면입니다. 정식 홈페이지가 아닙니다.</div>
+<footer class="foot">천돈가 · 서귀포시 천제연로 280, 1층 · 064-739-0775 · <a href="https://www.instagram.com/chundonga1/" target="_blank" rel="noopener">인스타그램</a><br><span data-i="credit">사진: 천돈가(캐치테이블 매장 사진) · 평점·리뷰·가격은 네이버 플레이스 2026-10-23 기준 · 최종 수정 2026-10-27</span><br><button type="button" class="mgr-open draft-only" id="mgr-open">관리자 안내 다시 보기</button></footer>
+<dialog class="mgr draft-only" id="mgr" aria-labelledby="mgr-h"><div class="mgr-in">
+  <button type="button" class="x" id="mgr-x" aria-label="닫기">×</button>
+  <h2 id="mgr-h" tabindex="-1" autofocus="" style="outline:none">유건 관리자님께</h2>
+  <p>예시 화면입니다. 정식 홈페이지가 아니며, 사진은 천돈가가 캐치테이블에 올린 매장 사진입니다.</p>
+  <h3>확인할 것</h3><ol>
+<li>마감·마지막 주문·휴무 <span class="blank">확인 중</span></li><li>주차: 네이버는 "주차 미지원·인근 대체", 캐치테이블은 "주차" + 주차장 사진 — 어느 쪽인지 <span class="blank">확인</span></li><li>시그니처·솔지살 중량 <span class="blank">확인 중</span></li><li>대표 번호 064-739-0775 맞는지 <span class="blank">확인 중</span></li><li>부위별 코스 순서·먹는 법 <span class="blank">받기</span></li><li>중국어 간체만인지, 번체도 필요한지 <span class="blank">확인</span></li><li>영어 제목 "Good meat, with good people", 중국어 "好肉，与好友共享" 괜찮은지 <span class="blank">확인</span></li><li>영어·중국어 원어민 검수 <span class="blank">방법 정하기</span></li><li>네이버 지도 표시용 키(네이버 클라우드 Maps) <span class="blank">받기</span></li><li>캐치테이블 매장 사진을 홈페이지에 써도 되는지, 원본(큰 사진) 받기 <span class="blank">확인</span></li><li>여는 시간: 네이버 11:30 / 캐치테이블 11:00 — 어느 쪽인지 <span class="blank">확인</span></li><li>솔지살 사진 <span class="blank">받기</span></li></ol>
+  <div class="mgr-act"><button type="button" class="b1" id="mgr-rv">화면에 확인할 곳 표시</button><button type="button" class="b2" id="mgr-close">닫기</button></div>
+</div></dialog>
 <div class="callbar" id="callbar"><a href="tel:064-739-0775" tabindex="-1" data-i="cb">전화 <b>064-739-0775</b></a></div>
 <script>
 (function(){
@@ -251,5 +265,12 @@ if(document.querySelector('.langsw')&&(q||saved)&&(q||saved)!=='ko')setLang(q||s
 var c=document.getElementById('copyAddr'),o=document.getElementById('copied');c&&c.addEventListener('click',function(){var t='제주특별자치도 서귀포시 천제연로 280';(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){o.textContent=document.documentElement.lang==='en'?'Copied':document.documentElement.lang==='zh-Hans'?'已复制':'복사했어요'},function(){o.textContent=t})});
 var h=document.getElementById('hero-call'),cb=document.getElementById('callbar');if(h&&cb&&'IntersectionObserver' in window){new IntersectionObserver(function(e){cb.classList.toggle('show',!e[0].isIntersecting)}).observe(h)}else if(cb){cb.classList.add('show')}
 })();
+(function(){var d=document.getElementById('mgr');if(!d||!d.showModal)return;
+function op(){try{d.showModal()}catch(e){}}function cl(){d.close();try{sessionStorage.setItem('cdg-mgr','1')}catch(e){}}
+document.getElementById('mgr-x').onclick=cl;document.getElementById('mgr-close').onclick=cl;
+document.getElementById('mgr-rv').onclick=function(){document.body.classList.toggle('review');this.textContent=document.body.classList.contains('review')?'표시 끄기':'화면에 확인할 곳 표시';cl()};
+d.addEventListener('click',function(e){if(e.target===d)cl()});d.addEventListener('cancel',function(){try{sessionStorage.setItem('cdg-mgr','1')}catch(e){}});
+var o=document.getElementById('mgr-open');if(o)o.onclick=op;
+var seen=null;try{seen=sessionStorage.getItem('cdg-mgr')}catch(e){}if(!seen)op();})();
 </script>
 </body></html>
