@@ -199,3 +199,18 @@ footer nav a{display:inline-flex;align-items:center;min-height:44px;font-weight:
 @keyframes spinin{from{transform:translateY(140px) rotate(-60deg) scale(.6);opacity:0}}
 .mw{width:min(180px,46vw);margin:-24px 2% 0 auto;z-index:3}
 .k2 .scard{margin-left:0}
+/* 자료실 */
+.dls{display:grid;gap:40px}
+.dl{padding:30px 24px 26px;transform:rotate(var(--r))}
+.dl h3{font-size:30px;letter-spacing:-.04em;margin:12px 0 6px}
+.dl p{font-size:17px;color:#3f443d}
+.dl .links a{background:#e9e6d7;color:var(--ink)}
+.dl .links a.main{background:var(--blue);color:#fff}
+.faq{display:grid;gap:14px}
+.faq details{background:#ffffff14;border:1px solid #ffffff40;border-radius:10px;padding:0 20px}
+.faq summary{min-height:56px;display:flex;align-items:center;font-size:18px;font-weight:800;cursor:pointer;list-style:none}
+.faq summary:after{content:'＋';margin-left:auto;color:var(--lime)}
+.faq details[open] summary:after{content:'－'}
+.faq ol,.faq p{font-size:16px;color:#dfe4ff;padding:0 0 18px 20px}
+.faq p{padding-left:0}.faq li{margin:4px 0}.faq a{color:var(--lime);text-decoration:underline}
+@media(min-width:860px){.dls{grid-template-columns:1fr 1fr;gap:50px}}
