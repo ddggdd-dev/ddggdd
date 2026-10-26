@@ -1,5 +1,6 @@
 /* 작업대 공용: 메뉴, 날아와 놓이는 종이, 배경 글자, 달린 거리 */
 (function(){
+  if(/Android/i.test(navigator.userAgent))document.documentElement.classList.add('android');
   var $=function(id){return document.getElementById(id)};
   var help=$('help'),btn=$('mbtn'),close=$('close');
   function open(){help.classList.add('open');close.focus()}

@@ -214,3 +214,5 @@ footer nav a{display:inline-flex;align-items:center;min-height:44px;font-weight:
 .faq ol,.faq p{font-size:16px;color:#dfe4ff;padding:0 0 18px 20px}
 .faq p{padding-left:0}.faq li{margin:4px 0}.faq a{color:var(--lime);text-decoration:underline}
 @media(min-width:860px){.dls{grid-template-columns:1fr 1fr;gap:50px}}
+.and-only{display:none!important}html.android .and-only{display:inline-flex!important}
+.small2{font-size:14px!important;color:var(--dim)!important;margin-top:12px}
