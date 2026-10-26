@@ -199,11 +199,11 @@ h2{font-size:clamp(1.5rem,2.6vw,2rem);font-weight:700;letter-spacing:-.02em}
 
 <section class="sec map" id="map" aria-labelledby="map-h"><div class="wrap">
   <div class="head"><div><h2 data-i="maph" id="map-h">오시는 길</h2><p data-i="mapsub" class="sub">중문보건소 건너편</p></div>
-    <div class="tabs" role="tablist" aria-label="지도 선택"><button data-i="tnv" role="tab" id="t-nv" aria-selected="true" aria-controls="m-nv" type="button">네이버 지도</button><button data-i="tgg" role="tab" id="t-gg" aria-selected="false" aria-controls="m-gg" type="button">Google 지도</button></div></div>
+    <div class="tabs" role="tablist" aria-label="지도 선택"><button data-i="tnv" role="tab" id="t-nv" aria-selected="false" aria-controls="m-nv" type="button">네이버 지도</button><button data-i="tgg" role="tab" id="t-gg" aria-selected="true" aria-controls="m-gg" type="button">Google 지도</button></div></div>
   <div class="mapbox">
-    <div id="m-nv" role="tabpanel" aria-labelledby="t-nv"><div id="nvmap" style="position:absolute;inset:0"></div>
+    <div id="m-nv" role="tabpanel" aria-labelledby="t-nv" hidden=""><div id="nvmap" style="position:absolute;inset:0"></div>
       <div class="nv" id="nvfallback"><div><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4C15.7 4 9 10.6 9 18.8 9 30 24 44 24 44s15-14 15-25.2C39 10.6 32.3 4 24 4z" fill="#03C75A"></path><circle cx="24" cy="19" r="6" fill="#fff"></circle></svg><b data-i="nvb">천돈가 · 천제연로 280</b><a href="https://map.naver.com/p/search/%EC%B2%9C%EB%8F%88%EA%B0%80%20%EC%A4%91%EB%AC%B8%ED%9D%91%EB%8F%BC%EC%A7%80" target="_blank" rel="noopener" data-i="nvopen">네이버 지도에서 보기</a><p style="margin-top:10px"><span class="blank">네이버 지도 키(NCP Maps) 받으면 여기 지도가 바로 보임</span></p></div></div></div>
-    <div id="m-gg" role="tabpanel" aria-labelledby="t-gg" hidden=""><iframe title="Google 지도 · 천돈가" data-src="https://maps.google.com/maps?q=%EC%A0%9C%EC%A3%BC%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EB%8F%84%20%EC%84%9C%EA%B7%80%ED%8F%AC%EC%8B%9C%20%EC%B2%9C%EC%A0%9C%EC%97%B0%EB%A1%9C%20280&amp;hl=ko&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+    <div id="m-gg" role="tabpanel" aria-labelledby="t-gg"><iframe title="Google 지도 · 천돈가" src="https://maps.google.com/maps?q=%EC%A0%9C%EC%A3%BC%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EB%8F%84%20%EC%84%9C%EA%B7%80%ED%8F%AC%EC%8B%9C%20%EC%B2%9C%EC%A0%9C%EC%97%B0%EB%A1%9C%20280&amp;hl=ko&amp;z=16&amp;output=embed" data-src="https://maps.google.com/maps?q=%EC%A0%9C%EC%A3%BC%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EB%8F%84%20%EC%84%9C%EA%B7%80%ED%8F%AC%EC%8B%9C%20%EC%B2%9C%EC%A0%9C%EC%97%B0%EB%A1%9C%20280&amp;hl=ko&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
   </div>
   <dl class="facts">
     <div><dt data-i="f1">주소</dt><dd data-i="f1d">서귀포시 천제연로 280, 1층</dd><button data-i="copy" type="button" id="copyAddr">주소 복사</button><p class="copied" id="copied" aria-live="polite"></p></div>
