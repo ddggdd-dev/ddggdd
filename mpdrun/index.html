@@ -4,9 +4,9 @@
 
 <meta name="check" content="no-tel">
 <title>MPD Run · 러닝 앱</title>
-<meta name="description" content="휴대폰과 갤럭시워치로 달리기를 기록하는 러닝 앱 MPD Run. 화면을 꺼도 기록, 1km 음성 안내, 심박 존, 같이 달리기.">
+<meta name="description" content="목표 완주 코치, 사진 일기와 공유 카드, 따로 달려도 같이 달리기. 휴대폰·갤럭시워치 러닝 앱 MPD Run.">
 <meta property="og:title" content="MPD Run · 러닝 앱">
-<meta property="og:description" content="휴대폰과 갤럭시워치로 달리기를 기록하는 러닝 앱 MPD Run. 화면을 꺼도 기록, 1km 음성 안내, 심박 존, 같이 달리기.">
+<meta property="og:description" content="목표 완주 코치, 사진 일기와 공유 카드, 따로 달려도 같이 달리기. 휴대폰·갤럭시워치 러닝 앱 MPD Run.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;display=swap">
@@ -130,6 +130,39 @@
 .dl{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:28px}
 .dl .kakao{margin-top:0}
 .dl .sec2{display:inline-flex;align-items:center;min-height:56px;padding:0 26px;border-radius:999px;border:1.5px solid var(--orange);color:var(--chalk);font-size:17px;font-weight:800;text-decoration:none}
+.g-coach{display:grid;justify-items:center;gap:18px}
+.g-coach .watch .dist{font-size:clamp(46px,14vw,70px)}
+.bubble{position:relative;max-width:340px;background:var(--paper);color:var(--ink);border-radius:22px;padding:16px 20px;font-size:18px;font-weight:700;line-height:1.45;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,.45)}
+.bubble b{color:#c2410c}
+.bubble::before{content:"";position:absolute;top:-10px;left:50%;margin-left:-10px;border:10px solid transparent;border-top:0;border-bottom-color:var(--paper)}
+.chips{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.chips li{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);font-size:14px;font-weight:700}
+.chips i{font-style:normal}
+.g-card{display:grid;justify-items:center}
+.card{width:min(100%,340px);background:#fffdf8;color:var(--ink);border-radius:18px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.6);transform:rotate(-2deg);position:relative}
+.card .ct{padding:14px 16px 10px}.card .ct b{display:block;font-size:19px;font-weight:900}.card .ct span{font-size:13px;color:#6b665e}
+.card .map{display:block;width:100%;height:auto}
+.card .home{position:absolute;left:12px;top:118px;font-size:13px;font-weight:800;background:#fff;border:1px solid #ffd3bb;color:#c2410c;border-radius:999px;padding:3px 9px}
+.card .ph{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:10px 12px 0}.card .ph img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px}
+.card .st{display:grid;grid-template-columns:repeat(3,1fr);padding:12px 12px 16px;text-align:center}.card .st span{font-size:13px;color:#6b665e}.card .st b{display:block;font-size:20px;font-weight:900;color:var(--ink)}
+.g-crew{display:grid;justify-items:center}
+.board{width:min(100%,380px);background:#141416;border:1px solid var(--line);border-radius:18px;padding:18px}
+.board .bh{font-size:17px;font-weight:800;margin-bottom:12px}.board .bh span{display:block;font-size:13px;font-weight:600;color:var(--dim)}
+.board .row{display:grid;grid-template-columns:28px 34px 1fr 64px;align-items:center;gap:8px;padding:8px 0}
+.board .n{font-size:13px;color:var(--dim)}.board em{font-style:normal;font-family:"Black Han Sans",sans-serif;font-size:22px;background:var(--paper);color:var(--ink);border-radius:6px;text-align:center;line-height:30px}
+.board .gbar{height:10px;border-radius:999px;background:#2a2a2d;overflow:hidden}.board .gbar i{display:block;height:100%;background:var(--orange);border-radius:999px}
+
+.board .row span{text-align:right;font-weight:800}
+.board .ghost{margin-top:12px;padding:12px;border-radius:12px;background:rgba(255,107,28,.12);font-size:15px;font-weight:700}.board .ghost b{color:var(--orange)}
+.voice{list-style:none;display:grid;gap:12px;max-width:560px}
+.voice li{position:relative;background:#1a1a1d;border:1px solid var(--line);border-radius:18px 18px 18px 4px;padding:14px 16px 14px 18px}
+.voice li::before{content:"";position:absolute;left:-1px;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--orange)}
+.voice b{display:block;font-size:13px;font-weight:800;color:var(--orange);letter-spacing:.02em}
+.voice span{display:block;margin-top:4px;font-size:18px;font-weight:700;line-height:1.45;color:var(--chalk)}
+.pts{list-style:none;display:grid;gap:14px;max-width:600px;counter-reset:p}
+.pts li{position:relative;padding-left:34px;font-size:17px;line-height:1.6;color:var(--dim)}
+.pts li::before{counter-increment:p;content:counter(p);position:absolute;left:0;top:2px;width:24px;height:24px;border-radius:50%;background:var(--orange);color:#140700;font-size:13px;font-weight:900;display:grid;place-items:center}
+.pts b{color:var(--chalk);font-weight:700}
 .made{margin-top:22px;font-size:15px;color:var(--dim)}
 .made a{color:var(--chalk);font-weight:700;text-underline-offset:3px;text-decoration-color:var(--orange)}
 </style>
@@ -153,7 +186,7 @@
   <p class="tag">MPD Run · 러닝 앱</p>
   <div class="clock num" id="clock" aria-hidden="true">00:00<span class="cs">.00</span></div>
   <h1 class="promise" id="t">달린 길과 페이스를,<br><em>손목과 주머니에서.</em></h1>
-  <p class="sub">휴대폰 앱과 갤럭시워치 앱으로 달리기를 기록하는 MPD Run이에요.</p>
+  <p class="sub">휴대폰 앱과 갤럭시워치 앱으로 달리는 MPD Run. 잘하는 것 세 가지를 1km마다 보여 드릴게요.</p>
   <div class="road"><canvas id="roadc" aria-hidden="true"></canvas><a class="go" href="#course" aria-label="아래로 내려서 출발"><b>아래로 내려 <em>출발</em></b><span class="chev" aria-hidden="true"><i></i><i></i><i></i></span></a></div>
 </section>
 
@@ -162,32 +195,56 @@
 
   <section class="km" data-km="1" aria-labelledby="k1">
     <div class="mark num"><b>1</b><span>km</span></div>
-    <div class="apphead"><img src="../img/icon-mpdrun-app.png" alt="MPD Run 앱 아이콘" width="64" height="64"><span>휴대폰 앱 · 안드로이드</span></div>
-    <h2 id="k1">화면을 꺼도, 달린 길이 남아요</h2>
-    <p class="desc">주머니에 넣고 달려도 기록돼요. 1km마다 목소리로 페이스와 목표까지 남은 거리를 알려 주고, 원하는 박자로 케이던스 소리도 내 줘요.</p>
-    <div class="stage"><figure class="phone"><img src="../img/screen-mpdrun-phone.jpg" alt="MPD Run 러닝 첫 화면: 이번 주 거리 고리와 요일 점" width="480" height="960" loading="lazy"></figure>
-      <p class="cap">MPD Run 러닝 첫 화면</p></div>
+    <h2 id="k1">귀에 대고 말하는<br>완주 코치</h2>
+    <div class="stage g-coach">
+      <div class="watch" id="watch" aria-hidden="true">
+        <div class="ring"></div>
+        <div class="face"><div class="app">목표보다</div><div class="dist num">−1:35</div><div class="unit">빨리 들어와요</div><div class="btn">▶ <span class="num" id="watchKm">0.00</span> km</div></div>
+      </div>
+      <div class="bubble">🔊 “이대로면 목표보다<br><b>1분 35초 빨리</b> 들어와요”</div>
+      <ul class="chips">
+        <li><i>⏱</i>남은 길 필요 페이스</li>
+        <li><i>💓</i>존2 넘으면 진동</li>
+        <li><i>📋</i>끝나면 판단·고칠 점</li>
+      </ul>
+    </div>
   </section>
 
   <section class="km" data-km="2" aria-labelledby="k2">
     <div class="mark num"><b>2</b><span>km</span></div>
-    <h2 id="k2">시계만 차고 달려도 돼요</h2>
-    <p class="desc">갤럭시워치 앱은 휴대폰 없이 혼자 기록해요. 심박 존, 페이스, 지도를 손목에서 보고, 끝나면 휴대폰 앱으로 보내 자세히 봐요.</p>
-    <div class="stage watch-wrap">
-      <div class="watch" id="watch" aria-label="MPD Run 앱 화면을 본뜬 그림, 이 페이지에서 달린 거리를 보여 줌">
-        <div class="ring"></div>
-        <div class="face"><div class="app">MPD <span>Run</span></div><div class="dist num" id="watchKm">0.00</div><div class="unit">km · 이 페이지에서</div><div class="btn">▶ 러닝 중</div></div>
+    <h2 id="k2">달린 길이<br>사진 일기 카드로</h2>
+    <div class="stage g-card">
+      <div class="card" aria-label="공유 카드 예시">
+        <div class="ct"><b>아침 한강 러닝</b><span>10월 26일 · 러닝</span></div>
+        <svg class="map" viewBox="0 0 300 170" aria-hidden="true">
+          <defs><pattern id="gr" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#e3dccb" stroke-width="1"></path></pattern></defs>
+          <rect width="300" height="170" fill="#f4f0e6"></rect><rect width="300" height="170" fill="url(#gr)"></rect>
+          <path d="M0 120 C60 100 90 140 150 118 S240 70 300 86" fill="none" stroke="#9cc8e8" stroke-width="14" opacity=".7"></path>
+          <circle cx="40" cy="60" r="26" fill="#ff6b1c" opacity=".14"></circle><circle cx="40" cy="60" r="26" fill="none" stroke="#ff6b1c" stroke-dasharray="4 4" opacity=".7"></circle>
+          <path d="M58 70 C100 40 130 90 170 70 S230 40 262 58" fill="none" stroke="#ff6b1c" stroke-width="5" stroke-linecap="round"></path>
+          <circle cx="262" cy="58" r="7" fill="#fff" stroke="#ff6b1c" stroke-width="4"></circle>
+        </svg>
+        <div class="home">🏠 집 근처 500m 가림</div>
+        <div class="ph"><img src="../img/mpdrun-hero-wide.jpg" alt="" width="1600" height="900"><img src="../img/team.jpg" alt="" width="1000" height="1000" style="object-position:50% 85%"></div>
+        <div class="st"><span><b>10.0</b>km</span><span><b>58:20</b>시간</span><span><b>5'50"</b>/km</span></div>
       </div>
-      <figure class="photo-proof"><img src="../img/mpdrun-hero-wide.jpg" alt="갤럭시워치에서 켜진 MPD Run 앱" width="1600" height="900" loading="lazy"><figcaption>실제 MPD Run 워치 · 사진 뚱꼬떡 개발팀</figcaption></figure>
+      <p class="cap">공유 카드 예시 · 카톡으로 보내면 앱 없이 열려요</p>
     </div>
   </section>
 
   <section class="km" data-km="3" aria-labelledby="k3">
     <div class="mark num"><b>3</b><span>km</span></div>
-    <h2 id="k3">같이 달리면 더 멀리</h2>
-    <p class="desc">친구와 방을 만들면 서로 달린 거리를 견줘요. 같은 시간에 달리지 않아도, 각자 동네에서 달려도 돼요.</p>
-    <div class="stage"><figure class="team2"><img src="../img/team.jpg" alt="마라톤을 마치고 메달을 건 세 사람" width="1000" height="1000" loading="lazy"></figure>
-      <p class="cap">MPD Run을 만든 뚱꼬떡 개발팀</p></div>
+    <h2 id="k3">따로 달려도<br>같이 달리기</h2>
+    <div class="stage g-crew">
+      <div class="board" aria-label="같이 달리기 화면 예시">
+        <div class="bh">이번 주 순위 <span>다른 동네 · 다른 시간도 OK</span></div>
+        <div class="row"><b class="n">01</b><em>뚱</em><div class="gbar"><i style="width:92%"></i></div><span class="num">23.1km</span></div>
+        <div class="row"><b class="n">02</b><em>꼬</em><div class="gbar"><i style="width:74%"></i></div><span class="num">18.4km</span></div>
+        <div class="row"><b class="n">03</b><em>떡</em><div class="gbar"><i style="width:51%"></i></div><span class="num">12.7km</span></div>
+        <div class="ghost">👻 지난 기록과 겨루기 · <b>120m 앞</b> 🔊</div>
+      </div>
+      <p class="cap">화면 예시 · 숫자는 보기용이에요</p>
+    </div>
   </section>
 
   <section class="finish" id="finish" aria-labelledby="f">
