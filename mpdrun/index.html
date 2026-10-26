@@ -1,7 +1,8 @@
-<!DOCTYPE html><html lang="ko"><head>
+<!doctype html>
+<html lang="ko">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="check" content="no-tel">
 <title>MPD Run · 러닝 앱</title>
 <meta name="description" content="목표 완주 코치, 사진 일기와 공유 카드, 따로 달려도 같이 달리기. 휴대폰·갤럭시워치 러닝 앱 MPD Run.">
@@ -9,7 +10,7 @@
 <meta property="og:description" content="목표 완주 코치, 사진 일기와 공유 카드, 따로 달려도 같이 달리기. 휴대폰·갤럭시워치 러닝 앱 MPD Run.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap">
 <link rel="stylesheet" href="../site.css">
 <style>
 
@@ -166,20 +167,48 @@
 .made{margin-top:22px;font-size:15px;color:var(--dim)}
 .made a{color:var(--chalk);font-weight:700;text-underline-offset:3px;text-decoration-color:var(--orange)}
 </style>
-<meta property="og:image" content="https://ddggdd.tech/img/mpdrun-hero-wide.jpg"><link rel="canonical" href="https://ddggdd.tech/mpdrun/"></head>
+<style>
+/* 팀 사이트와 같은 위 띠·메뉴 (밤 도로 위) */
+.top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:12px;padding:12px 4%;background:rgba(12,12,13,.82);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.tlogo{font-size:24px;font-weight:900;letter-spacing:-2px;display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:var(--chalk)}
+.tlogo i{font-size:10px;font-weight:400;font-style:normal;letter-spacing:1px;line-height:1.4;border-left:1px solid #ffffff60;padding-left:10px}
+.top .hud{margin-left:auto}
+.mbtn{border:1px solid #ffffff70;background:transparent;border-radius:40px;min-height:44px;padding:0 18px;font:inherit;font-size:14px;font-weight:700;color:var(--chalk);display:flex;gap:14px;align-items:center;cursor:pointer}
+.help{position:fixed;inset:0;background:#000a;-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);z-index:50;display:none;align-items:center;justify-content:center;padding:22px}
+.help.open{display:flex}
+.helpbox{width:min(460px,100%);max-height:calc(100svh - 44px);overflow:auto;background:#f4f1e7;color:#23282b;padding:30px;transform:rotate(-2deg);box-shadow:20px 30px 60px #0008}
+.helpbox .kicker{font-size:13px;letter-spacing:2px;font-weight:700;display:inline-flex;align-items:center;gap:10px}
+.helpbox .kicker:before{content:'';width:7px;height:7px;border-radius:50%;background:#ee5a2f}
+.close{float:right;background:none;border:0;color:#23282b;font-size:28px;min-width:44px;min-height:44px;cursor:pointer}
+.hhome{display:flex;align-items:center;min-height:44px;margin-top:10px;font-size:15px;font-weight:700;color:#233ed8;text-decoration:none}
+.hmenu a{display:grid;grid-template-columns:34px 1fr;column-gap:6px;padding:13px 0;border-bottom:1px solid #bbc0b1;font-size:18px;font-weight:700;text-decoration:none;color:#23282b}
+.hmenu b{grid-row:span 2;color:#233ed8;font-size:14px;padding-top:3px}
+.hmenu small{grid-column:2;font-size:13px;font-weight:400;color:#5d6157}
+.hmenu a[aria-current]{color:#ee5a2f}
+/* 실제 시계 화면 */
+.rw{position:relative;width:min(72vw,280px);aspect-ratio:1;margin:0 auto 34px;border-radius:50%;padding:12px;background:radial-gradient(circle at 30% 25%,#55555a,#141416 60%);box-shadow:0 0 0 4px #2a2a2d,0 30px 80px rgba(0,0,0,.7)}
+.rw img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.rw figcaption{position:absolute;left:50%;bottom:-30px;transform:translateX(-50%);white-space:nowrap;font-size:13px;color:var(--dim)}
+.rw.sm{width:min(52vw,200px);margin-top:30px}
+.rw.home{width:min(60vw,220px);margin:30px auto 44px}
+/* 결승선을 지나는 세 사람 */
+.track{position:relative;height:140px;overflow:hidden;border-bottom:3px dashed #ffffff40;margin:40px 0 0}
+.cr{position:absolute;bottom:6px;left:0;width:80px;height:112px;animation:runx 10s linear infinite;filter:drop-shadow(6px 10px 6px #0008)}
+.cr svg{width:100%;height:100%;overflow:visible;animation:bob .42s ease-in-out infinite alternate}
+.cr .arm{transform-origin:55px 96px;animation:wave .42s ease-in-out infinite alternate}
+.cr .nm{position:absolute;bottom:-4px;left:34px;font-size:12px;color:var(--dim)}
+.r2{animation-delay:-3.3s}.r3{animation-delay:-6.6s}
+@keyframes runx{from{transform:translateX(-100px)}to{transform:translateX(calc(100vw + 30px))}}
+@keyframes bob{to{transform:translateY(-8px) rotate(3deg)}}
+@keyframes wave{to{transform:rotate(-16deg)}}
+@media (max-width:420px){.tlogo i{display:none}}
+@media (prefers-reduced-motion:reduce){.cr{animation:none}.r1{left:20%}.r2{left:45%}.r3{left:70%}}
+</style>
+</head>
 <body>
 <canvas class="grain" id="grain" aria-hidden="true"></canvas>
-<header class="bar">
-  <a class="logo" href="../index.html">뚱꼬떡<span>.</span></a>
-  <nav class="nav" aria-label="메뉴"><a href="../works.html">만든 것</a><a href="../hire.html">맡기기</a><a href="../index.html#team">팀</a><a href="../index.html#news">소식</a><a href="../index.html#finish" class="nav-cta">문의</a></nav>
-  <div class="hud num" aria-label="이 페이지에서 달린 거리"><small>달린 거리</small><b id="hudKm">0.00</b>km</div>
-  <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu"><i aria-hidden="true"></i>메뉴</button>
-</header>
-<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="메뉴">
-  <div class="menu-top"><a class="logo" href="../index.html">뚱꼬떡<span>.</span></a><button class="menu-close" id="menuClose" type="button">닫기 ✕</button></div>
-  <ol><li><a href="../works.html"><b class="num">01</b><span>만든 것</span><small>지나온 코스</small></a></li><li><a href="../hire.html"><b class="num">02</b><span>맡기기</span><small>같이 달려요</small></a></li><li><a href="../index.html#team"><b class="num">03</b><span>팀</span><small>꼬·뚱·떡</small></a></li><li><a href="../index.html#news"><b class="num">04</b><span>소식</span><small>달리기 기록</small></a></li><li><a href="../index.html#finish"><b class="num">05</b><span>문의</span><small>결승선</small></a></li></ol>
-  <p class="menu-foot">카카오톡에서 <b>@ddggdd</b> 검색</p>
-</div>
+<header class="top"><a class="tlogo" href="/">뚱꼬떡<i>THREE PEOPLE.<br>ONE WORKTABLE.</i></a><div class="hud num" aria-label="이 페이지에서 달린 거리"><b id="hudKm">0.00</b>km</div><button class="mbtn" id="mbtn" aria-haspopup="dialog">메뉴 <span>＋</span></button></header>
+<div class="help" id="help" role="dialog" aria-modal="true" aria-label="메뉴"><div class="helpbox"><button class="close" id="close" aria-label="닫기">×</button><span class="kicker">MENU</span><a class="hhome" href="/">← 첫 화면 작업대로</a><nav class="hmenu"><a href="/works.html"><b>01</b>만든 것<small>사진통 · 사진보드 · MPD Run · 홈페이지</small></a><a href="/mpdrun/" aria-current="page"><b>02</b>MPD Run 앱<small>휴대폰·갤럭시워치 러닝 앱 받기</small></a><a href="/hire.html"><b>03</b>맡기기<small>이야기 → 첫 시안 → 고치기 → 오픈하고도 같이</small></a><a href="/files.html"><b>04</b>자료실<small>앱 받기 · 설치 도움말 · 개인정보 처리방침</small></a><a href="https://pf.kakao.com/_yFIWX/chat" target="_blank" rel="noopener"><b>05</b>카카오톡으로 이야기하기<small>@ddggdd</small></a></nav></div></div>
 
 
 <section class="start" aria-labelledby="t">
@@ -191,16 +220,13 @@
 </section>
 
 <main class="course" id="course">
-  <svg id="route" aria-hidden="true"><path class="ghost" id="ghost"></path><path class="lit" id="lit"></path><circle class="dot" id="dot" r="8"></circle></svg>
+  <svg id="route" aria-hidden="true"><path class="ghost" id="ghost"/><path class="lit" id="lit"/><circle class="dot" id="dot" r="8"/></svg>
 
   <section class="km" data-km="1" aria-labelledby="k1">
     <div class="mark num"><b>1</b><span>km</span></div>
     <h2 id="k1">귀에 대고 말하는<br>완주 코치</h2>
     <div class="stage g-coach">
-      <div class="watch" id="watch" aria-hidden="true">
-        <div class="ring"></div>
-        <div class="face"><div class="app">목표보다</div><div class="dist num">−1:35</div><div class="unit">빨리 들어와요</div><div class="btn">▶ <span class="num" id="watchKm">0.00</span> km</div></div>
-      </div>
+      <figure class="rw" id="watch"><img src="../img/watch-graph.jpg" alt="달리는 중 시계 화면: 심박·페이스·고도 그래프" width="480" height="480" loading="lazy"><figcaption>실제 시계 화면 · 달리는 중</figcaption><span id="watchKm" hidden></span></figure>
       <div class="bubble">🔊 “이대로면 목표보다<br><b>1분 35초 빨리</b> 들어와요”</div>
       <ul class="chips">
         <li><i>⏱</i>남은 길 필요 페이스</li>
@@ -217,18 +243,19 @@
       <div class="card" aria-label="공유 카드 예시">
         <div class="ct"><b>아침 한강 러닝</b><span>10월 26일 · 러닝</span></div>
         <svg class="map" viewBox="0 0 300 170" aria-hidden="true">
-          <defs><pattern id="gr" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#e3dccb" stroke-width="1"></path></pattern></defs>
-          <rect width="300" height="170" fill="#f4f0e6"></rect><rect width="300" height="170" fill="url(#gr)"></rect>
-          <path d="M0 120 C60 100 90 140 150 118 S240 70 300 86" fill="none" stroke="#9cc8e8" stroke-width="14" opacity=".7"></path>
-          <circle cx="40" cy="60" r="26" fill="#ff6b1c" opacity=".14"></circle><circle cx="40" cy="60" r="26" fill="none" stroke="#ff6b1c" stroke-dasharray="4 4" opacity=".7"></circle>
-          <path d="M58 70 C100 40 130 90 170 70 S230 40 262 58" fill="none" stroke="#ff6b1c" stroke-width="5" stroke-linecap="round"></path>
-          <circle cx="262" cy="58" r="7" fill="#fff" stroke="#ff6b1c" stroke-width="4"></circle>
+          <defs><pattern id="gr" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#e3dccb" stroke-width="1"/></pattern></defs>
+          <rect width="300" height="170" fill="#f4f0e6"/><rect width="300" height="170" fill="url(#gr)"/>
+          <path d="M0 120 C60 100 90 140 150 118 S240 70 300 86" fill="none" stroke="#9cc8e8" stroke-width="14" opacity=".7"/>
+          <circle cx="40" cy="60" r="26" fill="#ff6b1c" opacity=".14"/><circle cx="40" cy="60" r="26" fill="none" stroke="#ff6b1c" stroke-dasharray="4 4" opacity=".7"/>
+          <path d="M58 70 C100 40 130 90 170 70 S230 40 262 58" fill="none" stroke="#ff6b1c" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="262" cy="58" r="7" fill="#fff" stroke="#ff6b1c" stroke-width="4"/>
         </svg>
         <div class="home">🏠 집 근처 500m 가림</div>
         <div class="ph"><img src="../img/mpdrun-hero-wide.jpg" alt="" width="1600" height="900"><img src="../img/team.jpg" alt="" width="1000" height="1000" style="object-position:50% 85%"></div>
         <div class="st"><span><b>10.0</b>km</span><span><b>58:20</b>시간</span><span><b>5'50"</b>/km</span></div>
       </div>
       <p class="cap">공유 카드 예시 · 카톡으로 보내면 앱 없이 열려요</p>
+      <figure class="rw sm"><img src="../img/watch-map.jpg" alt="시계 지도 화면: 산길을 따라 달린 길" width="480" height="480" loading="lazy"><figcaption>실제 시계 지도 화면</figcaption></figure>
     </div>
   </section>
 
@@ -247,18 +274,20 @@
     </div>
   </section>
 
+  <div class="track" aria-hidden="true"><div class="cr c1 r1" aria-hidden="true"><svg viewBox="0 0 130 180" aria-hidden="true"><defs><linearGradient id="coral" x2="1" y2="1"><stop stop-color="#ff9d78"/><stop offset="1" stop-color="#ef6549"/></linearGradient></defs><path d="M40 139L30 166 8 166M87 139L105 162 122 159" fill="none" stroke="#202d45" stroke-width="11" stroke-linecap="round"/><path class="arm" d="M31 98L8 86 4 65M101 96L123 80" fill="none" stroke="#f5b79a" stroke-width="10" stroke-linecap="round"/><rect x="23" y="26" width="88" height="123" rx="39" fill="url(#coral)"/><path d="M36 45Q65 26 97 47" fill="none" stroke="#ffba92" stroke-width="3"/><ellipse cx="53" cy="76" rx="10" ry="14" fill="#fffbe6"/><ellipse cx="80" cy="76" rx="10" ry="14" fill="#fffbe6"/><g class="eye" fill="#253447"><ellipse cx="56" cy="79" rx="4" ry="7"/><ellipse cx="83" cy="79" rx="4" ry="7"/></g><path d="M57 104Q68 112 80 101" fill="none" stroke="#823e35" stroke-width="3" stroke-linecap="round"/><text x="65" y="133" fill="#823e35" font-size="13" text-anchor="middle" font-family="Arial">01</text></svg><span class="nm">꼬</span></div><div class="cr c2 r2" aria-hidden="true"><svg viewBox="0 0 130 180" aria-hidden="true"><defs><linearGradient id="lime" x2="1" y2="1"><stop stop-color="#f4f5b1"/><stop offset="1" stop-color="#c3d56f"/></linearGradient></defs><path d="M43 145L35 166 17 169M86 145L96 167 116 170" fill="none" stroke="#202d45" stroke-width="10" stroke-linecap="round"/><path class="arm" d="M25 99L5 78M102 97L123 75 116 58" fill="none" stroke="#d6df8d" stroke-width="11" stroke-linecap="round"/><path d="M22 65Q20 21 65 20T111 65L118 115Q120 150 65 153T12 115Z" fill="url(#lime)"/><ellipse cx="49" cy="76" rx="10" ry="13" fill="#fffef0"/><ellipse cx="78" cy="76" rx="10" ry="13" fill="#fffef0"/><g class="eye" fill="#253447"><ellipse cx="47" cy="79" rx="4" ry="6"/><ellipse cx="76" cy="79" rx="4" ry="6"/></g><path d="M56 103Q65 109 75 103" fill="none" stroke="#6d7d38" stroke-width="3"/><text x="65" y="135" fill="#6d7d38" font-size="13" text-anchor="middle" font-family="Arial">02</text></svg><span class="nm">뚱</span></div><div class="cr c3 r3" aria-hidden="true"><svg viewBox="0 0 130 180" aria-hidden="true"><defs><linearGradient id="white" x2="1" y2="1"><stop stop-color="#fffdf2"/><stop offset="1" stop-color="#cdd9e4"/></linearGradient></defs><path d="M43 141L35 165 17 169M83 141L94 167 114 167" fill="none" stroke="#202d45" stroke-width="10" stroke-linecap="round"/><path class="arm" d="M27 97L4 77M101 97L124 84" fill="none" stroke="#dce1de" stroke-width="10" stroke-linecap="round"/><rect x="22" y="35" width="88" height="112" rx="24" fill="url(#white)"/><path d="M29 51Q66 34 103 51" stroke="#fff" stroke-width="3" fill="none"/><ellipse cx="51" cy="80" rx="10" ry="13" fill="#fff"/><ellipse cx="78" cy="80" rx="10" ry="13" fill="#fff"/><g class="eye" fill="#253447"><ellipse cx="53" cy="82" rx="4" ry="6"/><ellipse cx="80" cy="82" rx="4" ry="6"/></g><path d="M58 106L72 106" stroke="#63788b" stroke-width="3" stroke-linecap="round"/><text x="65" y="133" fill="#63788b" font-size="13" text-anchor="middle" font-family="Arial">03</text></svg><span class="nm">떡</span></div></div>
   <section class="finish" id="finish" aria-labelledby="f">
     <div class="tape" aria-hidden="true"><i></i><i></i></div>
     <h2 id="f">결승선.<br>이제 받아 보세요.</h2>
     <p>안드로이드 휴대폰과 갤럭시워치에서 쓸 수 있어요.</p>
+    <figure class="rw home"><img src="../img/watch-home.jpg" alt="갤럭시워치 MPD Run 첫 화면: 이번 주 거리와 러닝 시작 단추" width="480" height="480" loading="lazy"><figcaption>실제 시계 첫 화면</figcaption></figure>
     <div class="dl">
       <a class="kakao" href="https://gilbertgo.github.io/mapdiary/run.html">휴대폰 앱 받기 →</a>
       <a class="sec2" href="https://github.com/GilbertGo/mapdiary/releases/download/watch/MPD_run_watch.apk">갤럭시워치 앱 받기 →</a>
     </div>
-    <p class="made">만든 곳: <a href="../index.html">뚱꼬떡 개발팀</a></p>
+    <p class="made">만든 곳: <a href="/">뚱꼬떡 개발팀</a></p>
   </section>
 </main>
-<footer><nav aria-label="아래 메뉴"><a href="../works.html">만든 것</a><a href="../hire.html">맡기기</a><a href="../index.html#team">팀</a><a href="../index.html#news">소식</a><a href="../index.html#finish">문의</a></nav>뚱꼬떡 개발팀 · 카카오톡 채널 @ddggdd · 2026년 10월 26일 업데이트</footer>
+<footer><nav aria-label="아래 메뉴"><a href="/">첫 화면</a><a href="/works.html">만든 것</a><a href="/mpdrun/">MPD Run</a><a href="/hire.html">맡기기</a><a href="/files.html">자료실</a><a href="https://pf.kakao.com/_yFIWX/chat">카카오톡</a></nav>뚱꼬떡 개발팀 · 카카오톡 채널 @ddggdd · 2026년 10월 26일 업데이트</footer>
 <script src="../site.js"></script>
 <script>
 (function(){
@@ -335,6 +364,8 @@
   size();frame();addEventListener('resize',size);
 })();
 </script>
-
-
-</body></html>
+<script>(function(){var h=document.getElementById('help'),b=document.getElementById('mbtn'),c=document.getElementById('close');
+b.onclick=function(){h.classList.add('open');c.focus()};function shut(){h.classList.remove('open');b.focus()}c.onclick=shut;
+h.addEventListener('click',function(e){if(e.target===h)shut()});addEventListener('keydown',function(e){if(e.key==='Escape'&&h.classList.contains('open'))shut()})})();</script>
+</body>
+</html>
