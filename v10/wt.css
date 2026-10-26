@@ -95,7 +95,7 @@ section{position:relative;padding:0 6%}
 .ktxt h2{font-size:clamp(34px,7vw,56px);font-weight:900;letter-spacing:-.05em;line-height:1.15;margin:12px 0}
 .ktxt p{font-size:18px;color:#dfe4ff;max-width:26em}
 .kfig{position:relative}
-.wch{width:230px;height:250px;margin:0 auto;border-radius:66px;background:#cbd68e;padding:16px;box-shadow:14px 20px 30px #0a145055;position:relative}
+.wch{width:230px;height:250px;margin:60px auto 56px;border-radius:66px;background:#cbd68e;padding:16px;box-shadow:14px 20px 30px #0a145055;position:relative}
 .wch:before,.wch:after{content:'';position:absolute;left:60px;right:60px;height:60px;background:#b9c47c;z-index:-1}
 .wch:before{top:-52px;border-radius:18px 18px 0 0}.wch:after{bottom:-52px;border-radius:0 0 18px 18px}
 .face{height:100%;border-radius:52px;background:#111a2c;color:#e4efaf;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
