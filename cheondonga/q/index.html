@@ -86,8 +86,8 @@ textarea:focus,input:focus{outline:2px solid var(--red);outline-offset:1px}
     <p class="why-sec">누구를 겨냥할지 정하는 질문입니다. 손님마다 가게를 찾는 앱이 완전히 다릅니다. 한국 손님은 네이버, 영어권은 Google 지도, 중국 손님은 중국 앱을 씁니다.</p>
 
     <div class="q"><h3><b>2-1</b>손님 구성은 대략 어떻게 되나요?</h3>
-      <p class="why"><strong>왜 묻나요:</strong> 관리자님이 "중국 손님이 가장 많다"고 하셨는데, 그 비율이 얼마인지에 따라 중국 앱에 힘을 쏟을 가치가 달라집니다. 예를 들어 중국 손님이 절반이라면, 중국 앱에서 '제주 흑돼지' 1등이 되는 것이 네이버 정리보다 훨씬 큰 변화일 수 있습니다.</p>
-      <div class="grid2"><label>한국인<input type="text" name="r_kr" placeholder="예: 40%"></label><label>중국인<input type="text" name="r_cn" placeholder="예: 35%"></label><label>영어권<input type="text" name="r_en" placeholder="예: 15%"></label><label>기타(일본·동남아 등)<input type="text" name="r_etc" placeholder="예: 10%"></label></div>
+      <p class="why"><strong>왜 묻나요:</strong> 관리자님이 "중국 손님이 가장 많다"고 하셨는데, 그 비율이 얼마인지에 따라 중국 앱에 힘을 쏟을 가치가 달라집니다. 일본·동남아 손님도 따로 적어 주세요. 예를 들어 중국 손님이 절반이라면, 중국 앱에서 '제주 흑돼지' 1등이 되는 것이 네이버 정리보다 훨씬 큰 변화일 수 있습니다.</p>
+      <div class="grid2"><label>한국인<input type="text" name="r_kr" placeholder="예: 40%"></label><label>중국인<input type="text" name="r_cn" placeholder="예: 35%"></label><label>영어권<input type="text" name="r_en" placeholder="예: 15%"></label><label>일본인<input type="text" name="r_jp" placeholder="예: 5%"></label><label>동남아(대만·홍콩 포함)<input type="text" name="r_sea" placeholder="예: 5%"></label><label>기타<input type="text" name="r_etc" placeholder="예: 0%"></label></div>
     </div>
 
     <div class="q"><h3><b>2-2</b>어떤 손님이 많나요? (여러 개 골라도 됩니다)</h3>
@@ -119,7 +119,15 @@ textarea:focus,input:focus{outline:2px solid var(--red);outline-offset:1px}
       <textarea name="en_note" placeholder="덧붙일 말"></textarea>
     </div>
 
-    <div class="q"><h3><b>3-3</b>한국 손님은요?</h3>
+    <div class="q"><h3><b>3-3</b>일본·동남아 손님은요?</h3>
+      <p class="why"><strong>왜 묻나요:</strong> 일본·동남아 손님은 중국·영어권 손님과 또 다른 앱과 여행 정보를 봅니다. 이 손님들이 꽤 오는데 지금 홈페이지·예약 화면에 그 나라 말이 없다면, 일본어 화면이나 그쪽 여행 앱에 자리를 잡는 것이 새 기회가 될 수 있습니다. 거의 안 온다면 여기는 건너뛰고 힘을 아낍니다.</p>
+      <div class="chips" data-name="jp_route">
+        <label><input type="checkbox" value="Google 지도">Google 지도</label><label><input type="checkbox" value="인스타·틱톡">인스타·틱톡</label><label><input type="checkbox" value="여행 앱(클룩·KKday 등)">여행 앱(클룩·KKday 등)</label><label><input type="checkbox" value="일본 여행 정보 사이트">일본 여행 정보 사이트</label><label><input type="checkbox" value="여행사·가이드">여행사·가이드</label><label><input type="checkbox" value="호텔 추천">호텔 추천</label><label><input type="checkbox" value="거의 안 옴">거의 안 옴</label><label><input type="checkbox" value="모름">모름</label>
+      </div>
+      <textarea name="jp_note" placeholder="어느 나라 손님이 많은지, 일본어·태국어 등 메뉴판이 필요한지"></textarea>
+    </div>
+
+    <div class="q"><h3><b>3-4</b>한국 손님은요?</h3>
       <p class="why"><strong>왜 묻나요:</strong> 네이버 리뷰가 8,428개로 이미 강합니다. 한국 손님이 네이버로 충분히 오고 있다면 여기는 정리만 하고, 힘은 다른 손님층에 씁니다. 인스타·블로그로 많이 온다면 영상이 효과적일 수 있습니다.</p>
       <div class="chips" data-name="kr_route">
         <label><input type="checkbox" value="네이버 지도·검색">네이버 지도·검색</label><label><input type="checkbox" value="블로그">블로그</label><label><input type="checkbox" value="인스타">인스타</label><label><input type="checkbox" value="유튜브">유튜브</label><label><input type="checkbox" value="지인 소개·재방문">지인 소개·재방문</label><label><input type="checkbox" value="호텔·택시 기사 추천">호텔·택시 기사 추천</label>
@@ -127,7 +135,7 @@ textarea:focus,input:focus{outline:2px solid var(--red);outline-offset:1px}
       <textarea name="kr_note" placeholder="덧붙일 말"></textarea>
     </div>
 
-    <div class="q"><h3><b>3-4</b>지금 손님을 보내 주는 호텔·여행사·가이드·택시 기사가 있나요?</h3>
+    <div class="q"><h3><b>3-5</b>지금 손님을 보내 주는 호텔·여행사·가이드·택시 기사가 있나요?</h3>
       <p class="why"><strong>왜 묻나요:</strong> 중문 관광단지 호텔 컨시어지가 추천하는 가게가 되면 외국 손님이 꾸준히 옵니다. 이미 관계가 있다면 넓히고, 없다면 찾아갈 곳을 정합니다. 수수료를 주고 있다면 그 조건도 알아야 다른 방법과 비교할 수 있습니다.</p>
       <textarea name="partner" placeholder="예: ○○호텔 컨시어지가 가끔 추천, 수수료 없음"></textarea>
     </div>
