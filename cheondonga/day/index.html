@@ -7,7 +7,7 @@
 <meta name="check" content="no-tel">
 <title>낮 시간 채우기 제안</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<!-- 2026-10-31 성식 님 "유건에게 종합 보고서. 과장하지 말고, 광범위하고 다양한 분석 결과를 바탕으로 한 제안서. 검토 과정도 포함. 내가 어떤 요구와 질문을 했는지도". 근거: 10/31 통화 받아쓰기(원문 저장 안 함), 구글 지도 조회 10/31, 웹 자료 링크. -->
+<!-- v2 2026-10-31 성식 님 "내가 요구했어야 하는 것 다 반영, 잘 분석해서". v1 기록: 2026-10-31 성식 님 "유건에게 종합 보고서. 과장하지 말고, 광범위하고 다양한 분석 결과를 바탕으로 한 제안서. 검토 과정도 포함. 내가 어떤 요구와 질문을 했는지도". 근거: 10/31 통화 받아쓰기(원문 저장 안 함), 구글 지도 조회 10/31, 웹 자료 링크. -->
 <style>
 :root{--bg:#FAF8F4;--card:#fff;--ink:#1A1816;--mute:#6E675E;--line:#E7E0D4;--red:#D8261C;--red2:#F6D9D6;--blue:#2F5D8A;--blue2:#DCE7F2;--ok:#1F6447;--ok2:#DCEFE5;color-scheme:light}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15130F;--card:#1F1C18;--ink:#EEE9E1;--mute:#A79F94;--line:#34302A;--red:#FF6B5E;--red2:#3A2220;--blue:#8FB6E0;--blue2:#1E2A36;--ok:#6FCB9F;--ok2:#1C2C24;color-scheme:dark}}
@@ -130,6 +130,15 @@ td small{color:var(--mute);display:block;font-size:13px;line-height:1.45}.ideas 
 .ask ol{margin:8px 0 0;padding-left:1.3em}.ask li{margin:6px 0}
 footer{margin-top:40px;font-size:.8125rem;color:var(--mute)}footer a{color:var(--mute)}
 @media (max-width:560px){.grid2{grid-template-columns:1fr}.mis.m4{grid-template-columns:repeat(2,1fr)}.hrs .bar,.sim .bar{grid-template-columns:112px 1fr 52px}.cover h1{font-size:1.75rem}}
+.opt{position:relative}.opt p{margin:6px 0 0;font-size:.9375rem}.opt-k{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--red);color:#fff;font-weight:800;margin-right:8px}
+.fail{border-left:4px solid var(--red)}.fail ol{padding-left:1.3em}
+.prompts{margin:0;padding-left:1.4em}.prompts li{margin:12px 0}.prompts b{display:block}
+.prompts code{display:block;margin-top:4px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:.9375rem;white-space:normal}
+.assume{min-width:0}.assume td:nth-child(3){font-size:.875rem;color:var(--mute)}
+.crit li{margin:8px 0}
+@media (max-width:560px){.assume tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}.assume tr:first-child{display:none}.assume td{display:block;border:0;padding:2px 10px}.assume td:first-child{font-weight:700}}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.cc dl{margin:10px 0 0;font-size:.9375rem}.cc dt{color:var(--mute);font-size:.8125rem;margin-top:8px}.cc dd{margin:0;font-weight:600}@media (max-width:760px){.grid3{grid-template-columns:1fr}}
+td small{color:var(--mute);display:block;font-size:13px;line-height:1.45}
 </style>
 </head>
 <body>
@@ -137,16 +146,16 @@ footer{margin-top:40px;font-size:.8125rem;color:var(--mute)}footer a{color:var(-
 <div class="cover">
   <div class="who">유건 관리자님께 · 2026-10-31 · ddggdd 팀</div>
   <h1>낮 11:30~17:00,<br><em>이렇게 채워 보면 어떨까요</em></h1>
-  <p>10월 31일 통화에서 하신 말씀을 출발점으로, 여러 방법을 찾아보고 계산해 본 제안입니다. 자료로 확인한 것은 <span class="tag t-ok">확인</span>, 저희 판단이나 가정은 <span class="tag t-g">짐작</span>으로 표시했습니다. 맨 아래에 어떻게 만들었는지(검토 과정)와, AI에게 어떻게 물었는지도 적었습니다.</p>
-  <div class="one">한 줄로: <b>큰돈 들이지 않고 4주 동안 두 가지를 시험해 보자</b>는 제안입니다. ① 점심 "미니 오마카세" 세트를 만들어 지도에 올리기 ② 외국인용 "흑돼지 시식 코스" 체험 상품 등록 준비. 잘될지는 아직 모릅니다. 그래서 작게 해 보고 숫자로 판단하자는 것입니다.<small>아래 계산은 모두 가정입니다. 관리자님이 재료비와 낮 손님 숫자를 알려 주시면 다시 계산합니다.</small></div>
+  <p>정해 드리는 계획이 아니라 <b>의견을 여쭙는 아이디어 모음</b>입니다. 10월 31일 통화에서 하신 말씀에서 출발해 여러 방법을 찾고, 잘될 이유와 실패할 이유를 함께 따져 봤습니다. 자료로 확인한 것은 <span class="tag t-ok">확인</span>, 저희 판단이나 가정은 <span class="tag t-g">짐작</span>으로 표시했습니다.</p>
+  <div class="one">한 줄로: 낮을 채울 방법 중 <b>먼저 의견을 여쭙고 싶은 것은 ① 점심 세트(일반형 또는 미니 오마카세형) ② 외국인용 흑돼지 시식 코스 체험</b>입니다. 둘 다 큰돈 없이 작게 시험해 볼 수 있습니다. 관리자님 의견을 받은 뒤, 고르신 안만 실제 숫자로 다시 계산하겠습니다.<small>아래 금액은 감을 잡기 위한 가정이고, 재료비만 뺀 금액입니다(인건비·숯·반찬·카드 수수료는 빼지 않음). 의견은 카톡으로 번호와 한 줄씩 보내 주셔도 됩니다.</small></div>
 </div>
 
 <section>
 <h2><span class="n">01</span>관리자님 고민</h2>
 <p class="sub">10/31 통화 요지입니다. 자동 받아쓰기라 말씀 그대로가 아닐 수 있습니다.</p>
 <div class="worries">
-<div class="card w"><i>1</i><div><b>낮에 손님이 적다</b><span>11:30에 열어 17시 전까지 평균 2~3팀. 이 시간에 외국인 손님이 더 왔으면 좋겠다. 한국 손님은 낮에 고기를 좀 부담스러워해 잘 안 오신다.</span></div></div>
-<div class="card w"><i>2</i><div><b>닫기보다 채우고 싶다</b><span>성식 님이 "그 시간은 안 여는 것도 나쁘지 않겠다"고 하자 "그것도 맞겠네요… 그 시간을 채울 방법을 생각해 볼게요."</span></div></div>
+<div class="card w"><i>1</i><div><b>낮에 손님이 적다</b><span>11:30에 열어 17시 전까지 평균 2~3팀. 이 시간에 외국인 손님이 더 왔으면 좋겠다. 한국 손님은 낮에 고기를 좀 부담스러워해 잘 안 오신다. 걸어 들어오는 외국인 손님은 꽤 있고, 네이버를 보고 오시는 것 같다.</span></div></div>
+<div class="card w"><i>2</i><div><b>닫기보다 채우고 싶다</b><span>그 시간은 안 여는 것도 나쁘지 않겠다는 성식 님 말씀에 "그것도 맞겠네"라고 하시면서도, "그 시간을 채울 방법을 생각해 볼게요."</span></div></div>
 <div class="card w"><i>3</i><div><b>강점은 고기 맛, 그리고 단골</b><span>관광객도 오지만 도민 단골이 많다. 구워 주는 건 다들 해서 비슷하고 고기 맛이 강점이다. 예전 천돈가를 기억하는 손님이 "다시 생겨 좋다"고 많이 하신다.</span></div></div>
 </div>
 </section>
@@ -163,45 +172,45 @@ footer{margin-top:40px;font-size:.8125rem;color:var(--mute)}footer a{color:var(-
 <div><b>11:00</b><span>캐치테이블 (10/27)</span></div>
 <div><b>12:00</b><span>Wanderlog<br>(외국 여행 앱)</span></div>
 </div>
-<p class="src">구글은 10/27에 12:00~22:00이었는데 오늘 11:30~23:00으로 바뀌어 있습니다(관리자님이 고치신 것으로 보입니다). 외국 여행 앱 Wanderlog에는 아직 "12–10PM"으로 나옵니다. 낮 손님을 받으려면 "11:30부터 연다"가 어디서나 보여야 합니다. <a href="https://wanderlog.com/place/details/2379673/cheondonga-jungmun" target="_blank" rel="noopener">Wanderlog 천돈가</a></p>
+<p class="src">구글은 10/27에 12:00~22:00이었는데 오늘 11:30~23:00으로 바뀌어 있습니다(직접 고치셨다면 잘하셨습니다). 외국 여행 앱 Wanderlog에는 아직 "12–10PM"으로 나옵니다. 지금 정보: <a href="https://www.google.com/maps/place/?q=place_id:ChIJd1Fp4-tbDDURH7yrM2pmlBw" target="_blank" rel="noopener">구글 지도</a> · <a href="https://map.naver.com/p/search/%EC%B2%9C%EB%8F%88%EA%B0%80%20%EC%A4%91%EB%AC%B8%ED%9D%91%EB%8F%BC%EC%A7%80" target="_blank" rel="noopener">네이버 지도</a> · <a href="https://app.catchtable.co.kr/ct/shop/cheondonga_jungmun" target="_blank" rel="noopener">캐치테이블</a>. 낮 손님을 받으려면 "11:30부터 연다"가 어디서나 보여야 합니다. <a href="https://wanderlog.com/place/details/2379673/cheondonga-jungmun" target="_blank" rel="noopener">Wanderlog 천돈가</a></p>
 </div>
 
 <div class="card" style="margin-top:12px">
 <b>근처 고깃집은 대부분 더 일찍 엽니다</b>
 <p class="src" style="margin-top:4px">구글 지도에서 "중문 흑돼지 점심 특선"으로 찾은 8곳과 천돈가. 막대 = 정오 전에 열려 있는 시간.</p>
 <div class="bars hrs">
-<div class="bar"><span class="l">그때그집 숙성</span><span class="t"><i style="width:72%"></i></span><span class="r">9:50</span></div>
-<div class="bar"><span class="l">흑돼지집 하영</span><span class="t"><i style="width:67%"></i></span><span class="r">10:00</span></div>
-<div class="bar"><span class="l">중문흑돼지&amp;사해방</span><span class="t"><i style="width:50%"></i></span><span class="r">10:30</span></div>
-<div class="bar"><span class="l">돌담흑돼지</span><span class="t"><i style="width:33%"></i></span><span class="r">11:00</span></div>
-<div class="bar"><span class="l">烤肉 (일주서로)</span><span class="t"><i style="width:33%"></i></span><span class="r">11:00</span></div>
-<div class="bar"><span class="l">돈65 중문본점</span><span class="t"><i style="width:33%"></i></span><span class="r">11:00</span></div>
+<div class="bar"><span class="l"><a href="https://www.google.com/maps/place/?q=place_id:ChIJF-cXnJBbDDURMQTaDfkuX74" target="_blank" rel="noopener">그때그집 숙성</a></span><span class="t"><i style="width:72%"></i></span><span class="r">9:50</span></div>
+<div class="bar"><span class="l"><a href="https://www.google.com/maps/place/?q=place_id:ChIJJcz1bpVaDDURUSlcS-RUPOI" target="_blank" rel="noopener">흑돼지집 하영</a></span><span class="t"><i style="width:67%"></i></span><span class="r">10:00</span></div>
+<div class="bar"><span class="l"><a href="https://www.google.com/maps/place/?q=place_id:ChIJydsL4Z5aDDURuE4DAOCna9M" target="_blank" rel="noopener">중문흑돼지&amp;사해방</a></span><span class="t"><i style="width:50%"></i></span><span class="r">10:30</span></div>
+<div class="bar"><span class="l"><a href="https://www.google.com/maps/place/?q=place_id:ChIJQWkQNyZbDDURIjSoWAFsE6w" target="_blank" rel="noopener">돌담흑돼지</a></span><span class="t"><i style="width:33%"></i></span><span class="r">11:00</span></div>
+<div class="bar"><span class="l"><a href="https://www.google.com/maps/place/?q=place_id:ChIJDaUylAhbDDURB2B5cYs5NhY" target="_blank" rel="noopener">烤肉 (일주서로)</a></span><span class="t"><i style="width:33%"></i></span><span class="r">11:00</span></div>
+<div class="bar"><span class="l"><a href="https://www.google.com/maps/place/?q=place_id:ChIJGR_kNYFbDDUR_jpcQBQZqXk" target="_blank" rel="noopener">돈65 중문본점</a></span><span class="t"><i style="width:33%"></i></span><span class="r">11:00</span></div>
 <div class="bar me"><span class="l">천돈가</span><span class="t"><i style="width:17%"></i></span><span class="r">11:30</span></div>
-<div class="bar"><span class="l">초풍</span><span class="t"><i style="width:17%"></i></span><span class="r">11:30</span></div>
-<div class="bar"><span class="l">중문흑돼지천국</span><span class="t"><i style="width:0%"></i></span><span class="r">12:00</span></div>
+<div class="bar"><span class="l"><a href="https://www.google.com/maps/place/?q=place_id:ChIJI3tpuC5bDDURsAOsoCxWX50" target="_blank" rel="noopener">초풍</a></span><span class="t"><i style="width:17%"></i></span><span class="r">11:30</span></div>
+<div class="bar"><span class="l"><a href="https://www.google.com/maps/place/?q=place_id:ChIJKYHxLQhQDDURg9S_zC2OH50" target="_blank" rel="noopener">중문흑돼지천국</a></span><span class="t"><i style="width:0%"></i></span><span class="r">12:00</span></div>
 </div>
-<p class="src">구글 지도 영업시간(2026-10-31 조회). 실제와 다를 수 있습니다. 돈65는 월요일 휴무.</p>
+<p class="src">구글 지도 영업시간(2026-10-31 조회). 이름을 누르면 구글 지도가 열립니다. 실제와 다를 수 있습니다. 돈65는 월요일 휴무.</p>
 </div>
 
 <div class="grid2" style="margin-top:12px">
 <div class="card">
-<b>근처 가게에 점심을 먹었다는 후기가 있습니다</b>
+<b>근처 가게 후기에 점심 이야기가 나옵니다</b>
 <ul class="mini">
 <li>烤肉: 점심 세트가 값어치 한다는 후기</li>
 <li>사해방: 점심 특선 10,000원이라는 후기</li>
 <li>돈65: 점심때 가 보라는 후기</li>
 <li>하영: 점심으로 세트를 먹었다는 후기</li>
 </ul>
-<p class="src">구글 후기 한두 개씩입니다. 지금도 그 메뉴를 파는지는 확인하지 않았습니다.</p>
+<p class="src">위 가게 이름 링크의 구글 후기에서 한두 개씩 본 것입니다. 지금도 그 메뉴를 파는지는 확인하지 않았습니다.</p>
 </div>
 <div class="card">
 <b>천돈가 위치와 손님</b>
 <ul class="mini">
-<li>천제연폭포(9:00~17:10)에서 직선 약 1.7km</li>
+<li><a href="https://www.google.com/maps/place/?q=place_id:ChIJozuCFo9aDDURaxOUfc-g5Tk" target="_blank" rel="noopener">천제연폭포</a>(9:00~17:10)에서 직선 약 1.7km</li>
 <li>"롯데호텔 근처에서 먹을 곳을 네이버 지도로 찾았다, 호텔에서 차로 10분이 안 걸린다" 후기</li>
 <li>"직원이 영어는 거의 못 했지만 반찬 조합과 먹는 법을 보여 줬다" 후기</li>
 </ul>
-<p class="src">구글 장소 정보·후기(10/31 조회). 거리는 좌표로 계산.</p>
+<p class="src">천돈가 <a href="https://www.google.com/maps/place/?q=place_id:ChIJd1Fp4-tbDDURH7yrM2pmlBw" target="_blank" rel="noopener">구글 지도</a> 후기(10/31 조회). 거리는 좌표로 계산.</p>
 </div>
 </div>
 
@@ -209,61 +218,83 @@ footer{margin-top:40px;font-size:.8125rem;color:var(--mute)}footer a{color:var(-
 <div class="card">
 <b>낮에 섬에 머무는 손님층: 크루즈</b> <span class="tag t-g">짐작</span>
 <div class="big">57.7%</div>
-<p style="margin:0;font-size:.9375rem">2026년 1~8월 한국에 온 크루즈 손님 약 128만 명 중 중국인 비율. 서귀포항이 절반 넘게 받았습니다.</p>
-<p class="src"><a href="https://www.twig24.com/news/world/2026/10/25/20261025500025" target="_blank" rel="noopener">기사 2026-10-25</a> · 손님들이 어디서 무엇을 먹는지는 기사에 없습니다.</p>
+<ul class="mini">
+<li>2026년 1~8월 한국에 온 크루즈 손님 약 128만 명 중 중국인 비율, 서귀포항이 절반 넘게 받음(<a href="https://www.twig24.com/news/world/2026/10/25/20261025500025" target="_blank" rel="noopener">기사 10/25</a>)</li>
+<li>강정항은 2025년 크루즈 약 202척·64만 명 넘게 올 것으로 예상(2025년 5월 기준 예상치, 실제 결과는 확인 못 함, <a href="https://www.newsis.com/view/NISX20250513_0003173906" target="_blank" rel="noopener">뉴시스 2025-05-13</a>)</li>
+<li>서귀포시가 5/28 크루즈 <b>승무원</b> 30명 대상 투어를 했고, 코스에 천제연폭포가 있었음. 식사 이야기는 없음(<a href="https://www.headlinejeju.co.kr/news/articleView.html?idxno=593676" target="_blank" rel="noopener">헤드라인제주</a>)</li>
+</ul>
+<p class="src">손님·승무원이 어디서 무엇을 먹는지는 기사에 없습니다.</p>
 </div>
 <div class="card">
-<b>Klook "흑돼지 거리" 페이지에 흑돼지 구이 체험이 없습니다</b>
+<b>저희가 본 체험 판매 사이트 두 곳에 흑돼지 구이 체험이 없습니다</b>
 <div class="big">0개</div>
-<p style="margin:0;font-size:.9375rem">Klook 제주 "흑돼지 거리" 페이지에 흑돼지 구이 체험 상품이 없습니다. 같은 페이지의 막걸리 시음 체험은 약 3만 원대, 평점 5.0(후기 9개), 50명 넘게 예약. Trip.com은 아직 보지 않았습니다.</p>
-<p class="src"><a href="https://www.klook.com/en-AU/destination/p50208110-black-pork-street/1-things-to-do/" target="_blank" rel="noopener">Klook 페이지</a> · 수수료는 보통 15~35%, 업체마다 협상(<a href="https://www.bokun.io/?p=7181" target="_blank" rel="noopener">Bókun 2026 안내</a>)</p>
+<ul class="mini">
+<li>Klook 제주 "흑돼지 거리" 페이지: 흑돼지 구이 체험 없음. 같은 페이지 막걸리 시음 체험은 AUD 35.25(약 3만 원대), 평점 5.0(후기 9개), 50명 넘게 예약(<a href="https://www.klook.com/en-AU/destination/p50208110-black-pork-street/1-things-to-do/" target="_blank" rel="noopener">Klook</a>)</li>
+<li><a href="https://www.trip.com/things-to-do/list?keyword=jeju%20black%20pork" target="_blank" rel="noopener">Trip.com</a> 영어 사이트 "jeju black pork" 체험 검색: 결과 1개, "흑돼지 거리" 관광지(무료)뿐</li>
+<li>Klook은 사업자등록 업체만 받고, 신청부터 판매까지 보통 2~4주, 수수료는 보통 15~35%로 협상(<a href="https://www.bokun.io/?p=7181" target="_blank" rel="noopener">Bókun 2026 안내</a>)</li>
+</ul>
+<p class="src">10/31 조회. 중국어 사이트와 다른 판매 사이트는 보지 않았습니다.</p>
 </div>
 </div>
 </section>
 
 <section>
-<h2><span class="n">03</span>넓게 찾아본 방법 10가지</h2>
-<p class="sub">앞서 나온 12가지 중 겹치는 것을 합쳤습니다. "낮에 제주에 있는 사람이 누구인가"에서 출발했습니다. 판단은 모두 <span class="tag t-g">짐작</span></p>
+<h2><span class="n">03</span>넓게 찾아본 방법 11가지</h2>
+<p class="sub">"낮에 제주에 있는 사람이 누구인가"에서 출발해 찾은 것 중 겹치는 것을 합쳤습니다. 판단은 모두 <span class="tag t-g">짐작</span></p>
 <div class="tbl"><table class="ideas">
 <tr><th>방법</th><th>손님</th><th>품</th><th>판단</th></tr>
-<tr class="pick"><td><b>점심 미니 오마카세 세트</b><br><small>먹는 순서 4단계를 양만 줄인 1~2인 세트</small></td><td>모두</td><td>적음</td><td><span class="j j1">먼저 시험</span></td></tr>
-<tr class="pick"><td><b>지도·홈페이지에 점심 올리기</b><br><small>네이버·구글 메뉴와 사진, 홈페이지</small></td><td>모두</td><td>적음</td><td><span class="j j1">세트와 함께</span></td></tr>
-<tr class="pick"><td><b>흑돼지 시식 코스 체험 상품</b><br><small>Trip.com·Klook에 평일 14·15시 판매</small></td><td>외국인</td><td>중간</td><td><span class="j j1">준비 시작</span></td></tr>
-<tr><td><b>여는 시간 맞추기</b><br><small>캐치테이블·여행 앱을 11:30으로</small></td><td>모두</td><td>적음</td><td><span class="j j1">바로</span></td></tr>
-<tr><td><b>호텔 프런트에 중국어·영어 메뉴판</b><br><small>인쇄 시안 있음</small></td><td>외국인</td><td>중간</td><td><span class="j j2">다음 단계</span></td></tr>
-<tr><td><b>크루즈 손님</b><br><small>여행사와 거래</small></td><td>중국인</td><td>큼</td><td><span class="j j2">알아보기만</span></td></tr>
-<tr><td><b>공항 가기 전·체크인 전 손님</b><br><small>캐리어 맡아 주기</small></td><td>관광객</td><td>적음</td><td><span class="j j2">되면 알리기</span></td></tr>
-<tr><td><b>저녁 대기 손님을 이른 시간으로</b><br><small>16~17시 안내</small></td><td>모두</td><td>적음</td><td><span class="j j3">저녁 대기가 있으면</span></td></tr>
-<tr><td><b>포장 세트</b><br><small>숙소·해변 손님</small></td><td>관광객</td><td>중간</td><td><span class="j j3">허가 확인 후</span></td></tr>
-<tr><td><b>낮에 문 닫기·늦게 열기</b><br><small>인건비 줄이기</small></td><td>—</td><td>적음</td><td><span class="j j3">마지막 선택</span></td></tr>
+<tr class="pick"><td><b>A. 일반 점심 세트</b><small>고기 소량 + 찌개·밥, 근처 점심 특선과 비슷한 형태</small></td><td>모두</td><td>적음</td><td><span class="j j1">의견 여쭙기</span></td></tr>
+<tr class="pick"><td><b>B. 점심 미니 오마카세</b><small>먹는 순서 4단계를 양만 줄인 1~2인 세트</small></td><td>모두</td><td>적음</td><td><span class="j j1">의견 여쭙기</span></td></tr>
+<tr class="pick"><td><b>흑돼지 시식 코스 체험 상품</b><small>Trip.com·Klook에 평일 14·15시 판매</small></td><td>외국인</td><td>중간</td><td><span class="j j1">의견 여쭙기</span></td></tr>
+<tr><td><b>여는 시간 맞추기</b><small>캐치테이블·여행 앱을 11:30으로</small></td><td>모두</td><td>적음</td><td><span class="j j1">바로 하면 좋음</span></td></tr>
+<tr><td><b>지도·홈페이지에 점심 올리기</b><small>점심 세트를 하게 되면 함께</small></td><td>모두</td><td>적음</td><td><span class="j j1">세트와 함께</span></td></tr>
+<tr><td><b>호텔 프런트에 중국어·영어 메뉴판</b><small>인쇄 시안 있음</small></td><td>외국인</td><td>중간</td><td><span class="j j2">다음 단계</span></td></tr>
+<tr><td><b>크루즈 손님·승무원</b><small>여행사·시 투어와 연결</small></td><td>외국인</td><td>큼</td><td><span class="j j2">알아보기만</span></td></tr>
+<tr><td><b>공항 가기 전·체크인 전 손님</b><small>캐리어 맡아 주기</small></td><td>관광객</td><td>적음</td><td><span class="j j2">보관이 되면 지도에 알리기</span></td></tr>
+<tr><td><b>저녁 대기 손님을 이른 시간으로</b><small>16~17시 안내</small></td><td>모두</td><td>적음</td><td><span class="j j3">저녁 대기가 있으면</span></td></tr>
+<tr><td><b>포장 세트</b><small>숙소·해변 손님</small></td><td>관광객</td><td>중간</td><td><span class="j j3">허가 확인 후</span></td></tr>
+<tr><td><b>낮에 문 닫기·늦게 열기</b><small>인건비 줄이기</small></td><td>—</td><td>적음</td><td><span class="j j3">마지막 선택</span></td></tr>
 </table></div>
 <p class="src">포장: 생고기를 팔려면 별도 허가(식육판매업)가 필요할 수 있습니다. 배달앱은 수수료가 있습니다. 중문 호텔 직원 점심 할인도 생각했지만 근거가 없어 표에서 뺐습니다.</p>
 </section>
 
 <section>
-<h2><span class="n">04</span>추천 ① 점심 미니 오마카세 + 지도</h2>
-<p class="sub">근처 1만 원 점심 특선(사해방 후기) 같은 가게와 값으로 다투지 않고, 천돈가 강점(부위별 순서)을 작게 맛보게 합니다.</p>
-<div class="card">
-<b>세트 모양 (예시, 관리자님이 정할 것)</b>
+<h2><span class="n">04</span>점심 세트: 두 가지 모양</h2>
+<p class="sub">처음에는 A(일반형)를 생각했다가, 근처 가게들과 값으로 다투게 될 수 있어 B(미니 오마카세형)를 더했습니다. 어느 쪽이 맞을지는 관리자님이 가장 잘 아십니다.</p>
+<div class="grid2">
+<div class="card opt">
+<span class="opt-k">A</span><b>일반 점심 세트</b>
+<p>고기 소량 + 김치찌개 같은 찌개 + 밥. 근처 점심 특선과 비슷한 형태.</p>
+<ul class="mini">
+<li><b>좋은 점</b>: 단순해서 바로 시작, 한국 손님에게 익숙</li>
+<li><b>걱정</b>: 근처에 1만 원 특선(사해방 후기)이 있어 값 경쟁이 될 수 있고, "싼 집"으로 보일 수 있음</li>
+</ul>
+</div>
+<div class="card opt">
+<span class="opt-k">B</span><b>점심 미니 오마카세</b>
 <ol class="course">
 <li><b>목살</b> · 첫 점은 소금</li>
 <li><b>솔지살</b> (목덜미) · 바질</li>
 <li><b>쫀득살</b> · 된장깻잎과 바질</li>
 <li><b>쫀득살</b> · 상추와 파채, 멸치살젓</li>
 </ol>
-<p style="margin:10px 0 0;font-size:.9375rem">+ 찌개 또는 국수 하나. <b>평일 · 1~2인 · 양 적게</b>로 묶어 저녁 메뉴와 겹치지 않게 합니다.</p>
-<p class="src">순서는 관리자님 10/27 카톡 그대로입니다. 지금 있는 식사류: 김치찌개 8,000 · 꽃게라면 12,000 · 볶음밥 8,000 · 열무국수 8,000(캐치테이블 8/31).</p>
+<ul class="mini">
+<li><b>좋은 점</b>: 천돈가 강점을 작게 맛보게 해 근처와 다름</li>
+<li><b>걱정</b>: 직원 손이 더 가고, 값이 올라가면 낮 한국 손님은 더 적을 수 있음</li>
+</ul>
 </div>
+</div>
+<p class="src">B의 순서는 관리자님 10/27 카톡 그대로입니다. 지금 있는 식사류: 김치찌개 8,000 · 꽃게라면 12,000 · 볶음밥 8,000 · 열무국수 8,000(캐치테이블 8/31). 두 모양 모두 <b>평일 · 1~2인 · 적은 양</b>으로 묶으면 저녁 메뉴와 겹치지 않습니다. <span class="tag t-g">짐작</span></p>
 
 <div class="card" style="margin-top:12px">
-<b>계산해 보면 <span class="tag t-g">짐작</span></b>
-<p class="src" style="margin-top:4px">가정: 1인 15,000원 · 재료비 40% · 낮에는 인건비가 늘지 않음 · 지금 낮 손님 한 팀은 고기 500g(55,000)+식사 1(8,000) = 63,000원</p>
+<b>감 잡기 계산 <span class="tag t-g">짐작</span></b>
+<p class="src" style="margin-top:4px">가격을 아직 정하지 않아 A·B 같은 값으로 계산했습니다. 가정은 아래 07장 표에 모았습니다.</p>
 <div class="calc">
-<div><span>새 손님 2인 한 팀이 남기는 돈</span><b class="pos">+18,000원</b></div>
+<div><span>새 손님 2인 한 팀 · 재료비 뺀 금액</span><b class="pos">+18,000원</b></div>
 <div><span>원래 오던 한 팀이 세트로 바꾸면</span><b class="neg">−19,800원</b></div>
 </div>
-<p style="margin:10px 0 0;font-size:.9375rem"><b>원래 손님이 세트로 옮겨 가면, 새 손님이 그보다 더 와야 본전입니다.</b> 그래서 세트를 평일·1~2인·적은 양으로 묶는 게 성공 조건입니다.</p>
-<p class="src" style="margin-top:14px">한 달(평일 22일) 남는 돈 · 원래 한 팀이 세트로 바꾼다고 가정</p>
+<p style="margin:10px 0 0;font-size:.9375rem"><b>원래 손님이 세트로 옮겨 가면, 새 손님이 그보다 더 와야 본전입니다.</b> 그래서 평일·1~2인·적은 양으로 묶는 게 성공 조건입니다.</p>
+<p class="src" style="margin-top:14px">한 달(평일 22일) 재료비 뺀 금액 · 원래 한 팀이 세트로 바꾼다고 가정</p>
 <div class="bars sim">
 <div class="bar neg"><span class="l">안 될 때 +1팀/일</span><span class="t"><i style="width:0%"></i></span><span class="r">−4만</span></div>
 <div class="bar"><span class="l">보통 +3팀/일</span><span class="t"><i style="width:39%"></i></span><span class="r">+75만</span></div>
@@ -272,196 +303,208 @@ footer{margin-top:40px;font-size:.8125rem;color:var(--mute)}footer a{color:var(-
 <p class="src">원래 손님이 옮겨 가지 않으면 "안 될 때"도 한 달 +40만 원. 술·고기 추가 주문은 넣지 않았습니다.</p>
 </div>
 
-<div class="grid2 pc" style="margin-top:12px">
-<div class="card pros"><h3>잘될 이유</h3><ul>
-<li>이미 문을 연 시간이라 인건비가 늘지 않는다면 재료비만 듭니다.</li>
-<li>근처 가게에 점심을 먹었다는 후기가 있습니다.</li>
-<li>손님이 보는 네이버·구글 지도에 올리면 보입니다(반영까지 걸리는 시간은 확인 필요).</li>
-<li>평판이 좋습니다: 네이버 4.81·리뷰 8,428(10/23), 구글 4.5·후기 498(10/31).</li>
-</ul></div>
-<div class="card cons"><h3>안 될 이유</h3><ul>
-<li>근처 대부분이 더 일찍 열고 점심 특선도 있습니다.</li>
-<li>싸게 팔면 "싼 집"으로 보일 수 있습니다.</li>
-<li>한국 손님은 낮 고기를 덜 드십니다(관리자님 말씀).</li>
-<li>원래 손님이 옮겨 가면 손해입니다.</li>
-</ul></div>
+<div class="card fail" style="margin-top:12px">
+<b>4주 뒤 실패했다면, 이유는 아마</b>
+<ol class="mini">
+<li><b>아무도 몰랐다</b>: 지도·매장 앞에 안 보였다. → 시작 첫날 지도와 매장 앞에 같이 올리기</li>
+<li><b>원래 손님만 옮겨 갔다</b>: 낮 팀 수는 그대로, 매출만 줄었다. → 세트 수와 원래 메뉴 주문을 따로 세기</li>
+<li><b>한국 손님은 낮 고기를 안 찾았다</b>: 관리자님 말씀대로. → 외국 손님 비율을 같이 적기</li>
+<li><b>점심 피크 때 일손이 부족했다</b>: B형이면 더. → 지금 직원으로 되는지 먼저 정하기(사람을 더 쓰면 그만큼 위 금액이 줄어듦)</li>
+</ol>
 </div>
-<p class="src">지도에 올린 뒤 흐름(짐작): 첫날 가게 페이지에 보임 → 2~4주 후기에 "점심"이 쌓임 → 1~2달 뒤 위 세 경우 중 어디인지 드러남.</p>
 </section>
 
 <section>
-<h2><span class="n">05</span>추천 ② 흑돼지 시식 코스 체험 상품</h2>
+<h2><span class="n">05</span>흑돼지 시식 코스 체험 상품</h2>
 <p class="sub">같은 4단계를 외국인용 "체험"으로 판매 사이트에 올립니다. 평일 14:00·15:00, 2~6명, 미리 결제.</p>
 <div class="card">
-<b>준비할 것</b>
+<b>모양 (예시)</b>
 <ul class="mini">
-<li>이름 예시: <i>Jeju Black Pork Tasting Course · 济州黑猪品鉴套餐</i></li>
-<li>설명은 영어·중국어 <b>먹는 법 카드</b>로(시안 있음). 말로 하는 외국어 설명 없이도 안내할 수 있습니다.</li>
-<li>올릴 곳: Trip.com(천돈가 페이지가 이미 있음, 중국 손님이 많이 쓴다고 알려짐 <span class="tag t-g">짐작</span>) 또는 Klook(홍콩·대만·동남아 손님이 많이 쓴다고 알려짐 <span class="tag t-g">짐작</span>). 처음엔 한 곳만.</li>
+<li>이름 예시: <i>Jeju Black Pork Tasting Course · 济州黑猪品鉴套餐</i> (번역 검수 전)</li>
+<li>설명은 영어·중국어 <b>먹는 법 카드</b>로(시안 있음, 번역 검수 전). 말로 하는 외국어 설명 없이도 안내할 수 있습니다.</li>
+<li>올릴 곳: Trip.com(천돈가 식당 페이지는 있지만 체험 판매 등록 조건은 아직 확인 못 함) 또는 Klook. 어느 쪽 손님이 더 맞을지는 판단 근거가 없어 관리자님 경험을 여쭙고 싶습니다. 처음엔 한 곳만.</li>
+<li>Klook 기준으로 사업자등록이 필요하고, 신청부터 판매까지 보통 2~4주(Bókun 안내).</li>
 </ul>
 </div>
 <div class="card" style="margin-top:12px">
-<b>계산해 보면 <span class="tag t-g">짐작</span></b>
+<b>감 잡기 계산 <span class="tag t-g">짐작</span></b>
 <p class="src" style="margin-top:4px">가정: 1인 40,000원 · 한 예약 2명 · 수수료 25% · 재료비 판매가의 40%</p>
 <div class="calc">
-<div><span>예약 한 건(2명)이 남기는 돈</span><b class="pos">+28,000원</b></div>
+<div><span>예약 한 건(2명) · 수수료·재료비 뺀 금액</span><b class="pos">+28,000원</b></div>
 <div><span>수수료 15% ↔ 35%면</span><b>36,000 ↔ 20,000원</b></div>
 </div>
-<p class="src" style="margin-top:14px">한 달 남는 돈</p>
+<p class="src" style="margin-top:14px">한 달 수수료·재료비 뺀 금액(평일만 판매, 한 달 4.3주)</p>
 <div class="bars sim">
 <div class="bar"><span class="l">안 될 때 주 1건</span><span class="t"><i style="width:6%"></i></span><span class="r">+12만</span></div>
 <div class="bar"><span class="l">보통 주 5건</span><span class="t"><i style="width:31%"></i></span><span class="r">+60만</span></div>
 <div class="bar"><span class="l">잘될 때 주 15건</span><span class="t"><i style="width:93%"></i></span><span class="r">+181만</span></div>
 </div>
-<p class="src">평일만 판매, 한 달 4.3주로 계산. 막대 길이는 ①과 같은 잣대(194만 = 100%)입니다.</p>
+<p class="src">막대 길이는 04장과 같은 잣대(194만 = 100%)입니다.</p>
 </div>
-<div class="grid2 pc" style="margin-top:12px">
-<div class="card pros"><h3>좋은 점</h3><ul>
-<li>미리 결제라 노쇼 걱정이 적습니다.</li>
-<li>빈 시간에만 팔아 손해 위험이 작습니다.</li>
-<li>천돈가 강점이 그대로 상품이 됩니다.</li>
-<li>판매 사이트 후기가 저녁 손님으로 이어질 수 있습니다(짐작).</li>
-</ul></div>
-<div class="card cons"><h3>조심할 점</h3><ul>
-<li>수수료 때문에 가격을 잘못 잡으면 남는 게 적습니다.</li>
-<li>어차피 올 손님이 사이트로 예약하면 수수료만큼 덜 받습니다.</li>
-<li>후기 0개로 시작해 첫 1~2달은 느릴 수 있습니다(짐작).</li>
-<li>업체 등록·심사 기간은 아직 모릅니다.</li>
-</ul></div>
+<div class="card fail" style="margin-top:12px">
+<b>석 달 뒤 실패했다면, 이유는 아마</b>
+<ol class="mini">
+<li><b>후기가 0개라 아무도 안 샀다</b>: 새 상품은 처음이 느릴 수 있음. → 매장에 오는 외국 손님에게 먼저 코스를 권해 반응 보기</li>
+<li><b>원래 올 손님이 사이트로 예약해 수수료만 냈다</b>. → 판매 시간을 낮으로만 묶기</li>
+<li><b>가격을 잘못 잡아 남는 게 없었다</b>: 수수료 15~35%. → 가격은 수수료를 뺀 금액으로 계산</li>
+<li><b>등록·심사에서 멈췄다</b>: 서류나 조건이 맞지 않았다. → 신청 전 조건부터 묻기</li>
+</ol>
 </div>
 </section>
 
 <section>
-<h2><span class="n">06</span>두 안을 나란히</h2>
-<div class="tbl"><table class="cmp">
-<tr><th></th><th>① 점심 세트</th><th>② 시식 코스 체험</th></tr>
-<tr><td>2인 한 팀에 남는 돈</td><td>18,000원</td><td>28,000원</td></tr>
-<tr><td>손님</td><td>한국인·외국인 모두</td><td>외국인</td></tr>
-<tr><td>시작 속도</td><td>빠를 것 (지도에 올리면 됨) <span class="tag t-g">짐작</span></td><td>느릴 것 (가입·심사·후기) <span class="tag t-g">짐작</span></td></tr>
-<tr><td>손해 위험</td><td>원래 손님이 옮기면 큼</td><td>작음</td></tr>
-<tr><td>한 달 "보통" 경우 (가정)</td><td>약 75만 원</td><td>약 60만 원</td></tr>
-</table></div>
-<p class="src">저희 생각: ①은 빨리, ②는 천천히 쌓입니다. ①을 먼저 시작하고 ②는 등록을 같이 진행해 두면 한두 달 뒤 둘이 겹쳐 낮을 채울 수 있습니다. <span class="tag t-g">짐작</span></p>
+<h2><span class="n">06</span>세 가지를 나란히</h2>
+<div class="grid3">
+<div class="card cc"><span class="opt-k">A</span><b>일반 점심</b><dl>
+<dt>손님</dt><dd>한국인·외국인</dd><dt>천돈가다움</dt><dd>보통</dd><dt>시작 속도</dt><dd>빠를 것</dd><dt>손해 위험</dt><dd>원래 손님이 옮기면 큼</dd><dt>직원 손</dt><dd>적음</dd><dt>2인 한 팀 (재료비 뺀 금액, 가정)</dt><dd>약 18,000원</dd></dl></div>
+<div class="card cc"><span class="opt-k">B</span><b>미니 오마카세</b><dl>
+<dt>손님</dt><dd>한국인·외국인</dd><dt>천돈가다움</dt><dd>강함</dd><dt>시작 속도</dt><dd>빠를 것</dd><dt>손해 위험</dt><dd>원래 손님이 옮기면 큼</dd><dt>직원 손</dt><dd>더 감</dd><dt>2인 한 팀 (재료비 뺀 금액, 가정)</dt><dd>약 18,000원</dd></dl></div>
+<div class="card cc"><span class="opt-k">체</span><b>시식 코스 체험</b><dl>
+<dt>손님</dt><dd>외국인</dd><dt>천돈가다움</dt><dd>강함</dd><dt>시작 속도</dt><dd>느릴 것 (2~4주 심사 + 후기)</dd><dt>손해 위험</dt><dd>작음 (미리 결제, 빈 시간만)</dd><dt>직원 손</dt><dd>더 감</dd><dt>2인 한 팀 (수수료·재료비 뺀 금액, 가정)</dt><dd>약 28,000원</dd></dl></div>
+</div>
+<p class="src">"천돈가다움", "직원 손", 시작 속도는 저희 판단입니다 <span class="tag t-g">짐작</span>. 점심 세트는 빨리, 체험은 천천히 쌓일 것으로 봅니다. 둘을 같이 진행하면 한두 달 뒤 겹쳐 낮을 채울 수 있습니다.</p>
 </section>
 
 <section>
-<h2><span class="n">07</span>4주 시험과 멈출 기준</h2>
-<div class="phase p1"><span class="dot"></span><h3>시작 전 <small>1주</small></h3>
+<h2><span class="n">07</span>가장 싸고 빠르게 시험하는 법</h2>
+<p class="sub">돈과 시간을 거의 안 쓰고 "될 것 같은지"부터 보는 방법입니다. <span class="tag t-g">짐작</span></p>
+<div class="phase p1"><span class="dot"></span><h3>오늘 할 수 있는 것 <small>0원</small></h3>
 <ul class="steps">
-<li><b>낮 팀 수 기록 시작 (지금 수준 재기)</b><span>관리자님 · 영수증 시간으로 하루 한 줄</span></li>
-<li><b>캐치테이블 여는 시간 11:30으로</b><span>관리자님</span></li>
-<li><b>세트 구성·가격 정하기</b><span>관리자님 · 계산은 저희가 다시</span></li>
+<li><b>캐치테이블 여는 시간을 11:30으로</b><span>관리자님 계정</span></li>
+<li><b>낮 팀 수를 종이에 바를 정(正) 자로 세기 시작</b><span>지금 수준을 알아야 나중에 비교할 수 있음</span></li>
 </ul></div>
-<div class="phase p2"><span class="dot"></span><h3>시험 <small>4주 · 평일</small></h3>
+<div class="phase p2"><span class="dot"></span><h3>점심 세트 2주 시험 <small>재료비만</small></h3>
 <ul class="steps">
-<li><b>세트 사진·문구를 네이버·구글·홈페이지에</b><span>저희가 문구·번역, 지도 등록은 관리자님 계정</span></li>
-<li><b>체험 상품 판매 사이트 가입 준비</b><span>사업자·계좌는 관리자님, 소개 글·사진은 저희</span></li>
+<li><b>사진 촬영·인쇄 없이 시작</b><span>네이버 메뉴에 한 줄(반영 시간 확인 필요) + 매장 앞 안내 + 낮 손님에게 직원이 권하기</span></li>
+<li><b>세트 수와 원래 메뉴 주문을 따로 세기</b><span>"원래 손님이 옮겨 갔는지"가 가장 중요한 숫자</span></li>
+<li><b>반응이 좋으면 그때 사진·홈페이지·중국어·영어 문구</b><span>저희가 준비</span></li>
 </ul></div>
-<div class="phase p3"><span class="dot"></span><h3>4주 뒤</h3>
+<div class="phase p3"><span class="dot"></span><h3>체험은 등록 전에 반응부터 <small>0원</small></h3>
 <ul class="steps">
-<li><b>새 손님이 하루 1팀 넘게 늘지 않거나, 원래 손님이 세트로 많이 옮겨 가면 세트는 접는 것을 권합니다</b><span>같은 기록으로 비교 · 결정은 관리자님</span></li>
+<li><b>낮에 오는 외국 손님에게 먹는 법 카드로 4단계 코스를 권해 보기</b><span>반응이 좋으면 판매 사이트 신청(2~4주)</span></li>
 </ul></div>
+
 <div class="card" style="margin-top:14px">
-<b>기록 양식 (하루 한 줄)</b>
-<div class="tbl"><table class="log">
-<tr><th>날짜</th><th>11:30~14시 팀</th><th>14~17시 팀</th><th>점심 세트 수</th><th>외국 손님 팀</th></tr>
-<tr><td>11/2 (월)</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>11/3 (화)</td><td></td><td></td><td></td><td></td></tr>
+<b>계산에 쓴 가정 (모두 짐작, 의견 받은 뒤 실제 숫자로 바꿀 것)</b>
+<div class="tbl"><table class="assume">
+<tr><th>가정</th><th>값</th><th>이렇게 잡은 이유</th></tr>
+<tr><td>점심 세트 1인 가격</td><td>15,000원</td><td>근처 1만 원 특선(후기)과 저녁 메뉴 사이</td></tr>
+<tr><td>재료비</td><td>판매가의 40%</td><td>근거 없음, 가장 큰 가정. 숯·반찬·카드 수수료는 계산에 넣지 않음</td></tr>
+<tr><td>낮 인건비</td><td>늘지 않음</td><td>이미 문을 연 시간. 단, B·체험에 사람을 더 써야 하면 그만큼 줄어듦</td></tr>
+<tr><td>지금 낮 한 팀 지출</td><td>63,000원</td><td>고기 500g(55,000) + 식사 1(8,000)</td></tr>
+<tr><td>한 달</td><td>평일 22일 / 4.3주</td><td>점심 세트·체험 모두 평일만</td></tr>
+<tr><td>체험 1인 가격 · 수수료</td><td>40,000원 · 25%</td><td>수수료 범위 15~35%의 가운데</td></tr>
 </table></div>
 </div>
 </section>
 
 <section>
 <div class="card ask">
-<h2>관리자님께 여쭤볼 것</h2>
+<h2>관리자님 의견을 여쭙니다</h2>
 <ol>
-<li>재료비가 판매가의 몇 % 정도인지 (계산의 가장 큰 가정)</li>
-<li>지금 낮 손님 한 팀이 보통 얼마를 쓰시는지</li>
-<li>1인 손님을 받으시는지</li>
-<li>낮에 한 테이블 전담으로 구워 드릴 직원 여유가 있는지</li>
-<li>저녁에 기다리는 손님이 실제로 많은지</li>
-<li>Trip.com과 Klook 중 손님에게 들어 보신 곳이 있는지</li>
-<li>캐리어를 맡아 드릴 수 있는지</li>
+<li>세 가지(A 일반 점심 / B 미니 오마카세 / 시식 코스 체험) 중 해 보고 싶은 것과, 아닌 것과 그 이유</li>
+<li>저희가 모르는 "이건 안 된다"는 이유 (주방, 직원, 단골, 근처 사정 등)</li>
+<li>이미 해 보셨거나 생각해 보신 방법</li>
+<li>낮에 한 테이블 전담으로 구워 드릴 여유가 있는지</li>
+<li>외국 손님에게 Trip.com·Klook 이야기를 들어 보신 적이 있는지</li>
+<li>03장 다른 방법 중 눈에 들어오는 것, 또는 관리자님 아이디어</li>
 </ol>
+<p class="src">카톡으로 번호와 한 줄씩 보내 주셔도 됩니다. 다음 단계: 고르신 안만 실제 숫자로 다시 계산 → 시험 계획을 함께 정함. 그때 여쭐 숫자는 세 가지입니다: 재료비가 판매가의 몇 %인지, 지금 낮 손님 한 팀 평균 금액, 낮에 1인 손님이 오시는지.</p>
 </div>
 </section>
 
 <section class="review">
 <h2><span class="n">08</span>검토 과정</h2>
-<p class="sub">이 제안을 어떻게 만들었는지 그대로 적었습니다. 관리자님도 AI로 같은 일을 해 보실 수 있게요.</p>
+<p class="sub">이 제안을 어떻게 만들었는지 그대로 적었습니다.</p>
 
 <div class="card">
-<b>성식 님이 AI에게 한 요구와 질문 (순서대로, 10/31 오후)</b>
+<b>성식 님이 AI에게 한 요구와 질문 (10/31 오후, 순서대로)</b>
 <ol class="asks">
 <li><q>이거 유건이와 통화한 거야. 분석해봐</q><span>통화 녹음을 받아써 고민·새 사실·물어볼 것을 뽑음</span></li>
 <li><q>목표 낮시간 채우기. 외국인이든 내국인이든. 이걸로 여러 가지 제안해봐</q><span>목표를 한 줄로 정함 → 방법 6가지</span></li>
 <li><q>점심세트 지도 올리기 해서 시뮬레이션해봐. 어떤 결과를 얻을지</q><span>가정을 세워 계산 → "원래 손님이 옮기면 손해"를 발견</span></li>
-<li><q>잘될지 분석해봐</q><span>잘될 이유·안될 이유를 근거와 함께 → "미니 오마카세"로 고침</span></li>
+<li><q>잘될지 분석해봐</q><span>잘될 이유·안 될 이유 → 미니 오마카세형(B)을 생각해 냄</span></li>
 <li><q>또 다른 아이디어 내봐</q><span>"낮에 제주에 있는 사람"에서 6가지 더</span></li>
 <li><q>2번을 더 얘기해보자</q><span>체험 상품을 실제 판매 사이트에서 확인</span></li>
-<li><q>이 안도 시뮬레이션해봐</q><span>같은 방법으로 계산 → 두 안 비교</span></li>
+<li><q>이 안도 시뮬레이션해봐</q><span>같은 방법으로 계산 → 비교</span></li>
 <li><q>유건에게 종합 보고서 써 줘. 시각화된 html로</q><span>받는 사람과 모양을 정함</span></li>
 <li><q>과장하지 말고, 광범위하고 다양한 분석 결과를 바탕으로 한 제안서. 검토 과정도 포함할 것</q><span>이 문서의 기준</span></li>
 <li><q>내가 어떤 요구와 질문을 했는지도 포함해 줘</q><span>이 목록</span></li>
-<li><q>유건이도 AI를 잘 활용하도록 돕기 위한 거니까, 내가 좀 더 요구했어야 하는 것 있으면 알려 줘</q><span>09장</span></li>
+<li><q>유건이도 AI를 잘 활용하도록 돕기 위한 거니까, 내가 좀 더 요구했어야 하는 것 있으면 알려 줘</q><span>더 요구했으면 좋았을 것 여섯 가지를 찾음 → 아래 기준, 09장</span></li>
+<li><q>실제 숫자는 아직 줄 수 없어. 유건이에게 우선 아이디어 제공하고 피드백 받고 그다음에 할 거야</q><span>"정한 계획"이 아니라 "의견 여쭙기"로 바꿈</span></li>
+<li><q>일부 표현은 빼 줘</q><span>뺌</span></li>
+<li><q>점심세트는 왜 뺐어? 좋다고 했으면 빼더라도 얘기는 해 주고 빼야지</q><span>일반형(A)을 다시 넣어 B와 나란히 둠</span></li>
+<li><q>내가 요구했어야 하는 거 다 반영해서 제안서 작성해</q><span>아래 여섯 가지 기준을 넣음</span></li>
+<li><q>이것까지도 내가 요구한 것으로 넣어</q><span>여섯 가지를 성식 님 요구로 적음</span></li>
+<li><q>잘 분석해서 적어. 시간 들여서</q><span>근거 더 찾기(크루즈 기사 2건, Trip.com, 판매사 등록 조건), 실패 이유, 가정 표, 두 번째 별도 검토</span></li>
 </ol>
+</div>
+
+<div class="card" style="margin-top:12px">
+<b>성식 님이 이 제안서에 요구한 기준</b>
+<ul class="mini crit">
+<li><b>누가 읽는지</b>: 유건 관리자님. 지금은 아이디어에 대한 의견을 받는 단계 → 표지와 마지막 질문을 의견 중심으로</li>
+<li><b>실패한다면 이유는?</b> → 04·05장에 "실패했다면 이유는 아마"</li>
+<li><b>확인과 짐작을 나누고 출처 링크를</b> → 모든 사실에 날짜·출처, 판단에는 짐작 표시</li>
+<li><b>가장 싸고 빠르게 시험할 방법은?</b> → 07장</li>
+<li><b>가정은 숨기지 말고 한곳에</b> → 07장 가정 표(실제 숫자는 의견을 받은 뒤)</li>
+<li><b>다른 AI에게 검토받기</b> → 아래 "별도 검토"</li>
+</ul>
 </div>
 
 <div class="card" style="margin-top:12px">
 <b>AI가 한 일과 확인 방법</b>
 <ul class="mini">
 <li><b>통화 받아쓰기</b>: 녹음 파일을 음성 인식 프로그램(whisper)으로 글로 바꿈. 잘못 들린 말이 있어 요지만 씀.</li>
-<li><b>지도 자료</b>: 구글 지도에서 천돈가·근처 고깃집 8곳·천제연폭포의 영업시간·후기·좌표를 조회(10/31).</li>
-<li><b>웹 검색</b>: 크루즈 기사, Klook 페이지, 수수료 안내, 여행 앱(Wanderlog) 천돈가 페이지를 직접 열어 봄.</li>
-<li><b>계산</b>: 가정을 적고 같은 식으로 두 안을 계산. 가정이 틀리면 결과도 바뀝니다.</li>
-<li><b>별도 검토</b>: 같은 AI를 새 세션(이 문서를 만든 대화를 모르는 상태)으로 띄워 "문장마다 근거가 있는지, 과장이 없는지, 계산이 맞는지" 다시 보게 함.</li>
+<li><b>지도 자료</b>: 구글 지도에서 천돈가·근처 고깃집 8곳·천제연폭포의 영업시간·후기·좌표를 조회(10/31). 링크 형식은 한 곳을 직접 열어 확인.</li>
+<li><b>웹 자료</b>: 크루즈 기사 3건, Klook·Trip.com 체험 검색, 판매 사이트 등록 안내, Wanderlog 천돈가 페이지를 직접 열어 봄. 네이버는 이번 도구로 열 수 없어 10/23·27에 본 값을 씀.</li>
+<li><b>계산</b>: 가정을 적고 같은 식으로 계산. 가정이 틀리면 결과도 바뀝니다.</li>
+<li><b>별도 검토</b>: 같은 AI를 이 대화를 모르는 새 세션으로 띄워 "문장마다 근거가 있는지, 과장이 없는지, 계산이 맞는지" 다시 보게 함(두 번).</li>
 </ul>
 </div>
 
 <div class="card" style="margin-top:12px">
 <b>검토하며 고친 것</b>
 <ul class="mini" id="fixes">
-<li>업계 용어 설명 링크 하나가 열어 보지 않은 링크였고, 열리지 않아 다른 글로 바꿈.</li>
 <li>구글 영업시간이 10/27과 달라진 것을 발견해 새 값(11:30~23:00)으로 고침.</li>
-<li>"점심 세트"를 10,000원대 특선으로 생각했다가, 근처 가게와 값으로 다투게 된다는 분석 뒤 "미니 오마카세"로 바꿈.</li>
-<li><b>별도 검토에서 16가지 지적</b>을 받아 고침. 큰 것: ① 세트는 평일만인데 한 달을 30일로 계산 → 평일 22일로(보통 경우 103만 → 75만 원) ② 후기 인용이 원문보다 더 나간 두 곳(호텔에 "묵다가", "부위별")을 원문대로 ③ 근거가 한두 개뿐인 문장에 짐작 표시 ④ 성식 님 요구 목록에 빠진 세 가지 추가 ⑤ 날짜가 다른 자료(네이버 10/23·10/27)에 날짜 표시.</li>
+<li><b>첫 번째 별도 검토(16가지)</b>: 평일만 파는데 한 달을 30일로 계산 → 평일 22일로(보통 경우 103만 → 75만 원) / 후기 인용이 원문보다 더 나간 두 곳(호텔에 "묵다가", "부위별")을 원문대로 / 근거가 한두 개뿐인 문장에 짐작 표시 / 날짜가 다른 자료에 날짜 표시.</li>
+<li>성식 님이 좋다고 한 일반 점심 세트를 미니 오마카세로 바꾸면서 분명히 말하지 않았음 → 두 모양을 나란히 다시 넣음.</li>
+<li><b>두 번째 별도 검토(16가지)</b>: "남는 돈"이 순이익처럼 읽힘 → "재료비 뺀 금액"으로 / 인건비 가정과 "일손 부족"이 어긋남 → 가정 표에 조건 추가 / 요구 목록 순서와 빠진 줄 바로잡음 / 크루즈 예상치·승무원 투어 1회라는 범위 표시 / 체험 "0개"를 "저희가 본 두 곳"으로 / 확인한 사실에 지도 링크 추가 / 번역 검수 전 표시 / 06장 표를 휴대폰용 카드로.</li>
 </ul>
 </div>
 
 <div class="card" style="margin-top:12px">
 <b>이 제안의 한계</b>
 <ul class="mini">
-<li>천돈가 실제 숫자(재료비, 낮 매출, 저녁 대기)를 아직 모릅니다. 계산은 모두 가정입니다.</li>
+<li>천돈가 실제 숫자(재료비, 낮 매출, 저녁 대기)를 아직 모릅니다. 금액은 감을 잡기 위한 가정입니다.</li>
 <li>근처 점심 수요 근거는 구글 후기 한두 개씩입니다.</li>
-<li>네이버 검색·리뷰 자료는 이번에 보지 못했습니다.</li>
-<li>판매 사이트 수수료·심사 조건은 업체마다 다르고 아직 묻지 않았습니다.</li>
+<li>네이버 검색·리뷰는 이번에 새로 보지 못했습니다(손님이 가장 많이 보는 곳인데도).</li>
+<li>판매 사이트는 Klook 한 페이지와 Trip.com 영어 검색만 봤고, 수수료·심사 조건은 아직 묻지 않았습니다.</li>
 </ul>
 </div>
 </section>
 
 <section>
-<h2><span class="n">09</span>AI에게 이렇게 물으면 더 좋습니다</h2>
-<p class="sub">이번 질문 순서가 좋았던 점과, 더 물었으면 좋았을 것.</p>
-<div class="grid2 pc">
-<div class="card pros"><h3>좋았던 점</h3><ul>
-<li>두 번째 말에서 <b>목표를 한 줄로</b> 정함 ("낮 시간 채우기")</li>
-<li>여러 안 → <b>계산</b> → <b>"잘될지"</b> 반대로 묻기 → 다른 안 → 깊게</li>
-<li>마지막에 <b>"과장하지 말고"</b>, <b>"검토 과정 포함"</b>을 요구</li>
-</ul></div>
-<div class="card cons"><h3>더 물었으면 좋았을 것</h3><ul>
-<li><b>"우리 실제 숫자를 줄 테니 다시 계산해"</b>: 재료비·낮 팀 수를 주면 짐작이 계산이 됩니다.</li>
-<li><b>"이 안이 실패한다면 이유가 뭘까?"</b>를 처음부터</li>
-<li><b>"확인한 것과 짐작을 나눠, 출처 링크를 달아"</b>를 처음부터</li>
-<li><b>"가장 싸고 빠르게 시험해 볼 방법은?"</b></li>
-<li><b>"다른 AI에게 검토받아"</b>: 같은 AI는 자기 답에 너그럽습니다.</li>
-<li><b>"누가 읽을지"를 마지막이 아니라 처음에</b>: 처음부터 "유건이에게 보낼 거야"라고 하면 분석 단계부터 표현과 깊이가 맞춰집니다.</li>
-</ul></div>
-</div>
+<h2><span class="n">09</span>관리자님이 AI에게 써 보실 질문 순서</h2>
+<p class="sub">이번에 쓴 순서를 메뉴 개발·마케팅에도 그대로 쓰실 수 있게 정리했습니다. 괄호 안만 바꾸면 됩니다.</p>
+<ol class="prompts">
+<li><b>우리 가게 자료부터</b><code>"(메뉴·가격·영업시간·후기 몇 개·통화 메모)를 붙여 넣을게. 이걸 바탕으로 생각해."</code></li>
+<li><b>누가 읽고 무엇에 쓸지</b><code>"(우리 가게 사장님)께 (의견을 받으려고) 보여 줄 거야."</code></li>
+<li><b>목표를 한 줄로</b><code>"목표는 (평일 낮 손님 늘리기)야."</code></li>
+<li><b>넓게</b><code>"이 목표로 방법을 여러 가지 내 봐. (낮에 근처에 있는 사람이 누구인지)부터 생각해."</code></li>
+<li><b>계산</b><code>"(점심 세트)를 하면 어떻게 될지 시뮬레이션해 봐. 가정은 표로 따로 보여 줘."</code></li>
+<li><b>반대로</b><code>"이게 실패한다면 이유가 뭘까? 잘될 이유와 안 될 이유를 근거와 같이."</code></li>
+<li><b>근거</b><code>"확인한 것과 짐작을 나누고, 확인한 것엔 출처 링크를 달아. 모르면 모른다고 하고 지어내지 마. 링크는 실제로 열리는 것만."</code></li>
+<li><b>작게 시험</b><code>"돈 거의 안 쓰고 2주 안에 될지 알아볼 방법은?" · 메뉴 개발이면 "(새 메뉴)의 재료비·조리 시간·손님 반응을 2주 동안 알아볼 방법은?"</code></li>
+<li><b>실제 숫자</b><code>"우리 재료비는 (○%), 낮 매출은 (○원)이야. 이걸로 다시 계산해."</code></li>
+<li><b>다시 검토</b><code>새 대화에서 결과를 붙여 넣고: "근거 없는 문장, 과장, 계산 실수를 원문 인용과 함께 표로 찾아 줘."</code></li>
+</ol>
+<p class="src">외국어 문구(메뉴판·안내문)는 AI 번역 뒤에 꼭 원어민 확인을 받으세요. AI는 같은 대화 안에서는 자기 답에 너그러워지기 쉽습니다. 10번처럼 새 대화로 검토받으면 이번처럼 실수(30일 계산, 인용이 원문보다 더 나감)를 찾을 수 있습니다.</p>
 </section>
 
 <footer>
-<p>자료: 10/31 통화 녹음 받아쓰기(요지만) · 구글 지도 장소 정보·후기(10/31) · <a href="https://www.twig24.com/news/world/2026/10/25/20261025500025" target="_blank" rel="noopener">크루즈 기사</a> · <a href="https://www.klook.com/en-AU/destination/p50208110-black-pork-street/1-things-to-do/" target="_blank" rel="noopener">Klook</a> · <a href="https://www.bokun.io/?p=7181" target="_blank" rel="noopener">Bókun 수수료 안내</a> · <a href="https://wanderlog.com/place/details/2379673/cheondonga-jungmun" target="_blank" rel="noopener">Wanderlog</a> · 캐치테이블 메뉴·가격(2026-08-31)</p>
-<p>ddggdd 팀 · 숫자를 받으면 다시 계산하고, 4주 뒤 같은 기록으로 함께 판단하겠습니다.</p>
+<p>자료: 10/31 통화 녹음 받아쓰기(요지만) · 구글 지도 장소 정보·후기(10/31) · <a href="https://www.twig24.com/news/world/2026/10/25/20261025500025" target="_blank" rel="noopener">크루즈 기사(2026-10-25)</a> · <a href="https://www.newsis.com/view/NISX20250513_0003173906" target="_blank" rel="noopener">뉴시스(2025-05-13)</a> · <a href="https://www.headlinejeju.co.kr/news/articleView.html?idxno=593676" target="_blank" rel="noopener">헤드라인제주(2026-05)</a> · <a href="https://www.klook.com/en-AU/destination/p50208110-black-pork-street/1-things-to-do/" target="_blank" rel="noopener">Klook</a> · <a href="https://www.trip.com/things-to-do/list?keyword=jeju%20black%20pork" target="_blank" rel="noopener">Trip.com 체험 검색</a> · <a href="https://www.bokun.io/?p=7181" target="_blank" rel="noopener">Bókun 판매사 등록 안내</a> · <a href="https://wanderlog.com/place/details/2379673/cheondonga-jungmun" target="_blank" rel="noopener">Wanderlog</a> · 캐치테이블 메뉴·가격(2026-08-31) · 네이버(2026-10-23·27)</p>
+<p>ddggdd 팀 · 의견을 주시면 고르신 안부터 다시 계산하고, 함께 고쳐 가겠습니다.</p>
 </footer>
 </main>
 </body>
