@@ -4,6 +4,7 @@ import { resolve, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openStore, AppError } from './store.mjs';
 import { cipherFromKey, normalizeUrl, fetchIcs, busyFromIcs, providerOf, CalendarError } from './calendar.mjs';
+import { settingsStore, dataDirOf } from './settings.mjs';
 import { resolveSlot, summarizeDays, rankDays, validDate, addDays, todayKST, SLOTS } from './src/board.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -123,7 +124,9 @@ export function createCalendarSync(config, store, { fetcher = fetch, lookup } = 
   };
 }
 
-export function createApp(config, store, { publicDir = resolve(ROOT, 'public'), calendarSync = createCalendarSync(config, store) } = {}) {
+export function createApp(config, store, { publicDir = resolve(ROOT, 'public'), calendarSync = createCalendarSync(config, store), settings = dataDirOf(config.dbPath) ? settingsStore(dataDirOf(config.dbPath), config.calKey) : null } = {}) {
+  // Keys saved through /team/admin win over the environment.
+  const kakaoJsKey = () => (settings && settings.get().kakaoJsKey) || config.kakaoJsKey;
   const budgets = new Map();
   function rate(key, max) {
     const n = Date.now();
@@ -165,14 +168,17 @@ export function createApp(config, store, { publicDir = resolve(ROOT, 'public'), 
     }
   }
 
-  const csp = [
-    "default-src 'self'",
-    `script-src 'self'${config.kakaoJsKey ? ' https://t1.kakaocdn.net' : ''}`,
-    "style-src 'self'",
-    `img-src 'self' data:${config.kakaoJsKey ? ' https://*.kakaocdn.net' : ''}`,
-    `connect-src 'self'${config.kakaoJsKey ? ' https://*.kakao.com' : ''}`,
-    "frame-ancestors 'none'", "base-uri 'none'", "form-action 'self'",
-  ].join('; ');
+  const csp = () => {
+    const k = !!kakaoJsKey();
+    return [
+      "default-src 'self'",
+      `script-src 'self'${k ? ' https://t1.kakaocdn.net' : ''}`,
+      "style-src 'self'",
+      `img-src 'self' data:${k ? ' https://*.kakaocdn.net' : ''}`,
+      `connect-src 'self'${k ? ' https://*.kakao.com' : ''}`,
+      "frame-ancestors 'none'", "base-uri 'none'", "form-action 'self'",
+    ].join('; ');
+  };
 
   let template = null;
   async function page(res, meta) {
@@ -183,8 +189,8 @@ export function createApp(config, store, { publicDir = resolve(ROOT, 'public'), 
 <meta property="og:type" content="website"><meta property="og:title" content="${title}">
 <meta property="og:description" content="${desc}"><meta name="description" content="${desc}">
 <meta property="og:url" content="${esc(meta.url)}"><meta property="og:site_name" content="${esc(config.appName)}">
-<meta name="team-config" content="${esc(JSON.stringify({ kakaoJsKey: config.kakaoJsKey, appName: config.appName }))}">
-${config.kakaoJsKey ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
+<meta name="team-config" content="${esc(JSON.stringify({ kakaoJsKey: kakaoJsKey(), appName: config.appName }))}">
+${kakaoJsKey() ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
     const html = template.replace(/<title>[\s\S]*?<\/title>/, tags);
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(html);
@@ -255,7 +261,7 @@ ${config.kakaoJsKey ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
     res.setHeader('Referrer-Policy', 'no-referrer');
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('X-Frame-Options', 'DENY');
-    res.setHeader('Content-Security-Policy', csp);
+    res.setHeader('Content-Security-Policy', csp());
     try {
       const u = new URL(req.url, config.origin);
       const path = u.pathname;
@@ -292,6 +298,9 @@ ${config.kakaoJsKey ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
         } catch {}
         return page(res, { ...meta, url: config.origin + path });
       }
+      if (method === 'GET' && path === BASE + '/admin') {
+        return page(res, { title: `${config.appName} · 관리자 설정`, description: '서비스 키 설정', url: config.origin + path });
+      }
       if (method === 'GET' && (path === BASE + '/' || /^\/team\/(b|g)\/[A-Za-z0-9_-]{6,40}$/.test(path))) {
         return page(res, { title: `${config.appName} · 우리 팀 되는 날 보드`, description: '투표 없이, 열면 다 되는 날이 보여요.', url: config.origin + path });
       }
@@ -323,6 +332,13 @@ ${config.kakaoJsKey ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
         if (method === 'POST') {
           rate('w:' + req.socket.remoteAddress, 120);
           const b = await body(req);
+          if (api === '/admin/settings') {
+            rate('admin:' + req.socket.remoteAddress, 5);
+            if (!settings) throw new AppError('이 서버에서는 설정을 저장할 수 없어요.', 503);
+            const r = settings.apply(b);
+            if (r.error) throw new AppError(r.error, 400);
+            return json(res, 200, { ok: true, saved: r.saved, status: settings.status() });
+          }
           if (api === '/teams') {
             rate('create:' + req.socket.remoteAddress, 10);
             const r = store.createTeam(b);

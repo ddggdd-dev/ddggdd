@@ -1,6 +1,7 @@
 import { mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { openStore } from './store.mjs';
+import { settingsStore } from './settings.mjs';
 
 process.umask(0o077);
 const dbPath = process.env.DATA_PATH || '/data/team.sqlite';
@@ -25,8 +26,11 @@ try {
       responsesNo: one("SELECT COUNT(*) AS n FROM responses WHERE value='no'"),
       responses: one('SELECT COUNT(*) AS n FROM responses'),
     }, null, 2));
+  } else if (command === 'setup-code') {
+    const code = settingsStore(dirname(dbPath), process.env.CAL_KEY).newCode();
+    console.log(`확인 코드: ${code}  (15분 안에 https://ddggdd.tech/team/admin 에서 입력)`);
   } else {
-    throw Error('Usage: node admin.mjs backup|stats');
+    throw Error('Usage: node admin.mjs backup|stats|setup-code');
   }
 } finally {
   s.close();

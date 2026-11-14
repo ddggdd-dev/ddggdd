@@ -192,3 +192,5 @@ label.check.small input { width: 16px; height: 16px; }
 .row-actions { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
 .row-actions .secondary { min-height: 38px; padding: 8px 12px; font-size: 13.5px; }
 .warn-box { background: #fff3f2; }
+.field-hint { font-weight: 400; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.ok-tag { color: var(--green); font-weight: 700; }

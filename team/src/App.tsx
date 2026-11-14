@@ -124,6 +124,7 @@ export default function App() {
   if ((m = p.match(/^\/team\/j\/([A-Za-z0-9_-]+)$/))) screen = <Join invite={m[1]} gid={url.searchParams.get('g')} toast={toast} />;
   else if ((m = p.match(/^\/team\/b\/([A-Za-z0-9_-]+)$/))) screen = <Board teamId={m[1]} toast={toast} />;
   else if ((m = p.match(/^\/team\/g\/([A-Za-z0-9_-]+)$/))) screen = <Gathering gid={m[1]} toast={toast} />;
+  else if (p === '/team/admin') screen = <AdminSetup toast={toast} />;
   else screen = <Home toast={toast} error={url.searchParams.get('e')} />;
   return (
     <div className="shell">
@@ -732,6 +733,58 @@ function CalendarSheet({ teamId, calendar, onClose, reload, toast }: Any) {
       </form>
       <p className="hint">이 주소는 비밀번호와 같아요. 되는날 서버에는 암호화해서 보관하고, 연결을 끊으면 바로 지워요. 혹시 새어 나갔다면 캘린더 설정에서 주소를 "재설정"하면 예전 주소는 쓸 수 없게 돼요.</p>
     </Sheet>
+  );
+}
+
+
+// ---------- admin: service keys ----------
+const ADMIN_FIELDS = [
+  { key: 'kakaoJsKey', label: '카카오 JavaScript 키', hint: '카카오 콘솔 → 앱 → 플랫폼 키 → "JavaScript 키" 32자리', secret: false },
+  { key: 'kakaoRestKey', label: '카카오 REST API 키', hint: '같은 화면 맨 위 "REST API 키" 32자리', secret: false },
+  { key: 'kakaoClientSecret', label: '카카오 클라이언트 시크릿', hint: '"Default Rest API Key"를 누르면 나오는 화면 → 클라이언트 시크릿 → 카카오 로그인 → 코드', secret: true },
+  { key: 'googleClientId', label: '구글 클라이언트 ID (나중에)', hint: '…apps.googleusercontent.com 으로 끝나는 값', secret: false },
+  { key: 'googleClientSecret', label: '구글 클라이언트 보안 비밀 (나중에)', hint: 'GOCSPX- 로 시작하는 값', secret: true },
+];
+
+function AdminSetup({ toast }: { toast: (s: string) => void }) {
+  const [values, setValues] = useState<Record<string, string>>({});
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
+  const [status, setStatus] = useState<Any>(null);
+  async function submit(e: Any) {
+    e.preventDefault();
+    setBusy(true);
+    setErr('');
+    try {
+      const d = await api('/admin/settings', values);
+      setStatus(d.status);
+      setValues({});
+      toast(`저장했어요 (${d.saved.length}개).`);
+    } catch (e: Any) {
+      setErr(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <main className="page">
+      <Brand />
+      <form className="card" onSubmit={submit} autoComplete="off">
+        <span className="eyebrow">관리자</span>
+        <h1>서비스 키 설정</h1>
+        <p className="muted">값을 복사해서 칸에 붙여 넣고 저장하세요. 비워 둔 칸은 이전 값이 그대로 유지돼요. 저장한 값은 다시 화면에 보이지 않아요.</p>
+        <label>확인 코드 (6자리)<input inputMode="numeric" maxLength={6} required value={values.code || ''} onChange={(e) => setValues({ ...values, code: e.target.value.replace(/\D/g, '') })} placeholder="서버에서 받은 6자리" /></label>
+        {ADMIN_FIELDS.map((f) => (
+          <label key={f.key}>{f.label}{status?.[f.key] && <small className="ok-tag"> 저장됨</small>}
+            <input type={f.secret ? 'password' : 'text'} value={values[f.key] || ''} onChange={(e) => setValues({ ...values, [f.key]: e.target.value })} autoComplete="off" spellCheck={false} autoCapitalize="off" />
+            <small className="field-hint">{f.hint}</small>
+          </label>
+        ))}
+        <ErrorBox error={err} />
+        <button className="primary full" disabled={busy}>{busy ? '저장 중…' : '저장'}</button>
+        <p className="hint">확인 코드는 15분 동안 한 번만 쓸 수 있어요. 5번 틀리면 새로 만들어야 해요.</p>
+      </form>
+    </main>
   );
 }
 

@@ -212,3 +212,25 @@ test('HTTP: connect reads busy times, board shows them only to me and marks the 
     s.close();
   }
 });
+
+test('admin settings: one-time code, format checks, secrets encrypted, never echoed', async () => {
+  const { settingsStore } = await import('../settings.mjs');
+  const dir = mkdtempSync(join(tmpdir(), 'set-'));
+  try {
+    const st = settingsStore(dir, randomBytes(32).toString('base64'));
+    assert.match(st.apply({ code: '123456', kakaoJsKey: 'a'.repeat(32) }).error, /먼저/);
+    const code = st.newCode();
+    const wrong = code === '000000' ? '111111' : '000000';
+    assert.match(st.apply({ code: wrong, kakaoJsKey: 'a'.repeat(32) }).error, /맞지 않아요/);
+    assert.match(st.apply({ code, kakaoJsKey: 'not-a-key' }).error, /형식/);
+    const ok = st.apply({ code, kakaoJsKey: 'a'.repeat(32), kakaoClientSecret: 'SecretValue1234567890abcd' });
+    assert.deepEqual(ok.saved, ['kakaoJsKey', 'kakaoClientSecret']);
+    assert.equal(st.get().kakaoClientSecret, 'SecretValue1234567890abcd');
+    const { readFileSync } = await import('node:fs');
+    assert.equal(readFileSync(join(dir, 'settings.json'), 'utf8').includes('SecretValue'), false);
+    assert.match(st.apply({ code, kakaoJsKey: 'b'.repeat(32) }).error, /먼저/); // code is single-use
+    assert.deepEqual(st.status(), { kakaoJsKey: true, kakaoRestKey: false, kakaoClientSecret: true, googleClientId: false, googleClientSecret: false });
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
