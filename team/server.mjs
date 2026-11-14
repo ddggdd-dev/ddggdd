@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { resolve, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openStore, AppError } from './store.mjs';
+import { cipherFromKey, normalizeUrl, fetchIcs, busyFromIcs, providerOf, CalendarError } from './calendar.mjs';
 import { resolveSlot, summarizeDays, rankDays, validDate, addDays, todayKST, SLOTS } from './src/board.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -24,6 +25,7 @@ export function configuration(env = process.env) {
     dbPath: env.DATA_PATH || '/data/team.sqlite',
     kakaoJsKey: /^[0-9a-f]{32}$/i.test(env.KAKAO_JS_KEY || '') ? env.KAKAO_JS_KEY : '',
     appName: env.APP_NAME || '되는날',
+    calKey: env.CAL_KEY || '',
   };
 }
 
@@ -78,7 +80,50 @@ export function googleLink(g) {
   return 'https://calendar.google.com/calendar/render?' + qs;
 }
 
-export function createApp(config, store, { publicDir = resolve(ROOT, 'public') } = {}) {
+// Busy times are kept from yesterday to 10 weeks ahead.
+export function calendarWindow() {
+  const today = todayKST();
+  return [addDays(today, -1), addDays(today, 70)];
+}
+
+export function createCalendarSync(config, store, { fetcher = fetch, lookup } = {}) {
+  const cipher = cipherFromKey(config.calKey);
+  async function read(url) {
+    const { text } = await fetchIcs(url, { fetcher, ...(lookup ? { lookup } : {}) });
+    const [from, to] = calendarWindow();
+    return busyFromIcs(text, from, to);
+  }
+  return {
+    enabled: !!cipher,
+    async connect(memberId, teamId, rawUrl) {
+      if (!cipher) throw new AppError('캘린더 연결이 아직 준비되지 않았어요. 관리자에게 알려 주세요.', 503);
+      let url;
+      let busy;
+      try {
+        url = normalizeUrl(rawUrl);
+        busy = await read(url);
+      } catch (e) {
+        if (e instanceof CalendarError) throw new AppError(e.message);
+        throw e;
+      }
+      store.saveCalendar(memberId, teamId, { urlEnc: cipher.encrypt(url), provider: providerOf(url), busy });
+      return { provider: providerOf(url), count: busy.length };
+    },
+    async refreshOne(cal) {
+      if (!cipher) return;
+      try {
+        store.calendarRefreshed(cal.memberId, await read(cipher.decrypt(cal.urlEnc)));
+      } catch (e) {
+        store.calendarFailed(cal.memberId, e instanceof CalendarError ? e.message : '캘린더를 불러오지 못했어요.');
+      }
+    },
+    async refreshDue(ageMs = 30 * 60000) {
+      for (const cal of store.calendarsDue(ageMs)) await this.refreshOne(cal);
+    },
+  };
+}
+
+export function createApp(config, store, { publicDir = resolve(ROOT, 'public'), calendarSync = createCalendarSync(config, store) } = {}) {
   const budgets = new Map();
   function rate(key, max) {
     const n = Date.now();
@@ -166,7 +211,7 @@ ${config.kakaoJsKey ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
     const slot = resolveSlot(params.get('slot') || 'dinner', params.get('start'), params.get('end')) || resolveSlot('dinner');
     const data = store.boardData(key, teamId, from, to);
     const dates = Array.from({ length: days }, (_, i) => addDays(from, i));
-    const summary = summarizeDays(dates, data.members, data.marks, slot);
+    const summary = summarizeDays(dates, data.members, data.marks, slot, data.busy);
     const hidden = data.team.hideNames && data.me.role !== 'owner';
     const names = new Map(data.members.map((m) => [m.id, m.name]));
     const show = (ids) => (hidden ? null : ids.map((id) => names.get(id)));
@@ -178,9 +223,14 @@ ${config.kakaoJsKey ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
     return {
       today, from, to, slot,
       team: { id: data.team.id, name: data.team.name, hideNames: data.team.hideNames, inviteUrl: `${config.origin}${BASE}/j/${data.team.invite}` },
-      me: { id: data.me.id, name: data.me.name, role: data.me.role, updatedAt: data.me.updatedAt, personalUrl: `${config.origin}${BASE}/m/${key}` },
-      members: data.members.map((m) => ({ id: m.id, name: m.name, role: m.role, updatedAt: m.updatedAt })),
+      me: { id: data.me.id, name: data.me.name, role: data.me.role, updatedAt: data.members.find((m) => m.id === data.me.id)?.updatedAt || null, personalUrl: `${config.origin}${BASE}/m/${key}` },
+      members: data.members.map((m) => ({ id: m.id, name: m.name, role: m.role, updatedAt: m.updatedAt, calendar: m.calendar })),
       myMarks: data.marks.filter((m) => m.member === data.me.id).map(({ member, ...m }) => m),
+      myBusy: data.busy.filter((b) => b.member === data.me.id).map(({ member, ...b }) => b),
+      calendar: {
+        available: calendarSync.enabled,
+        linked: data.calendar ? { provider: data.calendar.provider, status: data.calendar.status, error: data.calendar.error, fetchedAt: data.calendar.fetchedAt, checkedAt: data.calendar.checkedAt } : null,
+      },
       days: summary.map(day),
       weekends: params.get('weekends') === '1',
       best: rankDays(summary, today, { weekends: params.get('weekends') === '1' }).slice(0, 3).map(day),
@@ -283,6 +333,22 @@ ${config.kakaoJsKey ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
             const r = store.join(m[1], b.name);
             return json(res, 200, { teamId: r.teamId }, { 'Set-Cookie': memberCookie(r.teamId, r.key) });
           }
+          if ((m = api.match(/^\/teams\/([A-Za-z0-9_-]{6,20})\/calendar\/(connect|refresh|disconnect)$/))) {
+            const [, teamId, action] = m;
+            const me = store.requireMember(keyFor(teamId), teamId);
+            rate('cal:' + me.id, 10);
+            if (action === 'connect') return json(res, 200, await calendarSync.connect(me.id, teamId, b.url));
+            if (action === 'refresh') {
+              const cal = store.calendarOf(me.id);
+              if (!cal) throw new AppError('연결된 캘린더가 없어요.');
+              await calendarSync.refreshOne(cal);
+              const after = store.calendarOf(me.id);
+              if (after.status !== 'ok') throw new AppError(after.error || '캘린더를 불러오지 못했어요.');
+              return json(res, 200, { ok: true });
+            }
+            store.removeCalendar(me.id);
+            return json(res, 200, { ok: true });
+          }
           if ((m = api.match(/^\/teams\/([A-Za-z0-9_-]{6,20})\/(days|touch|settings|rename|remove|invite|gatherings|leave)$/))) {
             const [, teamId, action] = m;
             const key = keyFor(teamId);
@@ -344,13 +410,23 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   process.umask(0o077);
   const c = configuration();
   const s = openStore(c.dbPath);
-  const app = createApp(c, s);
-  app.listen(c.port, '0.0.0.0', () => console.log(`Team server listening on ${c.port}`));
+  const sync = createCalendarSync(c, s);
+  const app = createApp(c, s, { calendarSync: sync });
+  app.listen(c.port, '0.0.0.0', () => console.log(`Team server listening on ${c.port}${sync.enabled ? '' : ' (calendar link disabled: CAL_KEY missing)'}`));
   s.clean();
   const cleanup = setInterval(() => s.clean(), 3600000);
   cleanup.unref();
+  // Linked calendars are re-read about every 30 minutes, a few at a time.
+  let syncing = false;
+  const calTimer = setInterval(async () => {
+    if (syncing || !sync.enabled) return;
+    syncing = true;
+    try { await sync.refreshDue(); } catch (e) { console.error('calendar sync', e.message); } finally { syncing = false; }
+  }, 120000);
+  calTimer.unref();
   const close = () => {
     clearInterval(cleanup);
+    clearInterval(calTimer);
     app.close(() => {
       s.close();
       process.exit(0);

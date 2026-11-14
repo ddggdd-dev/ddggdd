@@ -267,7 +267,7 @@ function Board({ teamId, toast }: { teamId: string; toast: (s: string) => void }
   const [needJoin, setNeedJoin] = useState(false);
   const [edit, setEdit] = useState(false);
   const [sheet, setSheet] = useState<string | null>(null);
-  const [panel, setPanel] = useState<'' | 'members' | 'propose'>('');
+  const [panel, setPanel] = useState<'' | 'members' | 'propose' | 'calendar'>('');
   const [proposeDate, setProposeDate] = useState('');
   const welcome = new URLSearchParams(location.search).get('welcome') === '1';
 
@@ -297,6 +297,11 @@ function Board({ teamId, toast }: { teamId: string; toast: (s: string) => void }
   useEffect(() => { localStorageSet('weekends:' + teamId, weekends ? '1' : '0'); }, [teamId, weekends]);
 
   const myMark = useMemo(() => new Map((data?.myMarks || []).map((m: Any) => [m.date, m])), [data]);
+  const myBusy = useMemo(() => {
+    const map = new Map<string, Any[]>();
+    for (const b of data?.myBusy || []) map.set(b.date, [...(map.get(b.date) || []), b]);
+    return map;
+  }, [data]);
 
   async function setDay(date: string, change: Any) {
     try {
@@ -364,6 +369,18 @@ function Board({ teamId, toast }: { teamId: string; toast: (s: string) => void }
               {!edit && <button className="ghost" onClick={async () => { await api(`/teams/${teamId}/touch`, {}); toast('확인했어요. 기록이 최신으로 표시돼요.'); load(); }}>바뀐 것 없어요</button>}
             </div>}
       </section>
+      {data.calendar.available && (
+        <button className={'cal-line' + (data.calendar.linked?.status === 'error' ? ' bad' : '')} onClick={() => setPanel('calendar')}>
+          <span className="grow">
+            {data.calendar.linked
+              ? data.calendar.linked.status === 'ok'
+                ? <><b>{data.calendar.linked.provider} 캘린더 연결됨</b><small>{ago(data.calendar.linked.fetchedAt)} 확인 · 일정 있는 시간은 자동으로 안 됨</small></>
+                : <><b>캘린더를 못 읽고 있어요</b><small>눌러서 확인해 주세요</small></>
+              : <><b>내 캘린더 연결하기</b><small>구글 · 아이폰 · 아웃룩 · 톡캘린더 일정으로 자동 표시</small></>}
+          </span>
+          <span>›</span>
+        </button>
+      )}
 
       {edit && (
         <div className="edit-banner">
@@ -415,12 +432,13 @@ function Board({ teamId, toast }: { teamId: string; toast: (s: string) => void }
               <button key={d.date} className={`day l${level}${all ? ' all' : ''}${past ? ' past' : ''}${d.date === today ? ' today' : ''}${edit && mine?.kind === 'blocked' ? ' my-no' : ''}`} onClick={() => tapDay(d.date)} disabled={past} aria-label={`${dateLabel(d.date)} 되는 사람 ${d.yes}명, 안 되는 사람 ${d.no}명`}>
                 <span className={'num' + (weekday(d.date) === 0 ? ' sun' : weekday(d.date) === 6 ? ' sat' : '')}>{Number(d.date.slice(8))}</span>
                 {!past && <small>{d.yes}/{d.total}</small>}
-                {mine && (mine.kind === 'blocked' ? <i className="dot-no" aria-hidden="true" /> : <i className="heart" aria-hidden="true">♥</i>)}
+                {mine && (mine.kind === 'blocked' ? <i className="dot-no" aria-hidden="true" /> : mine.kind === 'preferred' ? <i className="heart" aria-hidden="true">♥</i> : null)}
+                {!past && myBusy.has(d.date) && <i className="cal-bar" aria-hidden="true" />}
               </button>
             );
           })}
         </div>
-        <div className="legend"><span><i className="sw l4" />다 되는 쪽</span><span><i className="sw l1" />적게 됨</span><span><i className="dot-no" />내가 안 됨</span><span><i className="heart">♥</i>내가 좋아요</span></div>
+        <div className="legend"><span><i className="sw l4" />다 되는 쪽</span><span><i className="sw l1" />적게 됨</span><span><i className="dot-no" />내가 안 됨</span><span><i className="heart">♥</i>내가 좋아요</span>{data.calendar.linked && <span><i className="cal-bar inline" />내 캘린더 일정</span>}</div>
       </section>
 
       {upcoming.length > 0 && (
@@ -445,6 +463,7 @@ function Board({ teamId, toast }: { teamId: string; toast: (s: string) => void }
           slot={data.slot}
           slotKey={slot}
           mine={myMark.get(sheet)}
+          busy={myBusy.get(sheet) || []}
           hideNames={team.hideNames && !isOwner}
           onClose={() => setSheet(null)}
           onSet={async (change: Any) => { await setDay(sheet, change); }}
@@ -453,6 +472,9 @@ function Board({ teamId, toast }: { teamId: string; toast: (s: string) => void }
       )}
       {panel === 'propose' && (
         <ProposeSheet teamId={teamId} date={proposeDate} slot={data.slot} slotKey={slot} onClose={() => setPanel('')} toast={toast} />
+      )}
+      {panel === 'calendar' && (
+        <CalendarSheet teamId={teamId} calendar={data.calendar} onClose={() => setPanel('')} reload={load} toast={toast} />
       )}
       {panel === 'members' && (
         <MembersSheet data={data} teamId={teamId} onClose={() => setPanel('')} reload={load} toast={toast} />
@@ -494,7 +516,7 @@ function Names({ label, names, count, tone }: { label: string; names: string[] |
   );
 }
 
-function DaySheet({ day, slot, slotKey, mine, hideNames, onClose, onSet, onPropose }: Any) {
+function DaySheet({ day, slot, slotKey, mine, busy: calBusy, hideNames, onClose, onSet, onPropose }: Any) {
   const [busy, setBusy] = useState(false);
   if (!day) return null;
   const partial = slotKey === 'dinner' || slotKey === 'lunch';
@@ -503,7 +525,8 @@ function DaySheet({ day, slot, slotKey, mine, hideNames, onClose, onSet, onPropo
     await onSet(change);
     setBusy(false);
   };
-  const state = !mine ? 'none' : mine.kind === 'preferred' ? 'like' : mine.start === '00:00' && mine.end === '24:00' ? 'all' : 'part';
+  const state = !mine ? 'none' : mine.kind === 'preferred' ? 'like' : mine.kind === 'free' ? 'free' : mine.start === '00:00' && mine.end === '24:00' ? 'all' : 'part';
+  const hasBusy = calBusy.length > 0;
   return (
     <Sheet title={dateLabel(day.date)} onClose={onClose}>
       <p className="muted">{SLOT_LABEL[slotKey] || '선택한 시간'} {slotKey !== 'day' && slotKey !== 'allday' ? `(${slot.start}~${slot.end}) ` : ''}기준</p>
@@ -514,11 +537,23 @@ function DaySheet({ day, slot, slotKey, mine, hideNames, onClose, onSet, onPropo
       <Names label="낮에 일부 안 됨" names={day.names.part} count={day.part} tone="part" />
       <Names label="아직 안 적음" names={day.names.unknown} count={day.unknown} tone="unknown" />
       <h3>나는 이날</h3>
+      {hasBusy && (
+        <div className="my-cal">
+          <b>내 캘린더 일정</b>
+          <span>{calBusy.map((b: Any) => timeLabel(b.start, b.end)).join(', ')}</span>
+          <small>{state === 'none' ? '이 시간과 겹치는 모임은 자동으로 안 됨이에요. 일정 내용은 저장하지 않고 나한테만 보여요.' : '직접 고른 표시가 캘린더보다 우선이에요.'}</small>
+        </div>
+      )}
       <div className="choice">
         <button disabled={busy} className={state === 'all' ? 'on no' : ''} onClick={() => act({ kind: 'blocked', allDay: true })}>하루 종일 안 돼요</button>
         {partial && <button disabled={busy} className={state === 'part' ? 'on no' : ''} onClick={() => act({ kind: 'blocked', start: slot.start, end: slot.end })}>{SLOT_LABEL[slotKey]}만 안 돼요</button>}
         <button disabled={busy} className={state === 'like' ? 'on like' : ''} onClick={() => act({ kind: 'preferred', allDay: true })}>이날 좋아요 ♥</button>
-        <button disabled={busy} className={state === 'none' ? 'on' : ''} onClick={() => act({ kind: null })}>괜찮아요</button>
+        {hasBusy
+          ? <>
+              <button disabled={busy} className={state === 'free' ? 'on' : ''} onClick={() => act({ kind: 'free', allDay: true })}>일정 있어도 괜찮아요</button>
+              <button disabled={busy} className={state === 'none' ? 'on' : ''} onClick={() => act({ kind: null })}>캘린더대로</button>
+            </>
+          : <button disabled={busy} className={state === 'none' ? 'on' : ''} onClick={() => act({ kind: null })}>괜찮아요</button>}
       </div>
       <button className="primary full" onClick={onPropose}>이날로 하자 →</button>
       <p className="hint">단톡방에 참석 확인 카드가 올라가요. 투표가 아니라 확인 한 번이에요.</p>
@@ -616,6 +651,86 @@ function MembersSheet({ data, teamId, onClose, reload, toast }: Any) {
         <button className="link" onClick={() => { const n = prompt('팀에서 쓸 이름', me.name); if (n) post('rename', { name: n }, '이름을 바꿨어요.'); }}>내 이름 바꾸기</button>
       </div>
       <p className="hint">개인 링크는 나만 쓰는 열쇠예요. 다른 사람에게 보내면 그 사람이 내 기록을 고칠 수 있어요.</p>
+    </Sheet>
+  );
+}
+
+
+const CAL_GUIDES: { key: string; label: string; steps: string[]; note?: string }[] = [
+  { key: 'google', label: '구글', steps: [
+    'PC에서 calendar.google.com 을 열어요. (휴대폰 앱에는 이 메뉴가 없어요)',
+    '왼쪽 "내 캘린더"에서 내 이름 캘린더 옆 ⋮ → "설정 및 공유"를 눌러요.',
+    '아래쪽 "캘린더 통합"의 "iCal 형식의 비공개 주소"를 복사해요.',
+    '여기에 붙여 넣고 "연결"을 눌러요.',
+  ], note: '회사 구글 계정은 관리자가 이 주소를 막아 둔 경우가 있어요. 삼성 캘린더를 구글 계정과 함께 쓰고 있다면 이 방법으로 연결하면 돼요.' },
+  { key: 'icloud', label: '아이폰', steps: [
+    '아이폰 "캘린더" 앱 → 아래 "캘린더"를 눌러요.',
+    '연결할 캘린더 옆 ⓘ 를 눌러 "공개 캘린더"를 켜요.',
+    '"링크 공유…" → "복사"를 눌러요.',
+    '여기에 붙여 넣고 "연결"을 눌러요.',
+  ], note: '아이폰은 "공개 캘린더" 링크라서, 링크를 아는 사람은 일정을 볼 수 있어요. 링크를 다른 곳에 올리지 마세요.' },
+  { key: 'outlook', label: '아웃룩', steps: [
+    'PC에서 outlook.com 또는 회사 Outlook 웹을 열어요.',
+    '설정 → 일정 → "공유 일정" → "일정 게시"에서 캘린더를 고르고, 권한은 바쁜 시간만 보이는 가장 적은 단계로 골라 게시해요.',
+    '나오는 "ICS" 링크를 복사해 여기에 붙여 넣어요.',
+  ] },
+  { key: 'kakao', label: '톡캘린더', steps: [
+    'PC에서 톡캘린더 웹(calendar.kakao.com)에 로그인해요.',
+    '연결할 캘린더의 설정에서 iCal 주소를 찾아 복사해요.',
+    '여기에 붙여 넣고 "연결"을 눌러요.',
+  ] },
+  { key: 'other', label: '네이버 · 기타', steps: [
+    '쓰는 캘린더의 설정에서 "iCal", "ICS", "구독 주소", "캘린더 내보내기 주소"를 찾아 복사해요.',
+    'https:// 또는 webcal:// 로 시작하는 주소면 대부분 연결돼요.',
+  ], note: '네이버 캘린더는 내보내기 주소가 없을 수 있어요. 이때는 일정을 구글이나 아이폰 캘린더에도 함께 두고 그 주소를 넣어 주세요.' },
+];
+
+function CalendarSheet({ teamId, calendar, onClose, reload, toast }: Any) {
+  const [tab, setTab] = useState('google');
+  const [url, setUrl] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
+  const linked = calendar.linked;
+  const guide = CAL_GUIDES.find((g) => g.key === tab)!;
+  async function run(path: string, body: Any, done: string) {
+    setBusy(true);
+    setErr('');
+    try {
+      const d = await api(`/teams/${teamId}/calendar/${path}`, body);
+      toast(path === 'connect' ? `${d.provider} 캘린더를 연결했어요. 앞으로 10주 일정 ${d.count}건을 읽었어요.` : done);
+      setUrl('');
+      await reload();
+      if (path !== 'refresh') onClose();
+    } catch (e: Any) {
+      setErr(e.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <Sheet title="내 캘린더 연결" onClose={onClose}>
+      {linked && (
+        <div className={'callout' + (linked.status === 'error' ? ' warn-box' : '')}>
+          <b>{linked.provider} 캘린더 {linked.status === 'ok' ? '연결됨' : '— 읽지 못하는 중'}</b>
+          <span>{linked.status === 'ok' ? `마지막 확인 ${ago(linked.fetchedAt)} · 약 30분마다 다시 읽어요` : linked.error}</span>
+          <div className="row-actions">
+            <button className="secondary" disabled={busy} onClick={() => run('refresh', {}, '지금 다시 읽었어요.')}>지금 다시 읽기</button>
+            <button className="link danger" disabled={busy} onClick={() => { if (confirm('캘린더 연결을 끊을까요? 저장된 주소와 일정 시간이 지워져요.')) run('disconnect', {}, '연결을 끊었어요.'); }}>연결 끊기</button>
+          </div>
+        </div>
+      )}
+      <p className="muted">내 캘린더에서 일정이 있는 시간만 읽어서, 그 시간은 자동으로 "안 됨"으로 보여요. <b>일정 제목·장소는 저장하지 않고</b>, 팀원에게는 가능·안 됨만 보여요.</p>
+      <div className="types">
+        {CAL_GUIDES.map((g) => <button type="button" key={g.key} className={tab === g.key ? 'on' : ''} onClick={() => setTab(g.key)}>{g.label}</button>)}
+      </div>
+      <ol className="guide">{guide.steps.map((s, i) => <li key={i}>{s}</li>)}</ol>
+      {guide.note && <p className="hint">{guide.note}</p>}
+      <form onSubmit={(e) => { e.preventDefault(); run('connect', { url }, ''); }}>
+        <label>{linked ? '다른 주소로 바꾸기' : '캘린더 주소'}<input value={url} onChange={(e) => setUrl(e.target.value)} required inputMode="url" autoComplete="off" autoCapitalize="off" spellCheck={false} placeholder="https://… 또는 webcal://…" /></label>
+        <ErrorBox error={err} />
+        <button className="primary full" disabled={busy || !url.trim()}>{busy ? '캘린더 읽는 중…' : '연결'}</button>
+      </form>
+      <p className="hint">이 주소는 비밀번호와 같아요. 되는날 서버에는 암호화해서 보관하고, 연결을 끊으면 바로 지워요. 혹시 새어 나갔다면 캘린더 설정에서 주소를 "재설정"하면 예전 주소는 쓸 수 없게 돼요.</p>
     </Sheet>
   );
 }

@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS marks(
   member_id TEXT NOT NULL REFERENCES members(id) ON DELETE CASCADE,
   team_id TEXT NOT NULL REFERENCES teams(id) ON DELETE CASCADE,
   date TEXT NOT NULL,
-  kind TEXT NOT NULL CHECK(kind IN ('blocked','preferred')),
+  kind TEXT NOT NULL CHECK(kind IN ('blocked','preferred','free')),
   t_start TEXT NOT NULL,
   t_end TEXT NOT NULL,
   gathering_id TEXT,         -- set when the mark came from answering "어려워요"
@@ -93,12 +93,47 @@ CREATE TABLE IF NOT EXISTS responses(
   at INTEGER NOT NULL,
   PRIMARY KEY(gathering_id, member_id)
 );
-PRAGMA user_version=2;`;
+CREATE TABLE IF NOT EXISTS calendars(
+  member_id TEXT PRIMARY KEY REFERENCES members(id) ON DELETE CASCADE,
+  team_id TEXT NOT NULL REFERENCES teams(id) ON DELETE CASCADE,
+  url_enc TEXT NOT NULL,     -- the secret iCal address, AES-GCM encrypted
+  provider TEXT NOT NULL,
+  status TEXT NOT NULL CHECK(status IN ('ok','error')),
+  error TEXT,
+  busy TEXT NOT NULL DEFAULT '[]', -- [{date,start,end}] only; no titles
+  fetched_at INTEGER,        -- last successful read
+  checked_at INTEGER NOT NULL,
+  fails INTEGER NOT NULL DEFAULT 0,
+  created_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS calendars_checked ON calendars(checked_at);`;
+
+// v2 -> v3: marks may also hold 'free' (manual "괜찮아요" over a busy calendar day).
+const MIGRATE_V3 = `
+CREATE TABLE marks_v3(
+  member_id TEXT NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  team_id TEXT NOT NULL REFERENCES teams(id) ON DELETE CASCADE,
+  date TEXT NOT NULL,
+  kind TEXT NOT NULL CHECK(kind IN ('blocked','preferred','free')),
+  t_start TEXT NOT NULL,
+  t_end TEXT NOT NULL,
+  gathering_id TEXT,
+  PRIMARY KEY(member_id, date)
+);
+INSERT INTO marks_v3 SELECT * FROM marks;
+DROP TABLE marks;
+ALTER TABLE marks_v3 RENAME TO marks;
+CREATE INDEX IF NOT EXISTS marks_team_date ON marks(team_id, date);`;
 
 export function openStore(path, { now = () => Date.now() } = {}) {
   if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true, mode: 0o700 });
   const db = new DatabaseSync(path);
+  const version = db.prepare('PRAGMA user_version').get().user_version;
   db.exec(SCHEMA);
+  if (version === 2) {
+    db.exec('PRAGMA foreign_keys=OFF; BEGIN;' + MIGRATE_V3 + 'COMMIT; PRAGMA foreign_keys=ON;');
+  }
+  db.exec('PRAGMA user_version=3;');
   const q = (sql) => db.prepare(sql);
 
   const transaction = (fn) => {
@@ -208,7 +243,7 @@ export function openStore(path, { now = () => Date.now() } = {}) {
           q('DELETE FROM marks WHERE member_id=? AND date=?').run(me.id, c.date);
           continue;
         }
-        if (!['blocked', 'preferred'].includes(c.kind)) fail('지원하지 않는 표시예요.');
+        if (!['blocked', 'preferred', 'free'].includes(c.kind)) fail('지원하지 않는 표시예요.');
         const r = range(c);
         q(`INSERT INTO marks(member_id,team_id,date,kind,t_start,t_end) VALUES(?,?,?,?,?,?)
            ON CONFLICT(member_id,date) DO UPDATE SET kind=excluded.kind,t_start=excluded.t_start,t_end=excluded.t_end,gathering_id=NULL`)
@@ -248,6 +283,7 @@ export function openStore(path, { now = () => Date.now() } = {}) {
     return transaction(() => {
       q('UPDATE members SET active=0, key_hash=? WHERE id=?').run('removed:' + token(16), memberId);
       q('DELETE FROM marks WHERE member_id=?').run(memberId);
+      q('DELETE FROM calendars WHERE member_id=?').run(memberId);
       return { ok: true };
     });
   }
@@ -290,9 +326,15 @@ export function openStore(path, { now = () => Date.now() } = {}) {
     const resp = new Map(q('SELECT * FROM responses WHERE gathering_id=?').all(id).map((r) => [r.member_id, r.value]));
     // Board knowledge for members who have not answered yet.
     const mark = new Map(marksBetween(g.teamId, g.date, g.date).map((m) => [m.member, m]));
+    const busy = busyBetween(g.teamId, g.date, g.date);
+    const calAt = new Map(q("SELECT member_id, fetched_at FROM calendars WHERE team_id=? AND status='ok'").all(g.teamId).map((r) => [r.member_id, r.fetched_at]));
     const list = people.map((p) => {
       const m = mark.get(p.id);
-      const hint = m && m.kind === 'blocked' && m.start < g.end && m.end > g.start ? 'no' : p.updatedAt ? 'yes' : 'unknown';
+      const calBusy = busy.some((b) => b.member === p.id && b.start < g.end && b.end > g.start);
+      const known = p.updatedAt || calAt.get(p.id);
+      const hint = m
+        ? (m.kind === 'blocked' && m.start < g.end && m.end > g.start ? 'no' : 'yes')
+        : calBusy ? 'no' : known ? 'yes' : 'unknown';
       return { id: p.id, name: p.name, response: resp.get(p.id) || null, boardHint: hint };
     });
     const counts = {
@@ -360,13 +402,61 @@ export function openStore(path, { now = () => Date.now() } = {}) {
     });
   }
 
+  // ---------- linked calendars (busy times only) ----------
+  const calRow = (r) => r && {
+    memberId: r.member_id, teamId: r.team_id, provider: r.provider, status: r.status, error: r.error,
+    fetchedAt: r.fetched_at, checkedAt: r.checked_at, fails: r.fails, urlEnc: r.url_enc,
+    busy: JSON.parse(r.busy || '[]'),
+  };
+  function calendarOf(memberId) {
+    return calRow(q('SELECT * FROM calendars WHERE member_id=?').get(memberId)) || null;
+  }
+  function saveCalendar(memberId, teamId, { urlEnc, provider, busy }) {
+    q(`INSERT INTO calendars(member_id,team_id,url_enc,provider,status,error,busy,fetched_at,checked_at,fails,created_at)
+       VALUES(?,?,?,?, 'ok', NULL, ?, ?, ?, 0, ?)
+       ON CONFLICT(member_id) DO UPDATE SET url_enc=excluded.url_enc, provider=excluded.provider, status='ok', error=NULL,
+         busy=excluded.busy, fetched_at=excluded.fetched_at, checked_at=excluded.checked_at, fails=0`)
+      .run(memberId, teamId, urlEnc, provider, JSON.stringify(busy), now(), now(), now());
+  }
+  function calendarRefreshed(memberId, busy) {
+    q("UPDATE calendars SET status='ok', error=NULL, busy=?, fetched_at=?, checked_at=?, fails=0 WHERE member_id=?")
+      .run(JSON.stringify(busy), now(), now(), memberId);
+  }
+  function calendarFailed(memberId, message) {
+    q("UPDATE calendars SET status='error', error=?, checked_at=?, fails=fails+1 WHERE member_id=?").run(String(message).slice(0, 200), now(), memberId);
+  }
+  function removeCalendar(memberId) {
+    q('DELETE FROM calendars WHERE member_id=?').run(memberId);
+  }
+  // Calendars not checked for `ageMs`; ones that keep failing are retried less often.
+  function calendarsDue(ageMs, limit = 20) {
+    return q('SELECT * FROM calendars WHERE checked_at < ? - (? * MIN(fails, 12)) ORDER BY checked_at LIMIT ?')
+      .all(now() - ageMs, ageMs, limit).map(calRow);
+  }
+
+  // Busy blocks of every active member between two dates (for the board).
+  function busyBetween(teamId, from, to) {
+    const out = [];
+    for (const r of q("SELECT member_id, busy FROM calendars WHERE team_id=? AND status='ok'").all(teamId)) {
+      for (const b of JSON.parse(r.busy || '[]')) if (b.date >= from && b.date <= to) out.push({ member: r.member_id, ...b });
+    }
+    return out;
+  }
+
   // Everything the board screen needs; summaries are computed by the caller with board.mjs.
   function boardData(key, teamId, from, to) {
     const me = requireMember(key, teamId);
     const team = getTeam(teamId);
     const gatherings = q('SELECT * FROM gatherings WHERE team_id=? AND date>=? ORDER BY date').all(teamId, addDays(todayKST(now()), -30))
       .map(gatheringRow);
-    return { me, team, members: members(teamId), marks: marksBetween(teamId, from, to), gatherings };
+    const cals = new Map(q('SELECT member_id, status, fetched_at FROM calendars WHERE team_id=?').all(teamId).map((r) => [r.member_id, r]));
+    // A linked calendar counts as a fresh record.
+    const people = members(teamId).map((m) => {
+      const c = cals.get(m.id);
+      const calAt = c && c.status === 'ok' ? c.fetched_at : null;
+      return { ...m, calendar: !!c, updatedAt: Math.max(m.updatedAt || 0, calAt || 0) || null };
+    });
+    return { me, team, members: people, marks: marksBetween(teamId, from, to), busy: busyBetween(teamId, from, to), gatherings, calendar: calendarOf(me.id) };
   }
 
   function gatheringPreview(id) {
@@ -385,5 +475,6 @@ export function openStore(path, { now = () => Date.now() } = {}) {
     db, transaction, byKey, requireMember, createTeam, inviteInfo, join, members, setDays, touch, settings, rename,
     removeMember, resetInvite, createGathering, gathering, respond, confirm, removeGathering, boardData,
     gatheringPreview, getTeam, clean, close: () => db.close(),
+    calendarOf, saveCalendar, calendarRefreshed, calendarFailed, removeCalendar, calendarsDue,
   };
 }

@@ -45,11 +45,17 @@ const overlaps = (m, s) => m.start < s.end && m.end > s.start;
 const covers = (m, s) => m.start <= s.start && m.end >= s.end;
 
 // One member on one date, judged against the slot.
-// unknown: never saved anything, so we do not assume they are free.
+// unknown: never saved anything and no linked calendar, so we do not assume they are free.
 // part: blocked for part of the day while the time is still undecided (shown as a hint only).
-export function memberStatus(member, mark, slot) {
+// A manual mark always wins over the linked calendar; without one, calendar busy time counts as blocked.
+export function memberStatus(member, mark, slot, busy = []) {
   if (!member.updatedAt) return 'unknown';
-  if (!mark) return 'yes';
+  if (!mark) {
+    if (!busy.length) return 'yes';
+    if (slot.dayLevel) return busy.some((b) => b.start === '00:00' && b.end === '24:00') ? 'no' : 'part';
+    return busy.some((b) => overlaps(b, slot)) ? 'no' : 'yes';
+  }
+  if (mark.kind === 'free') return 'yes';
   if (mark.kind === 'blocked') {
     if (slot.dayLevel) return mark.start === '00:00' && mark.end === '24:00' ? 'no' : 'part';
     return overlaps(mark, slot) ? 'no' : 'yes';
@@ -58,13 +64,20 @@ export function memberStatus(member, mark, slot) {
   return 'yes';
 }
 
-// marks: [{member, date, kind, start, end}]; members: [{id, name, updatedAt}]
-export function summarizeDays(dates, members, marks, slot) {
+// marks: [{member, date, kind, start, end}]; busy: [{member, date, start, end}]; members: [{id, name, updatedAt}]
+export function summarizeDays(dates, members, marks, slot, busy = []) {
   const byKey = new Map(marks.map((m) => [m.member + '|' + m.date, m]));
+  const busyByKey = new Map();
+  for (const b of busy) {
+    const k = b.member + '|' + b.date;
+    if (!busyByKey.has(k)) busyByKey.set(k, []);
+    busyByKey.get(k).push(b);
+  }
   return dates.map((date) => {
     const out = { date, total: members.length, yes: [], prefer: [], no: [], part: [], unknown: [] };
     for (const member of members) {
-      const status = memberStatus(member, byKey.get(member.id + '|' + date), slot);
+      const k = member.id + '|' + date;
+      const status = memberStatus(member, byKey.get(k), slot, busyByKey.get(k));
       out[status].push(member.id);
       if (status === 'prefer') out.yes.push(member.id);
     }
