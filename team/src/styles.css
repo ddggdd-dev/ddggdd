@@ -49,7 +49,7 @@ a { color: inherit; }
 .card h2, .best h2 { font-size: 16px; margin: 0 0 10px; letter-spacing: -.3px; }
 h3 { font-size: 14px; margin: 18px 0 8px; color: #43465a; }
 label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: #4a4d5e; margin: 12px 0; }
-input[type=text], input:not([type]), input[type=time], input[type=date] { width: 100%; border: 1px solid #d9dae4; border-radius: 10px; padding: 12px; font-size: 16px; background: #fff; }
+input[type=text], input:not([type]), input[type=time], input[type=date], input[type=password] { width: 100%; border: 1px solid #d9dae4; border-radius: 10px; padding: 12px; font-size: 16px; background: #fff; }
 label.check { display: flex; align-items: center; gap: 8px; font-weight: 500; }
 label.check input { width: 18px; height: 18px; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -194,3 +194,9 @@ label.check.small input { width: 16px; height: 16px; }
 .warn-box { background: #fff3f2; }
 .field-hint { font-weight: 400; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .ok-tag { color: var(--green); font-weight: 700; }
+
+/* Kakao one-tap calendar import */
+.kakao-btn { display: block; width: 100%; box-sizing: border-box; margin: 14px 0 6px; padding: 15px 16px; border-radius: 12px; background: #FEE500; color: rgba(0,0,0,.85); font-weight: 700; font-size: 16px; text-align: center; text-decoration: none; }
+.kakao-btn:active { filter: brightness(.95); }
+.hint.center { text-align: center; }
+button.link.full { display: block; width: 100%; margin: 10px 0; text-align: center; }

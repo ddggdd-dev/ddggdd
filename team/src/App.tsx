@@ -294,6 +294,18 @@ function Board({ teamId, toast }: { teamId: string; toast: (s: string) => void }
     const id = window.setInterval(() => { if (document.visibilityState === 'visible') load(); }, 30000);
     return () => window.clearInterval(id);
   }, [load]);
+  useEffect(() => {
+    const q = new URLSearchParams(location.search);
+    const cal = q.get('cal');
+    if (!cal) return;
+    const msg = cal === 'kakao' ? `톡캘린더를 연결했어요. 앞으로 10주 일정 ${q.get('n') || 0}건을 읽었어요.`
+      : cal === 'denied' ? '카카오 연결을 취소했어요.'
+      : cal === 'unavailable' ? '카카오 연결은 아직 준비 중이에요.'
+      : q.get('msg') || '카카오 연결 중 문제가 생겼어요.';
+    toast(msg);
+    q.delete('cal'); q.delete('n'); q.delete('msg');
+    history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : ''));
+  }, []);
   useEffect(() => { localStorageSet('slot:' + teamId, slot); }, [teamId, slot]);
   useEffect(() => { localStorageSet('weekends:' + teamId, weekends ? '1' : '0'); }, [teamId, weekends]);
 
@@ -676,10 +688,10 @@ const CAL_GUIDES: { key: string; label: string; steps: string[]; note?: string }
     '나오는 "ICS" 링크를 복사해 여기에 붙여 넣어요.',
   ] },
   { key: 'kakao', label: '톡캘린더', steps: [
-    'PC에서 톡캘린더 웹(calendar.kakao.com)에 로그인해요.',
-    '연결할 캘린더의 설정에서 iCal 주소를 찾아 복사해요.',
+    '카카오톡 → 캘린더 → 더보기 → 설정 → 캘린더 관리로 가요.',
+    '연결할 내 캘린더를 골라 "iCal 형식 주소 만들기"를 눌러 주소를 복사해요.',
     '여기에 붙여 넣고 "연결"을 눌러요.',
-  ] },
+  ], note: '위의 "카카오로 내 일정 불러오기" 버튼이 되면 이 과정은 필요 없어요.' },
   { key: 'other', label: '네이버 · 기타', steps: [
     '쓰는 캘린더의 설정에서 "iCal", "ICS", "구독 주소", "캘린더 내보내기 주소"를 찾아 복사해요.',
     'https:// 또는 webcal:// 로 시작하는 주소면 대부분 연결돼요.',
@@ -688,6 +700,7 @@ const CAL_GUIDES: { key: string; label: string; steps: string[]; note?: string }
 
 function CalendarSheet({ teamId, calendar, onClose, reload, toast }: Any) {
   const [tab, setTab] = useState('google');
+  const [more, setMore] = useState(!calendar.kakao);
   const [url, setUrl] = useState('');
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
@@ -721,6 +734,15 @@ function CalendarSheet({ teamId, calendar, onClose, reload, toast }: Any) {
         </div>
       )}
       <p className="muted">내 캘린더에서 일정이 있는 시간만 읽어서, 그 시간은 자동으로 "안 됨"으로 보여요. <b>일정 제목·장소는 저장하지 않고</b>, 팀원에게는 가능·안 됨만 보여요.</p>
+      {calendar.kakao && (
+        <a className="kakao-btn" href={`${BASE}/auth/kakao/start?team=${encodeURIComponent(teamId)}`}>카카오로 내 일정 불러오기</a>
+      )}
+      {calendar.kakao && <p className="hint center">톡캘린더 일정을 한 번에 불러와요. 동의 화면에서 "확인"만 누르면 돼요.</p>}
+      <p className="hint center">네이버 캘린더를 쓰면 연결 없이 달력에서 안 되는 날만 눌러 주세요.</p>
+      {calendar.kakao && (
+        <button type="button" className="link full" onClick={() => setMore(!more)}>{more ? '접기' : '다른 캘린더 (주소 붙여넣기)'}</button>
+      )}
+      {more && <>
       <div className="types">
         {CAL_GUIDES.map((g) => <button type="button" key={g.key} className={tab === g.key ? 'on' : ''} onClick={() => setTab(g.key)}>{g.label}</button>)}
       </div>
@@ -732,6 +754,7 @@ function CalendarSheet({ teamId, calendar, onClose, reload, toast }: Any) {
         <button className="primary full" disabled={busy || !url.trim()}>{busy ? '캘린더 읽는 중…' : '연결'}</button>
       </form>
       <p className="hint">이 주소는 비밀번호와 같아요. 되는날 서버에는 암호화해서 보관하고, 연결을 끊으면 바로 지워요. 혹시 새어 나갔다면 캘린더 설정에서 주소를 "재설정"하면 예전 주소는 쓸 수 없게 돼요.</p>
+      </>}
     </Sheet>
   );
 }

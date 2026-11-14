@@ -425,6 +425,9 @@ export function openStore(path, { now = () => Date.now() } = {}) {
   function calendarFailed(memberId, message) {
     q("UPDATE calendars SET status='error', error=?, checked_at=?, fails=fails+1 WHERE member_id=?").run(String(message).slice(0, 200), now(), memberId);
   }
+  function updateCalendarSecret(memberId, urlEnc) {
+    q('UPDATE calendars SET url_enc=? WHERE member_id=?').run(urlEnc, memberId);
+  }
   function removeCalendar(memberId) {
     q('DELETE FROM calendars WHERE member_id=?').run(memberId);
   }
@@ -475,6 +478,6 @@ export function openStore(path, { now = () => Date.now() } = {}) {
     db, transaction, byKey, requireMember, createTeam, inviteInfo, join, members, setDays, touch, settings, rename,
     removeMember, resetInvite, createGathering, gathering, respond, confirm, removeGathering, boardData,
     gatheringPreview, getTeam, clean, close: () => db.close(),
-    calendarOf, saveCalendar, calendarRefreshed, calendarFailed, removeCalendar, calendarsDue,
+    calendarOf, saveCalendar, calendarRefreshed, calendarFailed, removeCalendar, calendarsDue, updateCalendarSecret,
   };
 }

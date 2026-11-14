@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 import { openStore, AppError } from './store.mjs';
 import { cipherFromKey, normalizeUrl, fetchIcs, busyFromIcs, providerOf, CalendarError } from './calendar.mjs';
 import { settingsStore, dataDirOf } from './settings.mjs';
+import { createKakao } from './kakao.mjs';
+import { randomBytes } from 'node:crypto';
 import { resolveSlot, summarizeDays, rankDays, validDate, addDays, todayKST, SLOTS } from './src/board.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -87,15 +89,42 @@ export function calendarWindow() {
   return [addDays(today, -1), addDays(today, 70)];
 }
 
-export function createCalendarSync(config, store, { fetcher = fetch, lookup } = {}) {
+export function createCalendarSync(config, store, { fetcher = fetch, lookup, kakao = null } = {}) {
   const cipher = cipherFromKey(config.calKey);
   async function read(url) {
     const { text } = await fetchIcs(url, { fetcher, ...(lookup ? { lookup } : {}) });
     const [from, to] = calendarWindow();
     return busyFromIcs(text, from, to);
   }
+  // Kakao links keep an encrypted token bundle where an iCal link keeps its address.
+  const kakaoBundle = (plain) => (plain.startsWith('{') ? JSON.parse(plain) : null);
   return {
     enabled: !!cipher,
+    kakaoReady: () => !!(cipher && kakao && kakao.ready()),
+    kakao,
+    async connectKakao(memberId, teamId, tokens) {
+      if (!cipher || !kakao) throw new AppError('카카오 연결이 아직 준비되지 않았어요.', 503);
+      const [from, to] = calendarWindow();
+      let busy;
+      try {
+        busy = await kakao.busy(tokens, from, to);
+      } catch (e) {
+        if (e instanceof CalendarError) throw new AppError(e.message);
+        throw e;
+      }
+      store.saveCalendar(memberId, teamId, { urlEnc: cipher.encrypt(JSON.stringify(tokens)), provider: '톡캘린더', busy });
+      return { provider: '톡캘린더', count: busy.length };
+    },
+    async disconnect(memberId) {
+      const cal = store.calendarOf(memberId);
+      if (cal && cipher && kakao) {
+        try {
+          const t = kakaoBundle(cipher.decrypt(cal.urlEnc));
+          if (t) await kakao.unlink(await kakao.fresh(t).catch(() => t));
+        } catch {}
+      }
+      store.removeCalendar(memberId);
+    },
     async connect(memberId, teamId, rawUrl) {
       if (!cipher) throw new AppError('캘린더 연결이 아직 준비되지 않았어요. 관리자에게 알려 주세요.', 503);
       let url;
@@ -113,7 +142,17 @@ export function createCalendarSync(config, store, { fetcher = fetch, lookup } = 
     async refreshOne(cal) {
       if (!cipher) return;
       try {
-        store.calendarRefreshed(cal.memberId, await read(cipher.decrypt(cal.urlEnc)));
+        const plain = cipher.decrypt(cal.urlEnc);
+        const t = kakaoBundle(plain);
+        if (t) {
+          if (!kakao || !kakao.ready()) throw new CalendarError('카카오 연결 설정이 꺼져 있어요.');
+          const ft = await kakao.fresh(t);
+          if (ft !== t) store.updateCalendarSecret(cal.memberId, cipher.encrypt(JSON.stringify(ft)));
+          const [from, to] = calendarWindow();
+          store.calendarRefreshed(cal.memberId, await kakao.busy(ft, from, to));
+          return;
+        }
+        store.calendarRefreshed(cal.memberId, await read(plain));
       } catch (e) {
         store.calendarFailed(cal.memberId, e instanceof CalendarError ? e.message : '캘린더를 불러오지 못했어요.');
       }
@@ -127,6 +166,8 @@ export function createCalendarSync(config, store, { fetcher = fetch, lookup } = 
 export function createApp(config, store, { publicDir = resolve(ROOT, 'public'), calendarSync = createCalendarSync(config, store), settings = dataDirOf(config.dbPath) ? settingsStore(dataDirOf(config.dbPath), config.calKey) : null } = {}) {
   // Keys saved through /team/admin win over the environment.
   const kakaoJsKey = () => (settings && settings.get().kakaoJsKey) || config.kakaoJsKey;
+  // OAuth "state" values waiting for Kakao to send the person back (10 minutes).
+  const oauthStates = new Map();
   const budgets = new Map();
   function rate(key, max) {
     const n = Date.now();
@@ -235,6 +276,7 @@ ${kakaoJsKey() ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
       myBusy: data.busy.filter((b) => b.member === data.me.id).map(({ member, ...b }) => b),
       calendar: {
         available: calendarSync.enabled,
+        kakao: calendarSync.kakaoReady ? calendarSync.kakaoReady() : false,
         linked: data.calendar ? { provider: data.calendar.provider, status: data.calendar.status, error: data.calendar.error, fetchedAt: data.calendar.fetchedAt, checkedAt: data.calendar.checkedAt } : null,
       },
       days: summary.map(day),
@@ -297,6 +339,36 @@ ${kakaoJsKey() ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
             : { title: `${info.team.name} · 되는 날 보드`, description: '안 되는 날만 한 번 적어 두면, 모임 날짜가 바로 보여요.' };
         } catch {}
         return page(res, { ...meta, url: config.origin + path });
+      }
+      if (method === 'GET' && path === BASE + '/auth/kakao/start') {
+        const teamId = u.searchParams.get('team') || '';
+        const back = (q) => redirect(res, `${BASE}/b/${encodeURIComponent(teamId)}?${q}`);
+        const me = store.byKey(keyFor(teamId));
+        if (!me || me.teamId !== teamId) return redirect(res, BASE + '/?e=link');
+        if (!calendarSync.kakaoReady || !calendarSync.kakaoReady()) return back('cal=unavailable');
+        rate('kstart:' + me.id, 10);
+        const state = randomBytes(18).toString('base64url');
+        oauthStates.set(state, { memberId: me.id, teamId, exp: Date.now() + 600000 });
+        for (const [k, v] of oauthStates) if (v.exp < Date.now()) oauthStates.delete(k);
+        return redirect(res, calendarSync.kakao.authorizeUrl(state));
+      }
+      if (method === 'GET' && path === BASE + '/auth/kakao/callback') {
+        const st = oauthStates.get(u.searchParams.get('state') || '');
+        oauthStates.delete(u.searchParams.get('state') || '');
+        if (!st || st.exp < Date.now()) return redirect(res, BASE + '/?e=kakao');
+        const back = (q) => redirect(res, `${BASE}/b/${st.teamId}?${q}`);
+        const me = store.byKey(keyFor(st.teamId));
+        if (!me || me.id !== st.memberId) return back('cal=fail&msg=' + encodeURIComponent('처음 연 기기에서 다시 시도해 주세요.'));
+        if (u.searchParams.get('error')) return back('cal=denied');
+        try {
+          const tokens = await calendarSync.kakao.exchange(u.searchParams.get('code') || '');
+          const r = await calendarSync.connectKakao(me.id, st.teamId, tokens);
+          return back('cal=kakao&n=' + r.count);
+        } catch (e) {
+          const msg = e instanceof AppError || e instanceof CalendarError ? e.message : '카카오 연결 중 문제가 생겼어요.';
+          if (!(e instanceof AppError || e instanceof CalendarError)) console.error(e);
+          return back('cal=fail&msg=' + encodeURIComponent(msg));
+        }
       }
       if (method === 'GET' && path === BASE + '/admin') {
         return page(res, { title: `${config.appName} · 관리자 설정`, description: '서비스 키 설정', url: config.origin + path });
@@ -362,7 +434,7 @@ ${kakaoJsKey() ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
               if (after.status !== 'ok') throw new AppError(after.error || '캘린더를 불러오지 못했어요.');
               return json(res, 200, { ok: true });
             }
-            store.removeCalendar(me.id);
+            await calendarSync.disconnect(me.id);
             return json(res, 200, { ok: true });
           }
           if ((m = api.match(/^\/teams\/([A-Za-z0-9_-]{6,20})\/(days|touch|settings|rename|remove|invite|gatherings|leave)$/))) {
@@ -426,8 +498,10 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   process.umask(0o077);
   const c = configuration();
   const s = openStore(c.dbPath);
-  const sync = createCalendarSync(c, s);
-  const app = createApp(c, s, { calendarSync: sync });
+  const settings = settingsStore(dataDirOf(c.dbPath), c.calKey);
+  const kakao = createKakao({ keys: () => settings.get(), redirectUri: `${c.origin}${BASE}/auth/kakao/callback` });
+  const sync = createCalendarSync(c, s, { kakao });
+  const app = createApp(c, s, { calendarSync: sync, settings });
   app.listen(c.port, '0.0.0.0', () => console.log(`Team server listening on ${c.port}${sync.enabled ? '' : ' (calendar link disabled: CAL_KEY missing)'}`));
   s.clean();
   const cleanup = setInterval(() => s.clean(), 3600000);

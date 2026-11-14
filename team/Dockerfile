@@ -11,7 +11,7 @@ WORKDIR /app
 RUN mkdir /data && chown node:node /data
 COPY --chown=node:node package.json package-lock.json ./
 RUN npm ci --omit=dev --no-audit --no-fund && npm cache clean --force
-COPY --chown=node:node server.mjs store.mjs admin.mjs calendar.mjs settings.mjs ./
+COPY --chown=node:node server.mjs store.mjs admin.mjs calendar.mjs settings.mjs kakao.mjs ./
 COPY --chown=node:node src/board.mjs ./src/board.mjs
 COPY --from=build --chown=node:node /app/public ./public
 USER node

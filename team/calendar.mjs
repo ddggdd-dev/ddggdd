@@ -144,7 +144,7 @@ function toKstMs(t) {
   return Date.UTC(u.year, u.month - 1, u.day, u.hour, u.minute) + KST_MS;
 }
 
-function addSegments(out, startMs, endMs, allDay) {
+export function addSegments(out, startMs, endMs, allDay) {
   if (!(endMs > startMs)) {
     if (allDay) endMs = startMs + 86400000;
     else return;
@@ -163,7 +163,7 @@ function addSegments(out, startMs, endMs, allDay) {
   }
 }
 
-function mergeByDate(list) {
+export function mergeByDate(list) {
   const byDate = new Map();
   for (const b of list) {
     if (!byDate.has(b.date)) byDate.set(b.date, []);
