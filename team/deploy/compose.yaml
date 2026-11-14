@@ -1,0 +1,30 @@
+services:
+  team:
+    build:
+      context: ..
+    container_name: ddongko-team
+    restart: unless-stopped
+    env_file:
+      - /opt/ddongko-team/team.env
+    environment:
+      PORT: "8080"
+      DATA_PATH: /data/team.sqlite
+    volumes:
+      - team-data:/data
+    networks:
+      - web-network
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 256m
+networks:
+  web-network:
+    external: true
+    name: ${WEB_NETWORK:?Set WEB_NETWORK to the existing nginx web container network}
+volumes:
+  team-data:
+    name: ddongko_team_data
