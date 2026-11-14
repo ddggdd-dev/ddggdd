@@ -355,14 +355,19 @@ ${kakaoJsKey() ? `<script src="${KAKAO_SDK}" defer></script>` : ''}`;
       if (method === 'GET' && path === BASE + '/auth/kakao/callback') {
         const st = oauthStates.get(u.searchParams.get('state') || '');
         oauthStates.delete(u.searchParams.get('state') || '');
-        if (!st || st.exp < Date.now()) return redirect(res, BASE + '/?e=kakao');
+        if (!st || st.exp < Date.now()) { console.warn('kakao callback: unknown or expired state'); return redirect(res, BASE + '/?e=kakao'); }
         const back = (q) => redirect(res, `${BASE}/b/${st.teamId}?${q}`);
         const me = store.byKey(keyFor(st.teamId));
+        if (!me || me.id !== st.memberId) console.warn('kakao callback: member cookie mismatch');
         if (!me || me.id !== st.memberId) return back('cal=fail&msg=' + encodeURIComponent('처음 연 기기에서 다시 시도해 주세요.'));
-        if (u.searchParams.get('error')) return back('cal=denied');
+        if (u.searchParams.get('error')) {
+          console.warn('kakao callback error', u.searchParams.get('error'));
+          return back('cal=denied');
+        }
         try {
           const tokens = await calendarSync.kakao.exchange(u.searchParams.get('code') || '');
           const r = await calendarSync.connectKakao(me.id, st.teamId, tokens);
+          console.log('kakao calendar linked', r.count);
           return back('cal=kakao&n=' + r.count);
         } catch (e) {
           const msg = e instanceof AppError || e instanceof CalendarError ? e.message : '카카오 연결 중 문제가 생겼어요.';

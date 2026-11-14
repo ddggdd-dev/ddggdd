@@ -19,6 +19,7 @@ export function createKakao({ keys, redirectUri, fetcher = fetch }) {
       signal: AbortSignal.timeout(10000),
     });
     const d = await res.json().catch(() => ({}));
+    if (!res.ok || !d.access_token) console.warn('kakao token failed', res.status, d.error || '', d.error_code || '');
     if (!res.ok || !d.access_token) throw new CalendarError('카카오 로그인을 마치지 못했어요. 다시 시도해 주세요.');
     return d;
   }
@@ -40,6 +41,7 @@ export function createKakao({ keys, redirectUri, fetcher = fetch }) {
     const d = await res.json().catch(() => ({}));
     if (!res.ok) {
       const code = d.code;
+      console.warn('kakao api failed', path.split('?')[0].replace(KAPI, ''), res.status, code ?? '', d.msg || '');
       if (code === -402) throw new CalendarError('톡캘린더 동의가 필요해요. 다시 "카카오로 내 일정 불러오기"를 눌러 동의해 주세요.');
       if (code === -3 || code === -10 || res.status === 403) throw new CalendarError('톡캘린더 사용 권한이 아직 승인되지 않았어요. 승인되면 바로 쓸 수 있어요.');
       if (code === -401 || res.status === 401) throw new CalendarError('카카오 연결이 만료됐어요. 다시 연결해 주세요.');
@@ -57,6 +59,7 @@ export function createKakao({ keys, redirectUri, fetcher = fetch }) {
     async exchange(code) {
       const d = await token({ grant_type: 'authorization_code', redirect_uri: redirectUri, code });
       if (d.scope && !String(d.scope).split(' ').includes('talk_calendar')) {
+        console.warn('kakao consent without talk_calendar');
         throw new CalendarError('톡캘린더 읽기에 동의하지 않아 일정을 불러올 수 없어요.');
       }
       return pack(d);
